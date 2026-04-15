@@ -1,40 +1,62 @@
-:root{
+:root {
     --bg-color: #0b0e14;
     --accent-color: #00ffcc;
-    --text-primary:#ffffff;
-    --text-secondary:#a0a0a0;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
     --font-title: 'Syncopate', sans-serif;
     --font-body: 'Inter', sans-serif;
 }
 
-body{
+body {
     background-color: var(--bg-color);
     color: var(--text-primary);
     font-family: var(--font-body);
     margin: 0;
+    /* Eliminamos el flex del body para que no pelee con el slider */
+    overflow-x: hidden; /* Evita que aparezca la barra de scroll abajo */
+}
+
+/* El contenedor principal que se desliza */
+#main-slider {
     display: flex;
-    flex-direction: column;
-    allign-items: center;
+    width: 200vw; /* 2 secciones = 200% del ancho */
+    transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1);
+}
+
+/* Cada "página" o sección */
+.page {
+    width: 100vw;
     height: 100vh;
-    text-align: center;
+    display: flex;
+    flex-direction: column; /* Para que el contenido interno se apile verticalmente */
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
 }
 
-h1{
-    font-family: var(--font-title);
-    font-size: 3rem;
-    text-transform: uppercase;
-    color: var(--accent-color);
-    letter-spacing: 5px;
-}
-
-.nav-container{
+.nav-container {
     position: relative;
+    width: 400px; /* Un poco más ancho para dar espacio */
+    height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.bubble{
+.main-title {
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+    font-family: var(--font-title);
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    color: var(--accent-color);
+    letter-spacing: 5px;
+    margin: 0;
+}
+
+.bubble {
+    z-index: 1;
     position: absolute;
     width: 80px;
     height: 80px;
@@ -45,16 +67,23 @@ h1{
     align-items: center;
     color: var(--bg-color);
     font-weight: bold;
+    text-decoration: none;
     cursor: pointer;
     transition: all 0.5s ease;
-    z-index: -1;
 }
 
-.nav-container:hover .bio-btn{
-    transform: translate(-150px,100ox);
+/* Animaciones de salida de las burbujas */
+.nav-container:hover .bio-btn {
+    transform: translate(-140px, -80px); /* Ajustado para que se vea mejor */
 }
 
-.nav-container:hover .port-btn{
-    transform: translate(150px, -100px);
+.nav-container:hover .port-btn {
+    transform: translate(140px, -80px);
+}
 
+/* Un pequeño efecto visual: que la burbuja brille al pasar el mouse */
+.bubble:hover {
+    background-color: white;
+    box-shadow: 0 0 20px var(--accent-color);
+    transform: scale(1.1); /* Se agranda un poquito */
 }
