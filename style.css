@@ -26,3 +26,35 @@ h1{
     color: var(--accent-color);
     letter-spacing: 5px;
 }
+
+.nav-container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bubble{
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--bg-color);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    z-index: -1;
+}
+
+.nav-container:hover .bio-btn{
+    transform: translate(-150px,100ox);
+}
+
+.nav-container:hover .port-btn{
+    transform: translate(150px, -100px);
+
+}
