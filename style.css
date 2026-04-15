@@ -1,0 +1,28 @@
+:root{
+    --bg-color: #0b0e14;
+    --accent-color: #00ffcc;
+    --text-primary:#ffffff;
+    --text-secondary:#a0a0a0;
+    --font-title: 'Syncopate', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+body{
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    allign-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+h1{
+    font-family: var(--font-title);
+    font-size: 3rem;
+    text-transform: uppercase;
+    color: var(--accent-color);
+    letter-spacing: 5px;
+}
