@@ -19,7 +19,7 @@ body {
 /* El contenedor principal que se desliza */
 #main-slider {
     display: flex;
-    width: 200vw; /* 2 secciones = 200% del ancho */
+    width: 300vw; /* 3 secciones = 300% del ancho */
     transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1);
 }
 
