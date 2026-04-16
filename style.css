@@ -73,14 +73,25 @@ body {
     transition: all 0.5s ease;
 }
 
-/* Animaciones de salida de las burbujas */
-.nav-container:hover .bio-btn {
-    transform: translate(-140px, -80px); /* Ajustado para que se vea mejor */
+.bio-btn{
+    top:20%; /* A 20% del borde superior del nav-container*/
+    left: 10%; /* A 10% del borde izq del nav-container*/
+}
+
+.port-btn{
+    bottom: 20%;
+    right: 10%;
+}
+
+
+/*Animaciones de salida de las burbujas 
+-.nav-container:hover .bio-btn {
+    transform: translate(-140px, -80px); /* Ajustado para que se vea mejor
 }
 
 .nav-container:hover .port-btn {
     transform: translate(140px, -80px);
-}
+}*/
 
 /* Un pequeño efecto visual: que la burbuja brille al pasar el mouse */
 .bubble:hover {
