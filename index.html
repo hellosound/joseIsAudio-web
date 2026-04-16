@@ -38,14 +38,14 @@
       function navigateTo(sectionId) {
         const slider = document.getElementById('main-slider');
         if (sectionId === 'hero') {
-          slider.style.transform = 'translateX(0)';
+          slider.style.transform = 'translateX(-100vw)';
         } 
         else if (sectionId === 'bio') {
-          slider.style.transform = 'translateX(100vw)';
+          slider.style.transform = 'translateX(0)';
         }
 
-        else if (sectionId='portfolio'){
-          slider.style.transform='translateX(-100vw)'
+        else if (sectionId==='portfolio'){
+          slider.style.transform='translateX(-200vw)'
         }
       }
     </script>
