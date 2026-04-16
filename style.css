@@ -24,7 +24,6 @@ body {
     width: 100vw;
     height: 100vh;
     transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1);
-    transform: translateX(-100vw);
 }
 
 /* Cada "página" o sección */
@@ -39,8 +38,8 @@ body {
 
 #hero {top: 0; left: 0;}
 #bio {top: 0; left: -100vw}
-#work { top: 0; left: 100vw}
-#blog {top: 100vh; left:0; }
+#portfolio { top: 0; left: 100vw}
+#blog {top: -100vh; left:0; }
 #talks {top: 100vh; left:0;}
 
 .nav-container {
