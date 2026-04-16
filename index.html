@@ -24,11 +24,11 @@
 
         <section id="bio" class="page">
             <h2>About Me</h2>
-            <p>Audio Designer & Composer TUNJA LA MEJOR</p>
+            <p>Audio Designer & Composer</p>
             <button onclick="navigateTo('hero')">Back</button>
         </section>
 
-        <section id="portfolio">
+        <section id="portfolio" class="page">
           <h2> Some of my work</h2>
           <button onclick="navigateTo('hero')">Back</button>
 
@@ -42,6 +42,10 @@
         } 
         else if (sectionId === 'bio') {
           slider.style.transform = 'translateX(-100vw)';
+        }
+
+        else if (sectionId='portfolio'){
+          slider.style.transform='translateX(-200vw)'
         }
       }
     </script>
