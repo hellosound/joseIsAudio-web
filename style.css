@@ -1,6 +1,7 @@
 :root {
     --bg-color: #0b0e14;
     --accent-color: #00ffcc;
+    --title-color: #e3e6eb;
     --text-primary: #ffffff;
     --text-secondary: #a0a0a0;
     --font-title: 'Syncopate', sans-serif;
@@ -51,7 +52,8 @@ body {
     font-family: var(--font-title);
     font-size: 2.5rem;
     text-transform: uppercase;
-    color: var(--accent-color);
+    text-shadow: #0b0e14;
+    color: var(--title-color);
     letter-spacing: 5px;
     margin: 0;
 }
@@ -81,6 +83,16 @@ body {
 .port-btn{
     bottom: 20%;
     right: 10%;
+}
+
+.blog-btn{
+    bottom: 25%;
+    right:24%;
+}
+
+.talks-btn{
+    top:26%;
+    right:15%
 }
 
 
