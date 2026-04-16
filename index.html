@@ -41,7 +41,7 @@
 
         <section id ="talks" class="page">
           <h2> Some of my talks!</h2>
-          <button onClick="navigateTo('hero')">Back</button>
+          <button onclick="navigateTo('hero')">Back</button>
         </section>
 
     </main>
@@ -49,16 +49,26 @@
     <script>
       function navigateTo(sectionId) {
         const slider = document.getElementById('main-slider');
-        if (sectionId === 'hero') {
-          slider.style.transform = 'translateX(-100vw)';
-        } 
-        else if (sectionId === 'bio') {
-          slider.style.transform = 'translateX(0)';
+
+        switch(sectionId){
+          case 'hero':
+            slider.style.transform = 'translate(0,0)';
+            break;
+          case 'bio':
+            slider.style.transform = 'translateX(100vw)';
+            break;
+          case 'portfolio':
+            slider.style.transform = 'translate(-100vw)';
+            break;
+          case 'blog':
+            slider.style.transform = 'translateY(100vh)'; // Movemos abajo para ver lo de arriba
+            break;
+          case 'talks':
+            slider.style.transform = 'translateY(-100vh)'; // Movemos arriba para ver lo de abajo
+            break;
         }
 
-        else if (sectionId==='portfolio'){
-          slider.style.transform='translateX(-200vw)'
-        }
+
       }
     </script>
 </body>

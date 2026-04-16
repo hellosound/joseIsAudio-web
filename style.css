@@ -19,22 +19,29 @@ body {
 
 /* El contenedor principal que se desliza */
 #main-slider {
+    position: relative;
     display: flex;
-    width: 300vw; /* 3 secciones = 300% del ancho */
+    width: 100vw;
+    height: 100vh;
     transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1);
     transform: translateX(-100vw);
 }
 
 /* Cada "página" o sección */
 .page {
+    position: absolute;
     width: 100vw;
     height: 100vh;
     display: flex;
-    flex-direction: column; /* Para que el contenido interno se apile verticalmente */
     justify-content: center;
     align-items: center;
-    flex-shrink: 0;
 }
+
+#hero {top: 0; left: 0;}
+#bio {top: 0; left: -100vw}
+#work { top: 0; left: 100vw}
+#blog {top: 100vh; left:0; }
+#talks {top: 100vh; left:0;}
 
 .nav-container {
     position: relative;
