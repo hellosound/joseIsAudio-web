@@ -1,77 +1,69 @@
 <!DOCTYPE html>
-<html lang="en"> <head>
+<html lang="es">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>joseIsAudio | Portfolio</title>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <main id="main-slider">
 
-        <section id="bio" class="page">
-          <h2>About Me</h2>
-          <p>Audio Designer & Composer</p>
-          <button onclick="navigateTo('hero')">Back</button>
-        </section>
-        
-        <section id="hero" class="page">
+    <main id="app-container">
+        <section id="hero" class="content-page active">
             <div class="nav-container">
-                <div class="bubble bio-btn" onclick="navigateTo('bio')">Bio</div>
-                <div class="bubble port-btn" onclick="navigateTo('portfolio')">Work</div>
-                <div class="bubble blog-btn" onclick="navigateTo('blog')">Blog</div>
-                <div class="bubble talks-btn" onclick="navigateTo('talks')">Talks</div>
+                <div class="bubble bio-btn" onclick="showPage('bio')">Bio</div>
+                <div class="bubble port-btn" onclick="showPage('portfolio')">Work</div>
+                <div class="bubble blog-btn" onclick="showPage('blog')">Blog</div>
+                <div class="bubble talks-btn" onclick="showPage('talks')">Talks</div>
                 <h1 class="main-title">joseIsAudio</h1>
+            </div>
+
+            <div class="stickers-layer">
+                <div class="sticker game-1" onclick="openGameDetails('TMNT', 'https://www.youtube.com/embed/DnWM6KA_N58')">TMNT</div>
+                <div class="sticker game-2" onclick="openGameDetails('Inner', 'https://www.youtube.com/embed/bm9BN-TA3V0')">Inner</div>
+                <div class="sticker game-3" onclick="openGameDetails('OMD', 'https://www.youtube.com/embed/1cTftd4pNaY')">Orcs Must Die</div>
             </div>
         </section>
 
-        <section id="portfolio" class="page">
-          <h2> Some of my work</h2>
-          <button onclick="navigateTo('hero')">Back</button>
+        <section id="bio" class="content-page">
+            <h2>About Me</h2>
+            <p>Audio Designer & Game Audio Programmer</p>
+            <button class="back-btn" onclick="showPage('hero')">Back</button>
         </section>
 
-        <section id="blog" class="page">
-          <h2> Blog </h2>/
-          <button onclick="navigateTo('hero')">Back</button>
+        <section id="portfolio" class="content-page">
+            <h2>Portfolio</h2>
+            <button class="back-btn" onclick="showPage('hero')">Back</button>
         </section>
 
-        <section id ="talks" class="page">
-          <h2> Some of my talks!</h2>
-          <button onclick="navigateTo('hero')">Back</button>
+        <section id="blog" class="content-page">
+            <h2>Blog</h2>
+            <button class="back-btn" onclick="showPage('hero')">Back</button>
         </section>
 
+        <section id="talks" class="content-page">
+            <h2>Talks</h2>
+            <button class="back-btn" onclick="showPage('hero')">Back</button>
+        </section>
     </main>
 
-    <script>
-      function navigateTo(sectionId) {
-        const slider = document.getElementById('main-slider');
+    <div id="game-overlay" class="overlay">
+        <div class="overlay-content">
+            <button class="close-btn" onclick="closeGameDetails()">X</button>
+            <h2 id="game-title">Game Title</h2>
+            <div class="video-container">
+                <iframe id="game-video" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <p>Audio Implementation & Sound Design</p>
+            <button class="back-btn" onclick="showPage('portfolio')">See more games</button>
+        </div>
+    </div>
+<script src="script.js"></script>
 
-        switch(sectionId){
-          case 'hero':
-            slider.style.transform = 'translate(0,0)';
-            break;
-          case 'bio':
-            slider.style.transform = 'translateX(100vw)';
-            break;
-          case 'portfolio':
-            slider.style.transform = 'translateX(-100vw)';
-            break;
-          case 'blog':
-            slider.style.transform = 'translateY(100vh)'; // Movemos abajo para ver lo de arriba
-            break;
-          case 'talks':
-            slider.style.transform = 'translateY(-100vh)'; // Movemos arriba para ver lo de abajo
-            break;
-        }
-
-
-      }
-    </script>
-</body>
+  </body>
 </html>
 
 <!-- Netlify permalink: spectacular-cactus-e9b9e5.netlify.app-->

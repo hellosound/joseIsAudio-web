@@ -2,78 +2,66 @@
     --bg-color: #0b0e14;
     --accent-color: #00ffcc;
     --title-color: #e3e6eb;
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0a0;
     --font-title: 'Syncopate', sans-serif;
     --font-body: 'Inter', sans-serif;
 }
 
 body {
     background-color: var(--bg-color);
-    color: var(--text-primary);
+    color: white;
     font-family: var(--font-body);
     margin: 0;
-    /* Eliminamos el flex del body para que no pelee con el slider */
-    overflow-x: hidden; /* Evita que aparezca la barra de scroll abajo */
+    overflow: hidden; /* Evita scrolls accidentales */
 }
 
-/* El contenedor principal que se desliza */
-#main-slider {
-    position: relative;
-    display: flex;
+/* LÓGICA DE PÁGINAS */
+.content-page {
+    display: none;
     width: 100vw;
     height: 100vh;
-    transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1);
-}
-
-/* Cada "página" o sección */
-.page {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
+    position: relative;
+    animation: fadeIn 0.4s ease-out;
 }
 
-#hero {top: 0; left: 0;}
-#bio {top: 0; left: -100vw}
-#portfolio { top: 0; left: 100vw}
-#blog {top: -100vh; left:0; }
-#talks {top: 100vh; left:0;}
+.content-page.active {
+    display: flex;
+}
 
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* NAVEGACIÓN CENTRAL (Hero) */
 .nav-container {
     position: relative;
-    width: 400px; /* Un poco más ancho para dar espacio */
-    height: 300px;
+    width: 450px;
+    height: 350px;
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 10;
 }
 
 .main-title {
-    position: relative;
-    z-index: 2;
-    pointer-events: none;
+    z-index: 10;
     font-family: var(--font-title);
     font-size: 2.5rem;
-    text-transform: uppercase;
-text-shadow: 
-    -1px -1px 0 var(--bg-color),  
-     1px -1px 0 var(--bg-color),
-    -1px  1px 0 var(--bg-color),
-     1px  1px 0 var(--bg-color),
-     0 0 10px rgba(0, 255, 204, 0.3);  
-    color: var(--title-color);
+    background: var(--bg-color);
+    padding: 15px;
     letter-spacing: 5px;
-    margin: 0;
+    pointer-events: none;
 }
 
 .bubble {
-    z-index: 1;
     position: absolute;
-    width: 80px;
-    height: 80px;
+    z-index: 5;
+    width: 85px;
+    height: 85px;
     background-color: var(--accent-color);
     border-radius: 50%;
     display: flex;
@@ -81,44 +69,103 @@ text-shadow:
     align-items: center;
     color: var(--bg-color);
     font-weight: bold;
-    text-decoration: none;
     cursor: pointer;
-    transition: all 0.5s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.bio-btn{
-    top:20%; /* A 20% del borde superior del nav-container*/
-    left: 10%; /* A 10% del borde izq del nav-container*/
-}
+/* Posiciones de las burbujas */
+.bio-btn   { top: 15%; left: 10%; }
+.port-btn  { bottom: 15%; right: 10%; }
+.blog-btn  { bottom: 20%; left: 15%; }
+.talks-btn { top: 20%; right: 15%; }
 
-.port-btn{
-    bottom: 20%;
-    right: 19%;
-}
-
-.blog-btn{
-    bottom: 25%;
-    left:24%;
-}
-
-.talks-btn{
-    top:26%;
-    right:15%
-}
-
-
-/*Animaciones de salida de las burbujas 
--.nav-container:hover .bio-btn {
-    transform: translate(-140px, -80px); /* Ajustado para que se vea mejor
-}
-
-.nav-container:hover .port-btn {
-    transform: translate(140px, -80px);
-}*/
-
-/* Un pequeño efecto visual: que la burbuja brille al pasar el mouse */
 .bubble:hover {
     background-color: white;
-    box-shadow: 0 0 20px var(--accent-color);
-    transform: scale(1.1); /* Se agranda un poquito */
+    box-shadow: 0 0 25px var(--accent-color);
+    transform: scale(1.15);
+}
+
+/* STICKERS */
+.sticker {
+    position: absolute;
+    border: 2px dashed var(--accent-color);
+    border-radius: 50% 40% 60% 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    z-index: 5;
+    background: rgba(0, 255, 204, 0.05);  
+}
+
+.sticker:hover {
+    background: var(--accent-color);
+    color: var(--bg-color);
+    transform: scale(1.1) rotate(0deg) !important;
+}
+
+.game-1{ top: 566px; left: 47%; width: 120px; height: 80px; transform: rotate(-5deg);}
+.game-2{top: 66%;left: 66%;width: 121px;height: 94px;transform: rotate(8deg);}
+.game-3{top: 65%;left: 21%;width: 168px;height: 135px;transform: rotate(-2deg);}
+
+/* OVERLAY */
+.overlay {
+    position: fixed;
+    top: 0; 
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(11, 14, 20, 0.98);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    
+    transform: translateY(-100%);
+    visibility: hidden;
+    opacity: 0;
+
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.6s ease,visibility 0.6s;
+    will-change: transform;
+}
+
+.overlay.active {
+    transform: translateY(0);
+    visibility: visible;
+    opacity: 1;
+}
+
+.overlay-content {
+    background: var(--bg-color);
+    border: 2px solid var(--accent-color);
+    padding: 3rem;
+    max-width: 850px;
+    width: 90%;
+    position: relative;
+}
+
+.video-container {
+    width: 100%;
+    aspect-ratio: 16/9;
+    margin: 20px 0;
+}
+
+.video-container iframe { width: 100%; height: 100%; }
+
+.back-btn, .close-btn {
+    cursor: pointer;
+    background: var(--accent-color);
+    border: none;
+    padding: 8px 20px;
+    font-weight: bold;
+    color: var(--bg-color);
+    margin-top: 15px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px; right: 10px;
+    padding: 5px 15px;
 }
