@@ -24,3 +24,30 @@ function showPage(sectionId) {
               document.getElementById('game-video').src = "";
           }, 600);
         }
+
+      async function loadBlogPosts() {
+        const blogContainer = document.getElementById('blog-list');
+        if(!blogList) return;
+        
+        try {
+            const response = await fetch('posts.json');
+            const posts = await response.json();
+
+            blogContainer.innerHTML = posts.map(post => `
+                <article class="blog-card">
+                    <a href="${post.link}" class="blog-link">
+                        <span class="blog-date">${post.date}</span>
+                        <h3>${post.title}</h3>
+                        <p>${post.description}</p>
+                    </a>
+                </article>
+            `).join('');
+            
+        } catch (error) {
+            console.error("Error cargando el blog:", error);
+            blogContainer.innerHTML = "<p>Coming soon...</p>";
+        }
+    }
+
+    // Llama a la función cuando se cargue la página
+    document.addEventListener('DOMContentLoaded', loadBlogPosts);

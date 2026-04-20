@@ -26,21 +26,66 @@
                 <div class="sticker game-2" onclick="openGameDetails('Inner', 'https://www.youtube.com/embed/bm9BN-TA3V0')">Inner</div>
                 <div class="sticker game-3" onclick="openGameDetails('OMD', 'https://www.youtube.com/embed/1cTftd4pNaY')">Orcs Must Die</div>
             </div>
+
+        <!--BIO SECTION-->
         </section>
 
         <section id="bio" class="content-page">
-            <h2>About Me</h2>
-            <p>Audio Designer & Game Audio Programmer</p>
+          <div class="bio-container">
+            <div class="bio-text">
+                    <h2>Hello!</h2>
+                    <p> 
+                        I'm a sound designer and game audio programmer with +10 years of experience making sounds for games.
+                        I own the whole process of making game audio from concept to implementation, making the code part of my 
+                        creative process. 
+                        I have also spoken in many events like GDC, Game Sound Summit Puerto Rico, and Game Audio Conference Oslo.
+                    </p>
+
+                <div class="bio-skills">
+                    <h3>TECH STACK</h3>
+                    <div class="skill-category">
+                        <h4>IMPLEMENTATION</h4>
+                        <p>Unreal Engine (Blueprints & C++), Unity, FMOD, Wwise.</p>
+                    </div>
+                    <div class="skill-category">
+                        <h4>SYSTEMS DESIGN</h4>
+                        <p>Dynamic Music, Spatial Audio, Ambient Systems, Optimization.</p>
+                    </div>
+                    <div class="skill-category">
+                        <h4>COMMUNITY & LEADERSHIP</h4>
+                        <p>Speaker & Panelist at LATAM Game Dev events.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bio-sidebar">
+                <div class="bio-photo-wrapper">
+                    <picture>
+                        <source srcset="assets/img/bio/headshot trim_avif.avif" type="image/avif">
+                        <img src="assets/img/bio/headshot trim_jgp.jpg" alt="Jose Angulo" class="bio-photo">
+                    </picture>
+                </div>
+            </div>
+        </div>
+        <button class="back-btn" onclick="showPage('hero')">Back</button>
+        </section>
+        <!--End BIO SECTION-->
+
+        <!--BLOG SECTION-->
+        <section id="blog" class="content-page">
+            <h2>Blog</h2>
+            
+            <div id="blog-list" class="blog-container">
+                </div>
+
+            <div class="pagination">
+                <span>Page: 1, 2, 3, Last</span>
+            </div>
+
             <button class="back-btn" onclick="showPage('hero')">Back</button>
         </section>
 
         <section id="portfolio" class="content-page">
             <h2>Portfolio</h2>
-            <button class="back-btn" onclick="showPage('hero')">Back</button>
-        </section>
-
-        <section id="blog" class="content-page">
-            <h2>Blog</h2>
             <button class="back-btn" onclick="showPage('hero')">Back</button>
         </section>
 

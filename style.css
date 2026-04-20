@@ -18,13 +18,15 @@ body {
 .content-page {
     display: none;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh; /* Cambiamos height por min-height */
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; /* Alinea al inicio para que el scroll sea natural */
     align-items: center;
     text-align: center;
     position: relative;
-    animation: fadeIn 0.4s ease-out;
+    padding: 60px 20px; /* Margen superior e inferior de seguridad */
+    overflow-y: auto; /* Permite scroll interno si el contenido crece */
+    box-sizing: border-box;
 }
 
 .content-page.active {
@@ -106,9 +108,9 @@ body {
     transform: scale(1.1) rotate(0deg) !important;
 }
 
-.game-1{ top: 566px; left: 47%; width: 120px; height: 80px; transform: rotate(-5deg);}
-.game-2{top: 66%;left: 66%;width: 121px;height: 94px;transform: rotate(8deg);}
-.game-3{top: 65%;left: 21%;width: 168px;height: 135px;transform: rotate(-2deg);}
+.game-1{ top: 80%; left: 47%; width: 120px; height: 80px; transform: rotate(-5deg);}
+.game-2{top: 68%;left: 62%;width: 121px;height: 94px;transform: rotate(8deg);}
+.game-3{top: 67%;left: 33%;width: 168px;height: 135px;transform: rotate(-2deg);}
 
 /* OVERLAY */
 .overlay {
@@ -155,17 +157,192 @@ body {
 .video-container iframe { width: 100%; height: 100%; }
 
 .back-btn, .close-btn {
-    cursor: pointer;
-    background: var(--accent-color);
-    border: none;
-    padding: 8px 20px;
-    font-weight: bold;
-    color: var(--bg-color);
-    margin-top: 15px;
+    margin-top: 20px;
+    margin-bottom: 40px; 
+    flex-shrink: 0; /* Evita que el botón se deforme */
 }
 
 .close-btn {
     position: absolute;
     top: 10px; right: 10px;
     padding: 5px 15px;
+}
+
+/* Contenedor de la Bio */
+.bio-container {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+    max-width: 850px; /* Reducimos el ancho máximo para contenerlo mejor */
+    width: 100%;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.bio-text h2 {
+    font-family: var(--font-title);
+    color: var(--accent-color);
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.bio-text p {
+    line-height: 1.6;
+    font-size: 1.1rem;
+}
+
+.bio-sidebar {
+    display: flex;
+    justify-content: center; /* Centra la foto en su columna */
+    align-items: flex-start;
+}
+
+.bio-visuals {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+/* Skills Grid */
+.bio-skills h3 {
+    font-family: var(--font-title);
+    font-size: 1rem;
+    border-bottom: 1px solid var(--accent-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Estilos para las categorías de skills que agregaste */
+.skill-category {
+    margin-bottom: 20px;
+    text-align: left; /* Asegura que el texto esté a la izquierda */
+}
+
+.skill-category h4 {
+    color: var(--accent-color);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.skill-category p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Ajuste del h2 dentro de bio-text */
+.bio-text h2 {
+    margin-top: 0; /* Quita el espacio extra arriba */
+}
+/* Responsive: si la pantalla es pequeña, se pone una columna sobre otra */
+@media (max-width: 768px) {
+    .bio-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.bio-photo-wrapper{
+    position: relative;
+    display: inline-block;
+    margin-top: 55px;
+    margin-bottom: 30px;
+}
+
+.bio-photo {
+    width: 100%;
+    max-width: 250px; /* Reducimos un poco la foto para ganar espacio */
+    height: auto;
+    border-radius: 15px; /* Quizás cuadrada con bordes redondeados se ve más 'tech' */
+}
+
+.bio-photo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(0, 255, 204, 0.3);
+    filter: grayscale(0%); /* Color total en hover */
+}
+
+/* Ajuste Responsive */
+@media (max-width: 768px) {
+    .bio-photo {
+        max-width: 200px; /* Más pequeña en móviles */
+    }
+}
+
+.blog-container{
+    max-width: 800px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+    margin-top: 30px;
+}
+
+.blog-card{
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(0,255,204,0.2);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.blog-card:hover {
+    background: rgba(0, 255, 204, 0.05);
+    border-color: var(--accent-color);
+    transform: translateX(10px); /* Efecto de desplazamiento sutil */
+}
+
+.blog-link {
+    text-decoration: none;
+    color: white;
+    padding: 20px;
+    display: block;
+}
+
+.blog-date {
+    font-size: 0.8rem;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.blog-card h3 {
+    margin: 10px 0;
+    font-family: var(--font-title);
+    font-size: 1.1rem;
+}
+
+.blog-card p {
+    font-size: 0.9rem;
+    color: #a0a0a0;
+    margin: 0;
+}
+
+.pagination {
+    margin-top: 40px;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    letter-spacing: 2px;
+}
+
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: #000;
+    margin: 30px 0;
+    border: 1px solid var(--accent-color); /* Un borde neón para que combine */
+    border-radius: 8px;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
