@@ -27,7 +27,7 @@ function showPage(sectionId) {
 
       async function loadBlogPosts() {
         const blogContainer = document.getElementById('blog-list');
-        if(!blogList) return;
+        if(!blogContainer) return;
         
         try {
             const response = await fetch('posts.json');
