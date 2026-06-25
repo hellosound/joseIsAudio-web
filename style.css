@@ -1,116 +1,161 @@
 :root {
-    --bg-color: #0b0e14;
-    --accent-color: #00ffcc;
-    --title-color: #e3e6eb;
-    --font-title: 'Syncopate', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --bg-color: #10131D; /* Fondo oscuro azulado profundo */
+    --btn-bio: #f1b83a;  /* Amarillo de BIO */
+    --btn-works: #00b4eb; /* Cian de WORKS */
+    --btn-blog: #de1b52;  /* Rosa/Magenta de BLOG */
+    --accent-color: #00b4eb; /* ¡Añadido para resolver fallos de render en overlay! */
+    
+    --font-title: 'Archivo', sans-serif;
+    --font-subtitle: 'JetBrains Mono', monospace;
+    --font-body: 'Archivo', sans-serif;
 }
 
 body {
     background-color: var(--bg-color);
+    background-image: url('assets/img/hero/bg-pattern.svg'); 
+    background-repeat: repeat;
+    background-size: 380px; 
+    background-blend-mode: multiply;
     color: white;
     font-family: var(--font-body);
     margin: 0;
-    overflow: hidden; /* Evita scrolls accidentales */
 }
 
-/* LÓGICA DE PÁGINAS */
 .content-page {
     display: none;
-    width: 100vw;
-    min-height: 100vh; /* Cambiamos height por min-height */
+    width: 100%;
+    min-height: 100vh;
     flex-direction: column;
-    justify-content: flex-start; /* Alinea al inicio para que el scroll sea natural */
     align-items: center;
-    text-align: center;
-    position: relative;
-    padding: 60px 20px; /* Margen superior e inferior de seguridad */
-    overflow-y: auto; /* Permite scroll interno si el contenido crece */
+    padding: 40px 20px;
     box-sizing: border-box;
+    position: relative;
 }
 
 .content-page.active {
-    display: flex;
+    display: flex !important;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.98); }
-    to { opacity: 1; transform: scale(1); }
+/* Evita el parpadeo de scrollbar */
+#hero.active {
+    overflow: hidden; /* Mantiene fijos los stickers en Desktop */
 }
 
+@media (max-width: 768px) {
+    .stickers-layer {
+        min-height: 160vh; /* Espacio para que el zigzag no se amontone */
+    }
+}
 /* NAVEGACIÓN CENTRAL (Hero) */
-.nav-container {
-    position: relative;
-    width: 450px;
-    height: 350px;
+.brand-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    text-align: center;
+    margin-top: 15vh; /* Ajustado para dar espacio al logo superior */
     z-index: 10;
+    pointer-events: auto;
 }
 
-.main-title {
-    z-index: 10;
+.hero-logo {
+    width: clamp(280px, 40vw, 500px); /* El logo escalará de forma fluida según la pantalla */
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 5px;
+}
+
+.main-subtitle {
+    font-family: var(--font-subtitle);
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    color: #a0aec0;
+    margin: 10px 0 35px 0;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 15px;
+}
+.nav-btn {
     font-family: var(--font-title);
-    font-size: 2.5rem;
-    background: var(--bg-color);
-    padding: 15px;
-    letter-spacing: 5px;
-    pointer-events: none;
-}
-
-.bubble {
-    position: absolute;
-    z-index: 5;
-    width: 85px;
-    height: 85px;
-    background-color: var(--accent-color);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--bg-color);
-    font-weight: bold;
+    font-weight: 900;
+    font-size: 1.1rem;
+    padding: 12px 38px;
+    border: none;
+    border-radius: 50px;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: #000000;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.25);
 }
 
-/* Posiciones de las burbujas */
-.bio-btn   { top: 15%; left: 10%; }
-.port-btn  { bottom: 15%; right: 10%; }
-.blog-btn  { bottom: 20%; left: 15%; }
-.talks-btn { top: 20%; right: 15%; }
+.bio-btn  { background-color: var(--btn-bio); }
+.port-btn { background-color: var(--btn-works); }
+.blog-btn { background-color: var(--btn-blog); }
 
-.bubble:hover {
-    background-color: white;
-    box-shadow: 0 0 25px var(--accent-color);
-    transform: scale(1.15);
+.nav-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 /* STICKERS */
 .sticker {
     position: absolute;
-    border: 2px dashed var(--accent-color);
-    border-radius: 50% 40% 60% 40%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border: none !important; /* Quitamos el borde CSS antiguo */
+    background: transparent !important; /* Fondo transparente */
+    overflow: visible !important;
     cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     z-index: 5;
-    background: rgba(0, 255, 204, 0.05);  
+    /* Mantenemos una sombra muy sutil proyectada por la silueta */
+    filter: drop-shadow(5px 8px 12px rgba(0, 0, 0, 0.45)); 
 }
+.sticker-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Cambiado a 'contain' para que el personaje recortado no se mutile */
+    filter: brightness(1); /* Quitamos el filtro oscuro para que los colores cartoon resalten */
+    display: block;
+}
+
+/* LA ETIQUETA DE TEXTO EXTERNA EN DIAGONAL */
+.sticker-label {
+    position: absolute;
+    bottom: -20px; /* Lo empuja hacia abajo, fuera del recuadro */
+    left: 50%;
+    transform: translateX(-50%) rotate(-5deg); /* Centrado horizontal y rotación leve */
+    background: #0b0f19; /* Fondo oscuro sólido */
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: var(--font-title);
+    text-align: center;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap; /* Evita que el texto se rompa en dos líneas */
+    box-shadow: 3px 3px 8px rgba(0,0,0,0.3);
+}
+
+/* CAPA DE STICKERS TRASERA */
+.stickers-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none;
+}
+
 
 .sticker:hover {
-    background: var(--accent-color);
-    color: var(--bg-color);
-    transform: scale(1.1) rotate(0deg) !important;
+    transform: translate(-50%, -50%) scale(1.08) !important;
+    z-index: 999;
 }
 
-.game-1{ top: 80%; left: 47%; width: 120px; height: 80px; transform: rotate(-5deg);}
-.game-2{top: 68%;left: 62%;width: 121px;height: 94px;transform: rotate(8deg);}
-.game-3{top: 67%;left: 33%;width: 168px;height: 135px;transform: rotate(-2deg);}
+/* Si es un sticker normal (que no usa translate), aplicamos escala simple */
+.sticker:not(.reel-sticker):hover {
+    transform: scale(1.1) rotate(0deg) !important;
+}
 
 /* OVERLAY */
 .overlay {
@@ -140,12 +185,17 @@ body {
 }
 
 .overlay-content {
-    background: var(--bg-color);
+background: var(--bg-color);
     border: 2px solid var(--accent-color);
-    padding: 3rem;
+    padding: 2.5rem;
     max-width: 850px;
     width: 90%;
+    
+    max-height: 85vh;    
+    overflow-y: auto; 
     position: relative;
+    
+    -webkit-overflow-scrolling: touch;
 }
 
 .video-container {
@@ -276,8 +326,10 @@ body {
     width: 90%;
     display: flex;
     flex-direction: column;
-    gap:20px;
+    gap: 20px;
     margin-top: 30px;
+    margin-bottom: 40px; /* Espacio antes del botón Back */
+    flex-shrink: 0; /* Evita que el contenedor se colapse */
 }
 
 .blog-card{
@@ -327,6 +379,25 @@ body {
     letter-spacing: 2px;
 }
 
+#blog.content-page {
+    display: none; /* Se mantiene para la lógica de JS */
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: flex-start; /* Alinea al inicio, no al centro */
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow-y: auto;  /* Permite scroll vertical */
+    overflow-x: hidden;
+    padding-top: 60px; /* Espacio para que el título no pegue arriba */
+    padding-bottom: 60px; /* Espacio para que el botón Back respire */
+}
+
+#blog.content-page.active {
+    display: flex; /* Se muestra cuando está activo */
+}
+
 .video-wrapper {
     position: relative;
     padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
@@ -345,4 +416,93 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
+}
+
+/* Cuadrícula Principal */
+.portfolio-works-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Exactamente 2 columnas */
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.work-card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #1a1f26; /* Color de fondo si no hay imagen */
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid rgba(0, 255, 204, 0.15);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+/* Tarjeta del Juego */
+.work-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block; /* Quita espacios vacíos debajo de la imagen */
+    filter: brightness(0.4);
+    transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.work-card:hover img {
+    filter: brightness(0.7);
+}
+
+/* Texto sobre la imagen */
+.work-info-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px;
+    background: linear-gradient(transparent, rgba(11, 14, 20, 0.9));
+    text-align: left; /* Alineado a la izquierda para que no se stackee todo al centro */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.work-info-overlay h3 {
+    font-family: var(--font-title);
+    font-size: 1.1rem;
+    margin: 0 0 5px 0;
+    color: white;
+}
+
+.work-info-overlay p {
+    font-size: 0.85rem;
+    color: var(--accent-color);
+    margin: 0 0 15px 0;
+}
+
+/* Botón Read More */
+.read-more-btn {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 1px solid var(--accent-color);
+    padding: 4px 10px;
+    width: fit-content;
+    color: var(--accent-color);
+}
+
+.read-more-btn:hover {
+    background: var(--accent-color);
+    color: var(--bg-color);
+}
+
+/* Responsivo: 1 columna en móvil */
+@media (max-width: 768px) {
+    .portfolio-works-grid {
+        grid-template-columns: 1fr;
+    }
 }

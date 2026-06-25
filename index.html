@@ -6,86 +6,64 @@
     <title>joseIsAudio | Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
+<body>  
     <main id="app-container">
         <section id="hero" class="content-page active">
-            <div class="nav-container">
-                <div class="bubble bio-btn" onclick="showPage('bio')">Bio</div>
-                <div class="bubble port-btn" onclick="showPage('portfolio')">Work</div>
-                <div class="bubble blog-btn" onclick="showPage('blog')">Blog</div>
-                <div class="bubble talks-btn" onclick="showPage('talks')">Talks</div>
-                <h1 class="main-title">joseIsAudio</h1>
+            <div class="brand-container">
+                <img src="assets/img/hero/img_hero.svg" alt="joseIsAudio" class="hero-logo" onerror="this.src='assets/img/hero/img_hero.svg'">
+                <p class="main-subtitle">SOUND DESIGN • GAME AUDIO PROGRAMMING</p>
+                
+                <nav class="nav-menu">
+                    <button class="nav-btn bio-btn" onclick="showPage('bio')">BIO</button>
+                    <button class="nav-btn port-btn" onclick="showPage('portfolio')">WORKS</button>
+                    <button class="nav-btn blog-btn" onclick="showPage('blog')">BLOG</button>
+                </nav>
             </div>
 
             <div class="stickers-layer">
-                <div class="sticker game-1" onclick="openGameDetails('TMNT', 'https://www.youtube.com/embed/DnWM6KA_N58')">TMNT</div>
-                <div class="sticker game-2" onclick="openGameDetails('Inner', 'https://www.youtube.com/embed/bm9BN-TA3V0')">Inner</div>
-                <div class="sticker game-3" onclick="openGameDetails('OMD', 'https://www.youtube.com/embed/1cTftd4pNaY')">Orcs Must Die</div>
+                <div id="dynamic-stickers"></div>
             </div>
-
-        <!--BIO SECTION-->
         </section>
 
         <section id="bio" class="content-page">
-          <div class="bio-container">
-            <div class="bio-text">
+            <div class="bio-container">
+                <div class="bio-text">
                     <h2>Hello!</h2>
-                    <p> 
-                        I'm a sound designer and game audio programmer with +10 years of experience making sounds for games.
-                        I own the whole process of making game audio from concept to implementation, making the code part of my 
-                        creative process. 
-                        I have also spoken in many events like GDC, Game Sound Summit Puerto Rico, and Game Audio Conference Oslo.
-                    </p>
-
-                <div class="bio-skills">
-                    <h3>TECH STACK</h3>
-                    <div class="skill-category">
-                        <h4>IMPLEMENTATION</h4>
-                        <p>Unreal Engine (Blueprints & C++), Unity, FMOD, Wwise.</p>
-                    </div>
-                    <div class="skill-category">
-                        <h4>SYSTEMS DESIGN</h4>
-                        <p>Dynamic Music, Spatial Audio, Ambient Systems, Optimization.</p>
-                    </div>
-                    <div class="skill-category">
-                        <h4>COMMUNITY & LEADERSHIP</h4>
-                        <p>Speaker & Panelist at LATAM Game Dev events.</p>
+                    <p>I'm a sound designer and game audio programmer with over 10 years of professional experience. 
+                    I have worked on games like <strong>Orcs Must Die!</strong>, <strong>By The Blade</strong> and <strong>Killer Klowns From Outer Space</strong>, using various technologies. 
+                    Finally, I also love public speaking; my talks have been featured at events like <strong>GDC</strong>, <strong>Game Audio Conference Oslo</strong> and <strong>Game Sound Summit Puerto Rico</strong>.</p>
+                    
+                    <div class="bio-skills">
+                        <h3>TECH STACK</h3>
+                        <div class="skill-category">
+                            <h4>GAME ENGINES</h4>
+                            <p>Unreal Engine, Unity.</p>
+                        </div> <div class="skill-category">
+                            <h4>MIDDLEWARES</h4>
+                            <p>FMOD, Wwise.</p>
+                        </div> <div class="skill-category">
+                            <h4>PROGRAMMING</h4>
+                            <p>C++, C#, Blueprints, Python, HTML5, Javascript.</p>
+                        </div> </div> </div> <div class="bio-sidebar">
+                    <div class="bio-photo-wrapper">
+                        <img src="assets/img/bio/headshot trim_avif.avif" alt="Jose Angulo" class="bio-photo">
                     </div>
                 </div>
-            </div>
-            <div class="bio-sidebar">
-                <div class="bio-photo-wrapper">
-                    <picture>
-                        <source srcset="assets/img/bio/headshot trim_avif.avif" type="image/avif">
-                        <img src="assets/img/bio/headshot trim_jgp.jpg" alt="Jose Angulo" class="bio-photo">
-                    </picture>
-                </div>
-            </div>
-        </div>
-        <button class="back-btn" onclick="showPage('hero')">Back</button>
+            </div> <button class="back-btn" onclick="showPage('hero')">Back</button>
         </section>
-        <!--End BIO SECTION-->
 
-        <!--BLOG SECTION-->
         <section id="blog" class="content-page">
             <h2>Blog</h2>
-            
-            <div id="blog-list" class="blog-container">
-                </div>
-
-            <div class="pagination">
-                <span>Page: 1, 2, 3, Last</span>
-            </div>
-
+            <div id="blog-list" class="blog-container"></div>
             <button class="back-btn" onclick="showPage('hero')">Back</button>
         </section>
 
         <section id="portfolio" class="content-page">
-            <h2>Portfolio</h2>
+            <h2>Works</h2>
+            <div id="portfolio-grid" class="portfolio-works-grid"></div>
             <button class="back-btn" onclick="showPage('hero')">Back</button>
         </section>
 
@@ -93,22 +71,24 @@
             <h2>Talks</h2>
             <button class="back-btn" onclick="showPage('hero')">Back</button>
         </section>
+
+        <div id="game-overlay" class="overlay">
+            <div class="overlay-content">
+                <button class="close-btn" onclick="closeGameDetails()">X</button>
+                <h2 id="game-title"></h2>
+                <p><strong id="game-studio"></strong></p>
+                <p><em id="game-role" style="color: var(--accent-color);"></em></p>
+                <div class="video-container">
+                    <div id="media-container"></div>
+                </div>
+                <p id="game-description"></p>
+                <p><strong>Tech:</strong> <span id="game-tech"></span></p>
+                <p><strong>Platforms:</strong> <span id="game-platforms"></span></p>
+                <button class="back-btn" onclick="closeGameDetails()">Close</button>
+            </div>
+        </div>
     </main>
 
-    <div id="game-overlay" class="overlay">
-        <div class="overlay-content">
-            <button class="close-btn" onclick="closeGameDetails()">X</button>
-            <h2 id="game-title">Game Title</h2>
-            <div class="video-container">
-                <iframe id="game-video" src="" frameborder="0" allowfullscreen></iframe>
-            </div>
-            <p>Audio Implementation & Sound Design</p>
-            <button class="back-btn" onclick="showPage('portfolio')">See more games</button>
-        </div>
-    </div>
-<script src="script.js"></script>
-
-  </body>
+    <script src="script.js"></script>
+</body>
 </html>
-
-<!-- Netlify permalink: spectacular-cactus-e9b9e5.netlify.app-->
