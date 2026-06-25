@@ -52,13 +52,13 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-top: 15vh; /* Ajustado para dar espacio al logo superior */
+    margin-top: 25vh; 
     z-index: 10;
     pointer-events: auto;
 }
 
 .hero-logo {
-    width: clamp(280px, 40vw, 500px); /* El logo escalará de forma fluida según la pantalla */
+width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo bajamos */
     height: auto;
     object-fit: contain;
     margin-bottom: 5px;
@@ -69,7 +69,7 @@ body {
     font-size: 0.85rem;
     letter-spacing: 2px;
     color: #a0aec0;
-    margin: 10px 0 35px 0;
+    margin: 10px 0 15px 0;
 }
 
 .nav-menu {
@@ -88,10 +88,26 @@ body {
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.25);
 }
 
-.bio-btn  { background-color: var(--btn-bio); }
-.port-btn { background-color: var(--btn-works); }
-.blog-btn { background-color: var(--btn-blog); }
+.bio-btn { 
+    background-color: var(--btn-bio); 
+    padding: 10px 30px;            /* Reducido de 12px 38px a 10px 30px */
+    font-size: 1rem;               /* Bajado sutilmente de 1.1rem a 1rem */
+    transform: rotate(-3deg);      /* Rotación leve hacia la izquierda */
+}
 
+.port-btn { 
+    background-color: var(--btn-works); 
+    padding: 10px 30px;
+    font-size: 1rem;
+    transform: rotate(2deg);       /* Rotación leve hacia la derecha */
+}
+
+.blog-btn { 
+    background-color: var(--btn-blog); 
+    padding: 10px 30px;
+    font-size: 1rem;
+    transform: rotate(-2deg);      /* Rotación leve hacia la izquierda */
+}
 .nav-btn:hover {
     transform: scale(1.08);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
@@ -139,11 +155,40 @@ body {
 .stickers-layer {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
+    left: 50%;
+    transform: translateX(-50%) scale(0.85); /* Centra el lienzo de los stickers en pantallas gigantes */
+    width: 1440px; /* Ancho idéntico al canvas base de tu Figma */
     height: 100vh;
     z-index: 1;
     pointer-events: none;
+    margin-top: -40px;
+}
+
+@media (max-width: 1440px) {
+    .stickers-layer {
+        transform: translateX(-50%) scale(0.85);
+        transform-origin: center top;
+        margin-top: -30px; /* Ajuste leve del truco en escala */
+    }
+}
+
+@media (max-width: 1200px) {
+    .stickers-layer {
+        transform: translateX(-50%) scale(0.7);
+        transform-origin: center top;
+        margin-top: -20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .stickers-layer {
+        position: relative;
+        left: 0;
+        transform: none;
+        width: 100%;
+        height: auto;
+        margin-top: 0; /* Desactivado en móviles para mantener el flujo vertical */
+    }
 }
 
 
@@ -504,5 +549,129 @@ background: var(--bg-color);
 @media (max-width: 768px) {
     .portfolio-works-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Footer Estilo Figma */
+.global-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 20px 40px;
+    box-sizing: border-box;
+    background-color: transparent; /* Se fusiona con el fondo con texturas de la web */
+    margin-top: auto; /* Truco de flexbox para empujarlo siempre al fondo de la pantalla */
+    z-index: 100;
+    font-family: var(--font-subtitle); /* Tipografía mono para el look dev */
+    border-top: 1px solid rgba(255, 255, 255, 0.05); /* Línea divisoria sutil */
+}
+
+/* Sección de Iconos / Redes */
+.footer-left {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-icon {
+    color: #626f8a; /* Un color gris slate sutil para que no compita */
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: bold;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.footer-icon:hover {
+    color: var(--btn-works); /* Brillo cian interactivo al pasar el mouse */
+    transform: translateY(-2px);
+}
+
+/* Sección de Copyright */
+.footer-right p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #626f8a;
+    letter-spacing: 0.5px;
+}
+
+/* Ajuste Responsivo para Móviles */
+@media (max-width: 768px) {
+    .global-footer {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+        padding: 20px;
+    }
+}
+#app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+}
+
+.global-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 0 30px 0;
+    margin-top: auto;
+    background-color: #0b0d14;
+    z-index: 10;
+}
+
+/* Línea divisoria superior */
+.footer-divider-line {
+    width: 100%;
+    height: 0.06px;
+    background-color: #00b4eb;
+    margin-bottom: 30px;
+}
+
+/* Fila de redes sociales */
+.footer-socials {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+/* El contenedor del enlace solo maneja la animación */
+.footer-btn {
+    display: block;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.footer-btn:hover {
+    transform: scale(1.1); /* Crece sutilmente al pasar el mouse */
+}
+
+/* Controlas el tamaño de tu bloque SVG aquí si lo necesitas */
+.footer-btn img {
+    width: 52px;  /* El tamaño que desees que ocupe el sticker en la web */
+    height: auto;
+    display: block;
+}
+
+/* Texto de créditos inferior */
+.footer-credits {
+    font-family: var(--font-subtitle);
+    font-size: 0.75rem;
+    color: #626f8a;
+    letter-spacing: 2px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+@media (max-width: 480px) {
+    .footer-btn img {
+        width: 42px; /* Se achican un poco en pantallas de celular */
+    }
+    .footer-credits {
+        font-size: 0.65rem;
+        padding: 0 15px;
+        text-align: center;
     }
 }

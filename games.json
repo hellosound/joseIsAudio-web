@@ -1,6 +1,6 @@
 [
   {
-    "id": "REEL_GENERAL",
+    "id": "REEL",
     "title": "General Audio Reel",
     "studio": "Multiple studios",
     "role": "Various",
@@ -13,13 +13,13 @@
     "stickerImage": "assets/img/hero/stk_reel.svg",
     "stickerWidth":"191px",
     "stickerHeight":"172px",
-    "stickerTop":"613px",
+    "stickerTop":"580px",
     "stickerLeft":"635px",
     "stickerRotate": "0"
 
   },
   {
-    "id": "OMD",
+    "id": "ORCS MUST DIE",
     "title": "Orcs Must Die! By The Blade",
     "studio": "Teravision Games",
     "role": "Technical Sound Designer, Gameplay Audio Programmer",
@@ -39,7 +39,7 @@
     "stickerRotate": "-20.19"
   },
   {
-    "id": "TMNT",
+    "id": "TEENAGE MUTANT NINJA TURTLES",
     "title": "Teenage Mutant Ninja Turtles: Rooftop Mayhem",
     "studio": "TicToc Games/ Teravision Games",
     "role": "Technical Sound Designer",
@@ -59,7 +59,7 @@
     "stickerRotate": "26.36"
   },
   {
-    "id": "KKFOS",
+    "id": "KILLER KLOWNS FROM OUTER SPACE",
     "title": "Killer Klowns From Outer Space",
     "studio": "Illfonic / Teravision Games",
     "role": "Technical Sound Designer",
@@ -80,7 +80,7 @@
 
   },
   {
-    "id": "ALUMBRA",
+    "id": "AL-UMBRA",
     "title": "Al-Umbra",
     "studio": "Maleiwa Studio",
     "role": "Technical Sound Designer, Composer",
@@ -122,7 +122,7 @@
   },
 
   {
-    "id": "SHADOW",
+    "id": "THE SHADOW SYNDICATE",
     "title": "The Shadow Syndicate",
     "studio": "Killasoft",
     "role": "Technical Sound Designer",
