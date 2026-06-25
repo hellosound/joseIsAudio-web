@@ -21,6 +21,102 @@ body {
     margin: 0;
 }
 
+/* ==========================================
+   GLOBAL HEADER (ESTILO FIGMA)
+   ========================================== */
+
+.global-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 70px;
+    padding: 0 40px;
+    box-sizing: border-box;
+    background-color: #0b0d14;
+    border-bottom: 2px solid #00b4eb; /* Línea azul neón inferior de tu captura */
+    position: sticky;
+    top: 0;
+    z-index: 200;
+}
+
+/* Ocultar el header automáticamente si estás en la landing de inicio (home) */
+body:has(#hero.active) .global-header {
+    display: none;
+}
+
+/* Contenedores de secciones */
+.header-left, .header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Botón Back Asset */
+.back-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s ease;
+}
+
+.back-btn:hover {
+    transform: translateX(-4px); /* Sutil feedback hacia atrás */
+}
+
+.back-btn img {
+    height: 38px; /* Ajusta según el tamaño de exportación de tu asset */
+    display: block;
+}
+
+/* Logo central mini */
+.mini-logo {
+    height: 32px;
+    cursor: pointer;
+    object-fit: contain;
+}
+
+/* Botones del menú derecho tipo cápsula compacta */
+.header-right {
+    gap: 12px;
+}
+
+.nav-sub-btn {
+    font-family: var(--font-subtitle);
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 6px 18px;
+    border-radius: 20px;
+    background: transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* Estilos de bordes y colores específicos según tu paleta */
+.nav-sub-btn.bio-sub   { border: 2px solid var(--btn-bio); color: var(--btn-bio); font-family: var(--font-title); }
+.nav-sub-btn.blog-sub  { border: 2px solid var(--btn-blog); color: var(--btn-blog); font-family: var(--font-title) }
+.nav-sub-btn.works-sub { border: 2px solid var(--btn-works); color: #0b0d14; background-color: var(--btn-works); font-family: var(--font-title) }
+
+.nav-sub-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 600px) {
+    .global-header {
+        padding: 0 15px;
+    }
+    .mini-logo {
+        display: none; /* Quitamos el logo al centro en móviles para que no colisione */
+    }
+}
+
 .content-page {
     display: none;
     width: 100%;
@@ -284,6 +380,7 @@ background: var(--bg-color);
 .bio-text p {
     line-height: 1.6;
     font-size: 1.1rem;
+    font-family: var(--font-body);
 }
 
 .bio-sidebar {
@@ -300,7 +397,7 @@ background: var(--bg-color);
 
 /* Skills Grid */
 .bio-skills h3 {
-    font-family: var(--font-title);
+    font-family: var(--font-subtitle);
     font-size: 1rem;
     border-bottom: 1px solid var(--accent-color);
     padding-bottom: 10px;
@@ -316,6 +413,7 @@ background: var(--bg-color);
 .skill-category h4 {
     color: var(--accent-color);
     font-size: 0.85rem;
+    font-family: var(--font-subtitle);
     text-transform: uppercase;
     margin-bottom: 5px;
     letter-spacing: 1px;
@@ -323,14 +421,15 @@ background: var(--bg-color);
 
 .skill-category p {
     font-size: 0.9rem;
+    font-family: var(--font-body);
     color: var(--text-secondary);
     margin: 0;
     line-height: 1.4;
 }
 
-/* Ajuste del h2 dentro de bio-text */
 .bio-text h2 {
-    margin-top: 0; /* Quita el espacio extra arriba */
+    margin-top: 0;
+    font-family: var(--font-subtitle);
 }
 /* Responsive: si la pantalla es pequeña, se pone una columna sobre otra */
 @media (max-width: 768px) {

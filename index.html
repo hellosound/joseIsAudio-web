@@ -9,6 +9,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
+<header class="global-header">
+    <div class="header-left">
+        <!-- El botón llama a la función dinámica goBack() -->
+        <button class="back-btn" onclick="goBack()">
+            <img src="assets/img/buttons/btn-back.svg" alt="Back">
+        </button>
+    </div>
+    
+    <div class="header-center">
+        <!-- Logo mini del Hero -->
+        <img src="assets/img/header/hdr-logo.svg" alt="joseIsAudiox x   " class="mini-logo" onclick="showPage('hero')">
+    </div>
+    
+    <div class="header-right">
+        <!-- Botones de navegación compactos tal cual image_933c9c.png -->
+        <button class="nav-sub-btn bio-sub" onclick="showPage('bio')">BIO</button>
+        <button class="nav-sub-btn blog-sub" onclick="showPage('blog')">BLOG</button>
+        <button class="nav-sub-btn works-sub" onclick="showPage('porxtfolio')">WORKS</button>
+    </div>
+</header>
+
 <body>  
     <main id="app-container">
         <section id="hero" class="content-page active">

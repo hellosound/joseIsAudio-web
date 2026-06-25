@@ -1,16 +1,57 @@
 let allGames = [];
+let navigationHistory = [];
+let currentPage = 'hero'; // Corregido: cambiamos 'home' por 'hero' para que coincida con tu HTML
 
 function showPage(sectionId) {
+    // 1. Si ya estamos en esa página, no hacemos nada
+    if (sectionId === currentPage) return;
+    
     closeGameDetails();
     
+    // 2. Guardamos la página actual en el historial antes de abandonarla
+    if (currentPage) {
+        navigationHistory.push(currentPage);
+    }
+    
+    // 3. Actualizamos la página actual con el nuevo ID
+    currentPage = sectionId;
+
+    // 4. Apagamos todas las páginas existentes
     document.querySelectorAll('.content-page').forEach(page => {
         page.classList.remove('active');
     });
 
+    // 5. Encendemos la sección destino
     const target = document.getElementById(sectionId);
     if (target) {
         target.classList.add('active');
         target.scrollTop = 0;
+    }
+}
+
+// FUNCIÓN DINÁMICA PARA EL BOTÓN BACK
+function goBack() {
+    if (navigationHistory.length > 0) {
+        // Sacamos la última página guardada
+        const previousPage = navigationHistory.pop();
+        
+        // Ejecutamos el cambio visual saltándonos el flujo normal de showPage para no duplicar el historial
+        closeGameDetails();
+        currentPage = previousPage;
+        
+        document.querySelectorAll('.content-page').forEach(page => {
+            page.classList.remove('active');
+        });
+        
+        const target = document.getElementById(previousPage);
+        if (target) {
+            target.classList.add('active');
+            target.scrollTop = 0;
+        }
+    } else {
+        // Por seguridad, si el historial se vacía, te manda de vuelta al inicio (hero)
+        showPage('hero');
+        navigationHistory = []; 
     }
 }
 
