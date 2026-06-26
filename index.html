@@ -27,7 +27,7 @@
         <!-- Botones de navegación compactos tal cual image_933c9c.png -->
         <button class="nav-sub-btn bio-sub" onclick="showPage('bio')">BIO</button>
         <button class="nav-sub-btn blog-sub" onclick="showPage('blog')">BLOG</button>
-        <button class="nav-sub-btn works-sub" onclick="showPage('porxtfolio')">WORKS</button>
+        <button class="nav-sub-btn works-sub" onclick="showPage('portfolio')">WORKS</button>
     </div>
 </header>
 
@@ -52,60 +52,142 @@
 
         <section id="bio" class="content-page">
             <div class="bio-container">
-                <div class="bio-text">
-                    <h2>Hello!</h2>
-                    <p>I'm a sound designer and game audio programmer with over 10 years of professional experience. 
-                    I have worked on games like <strong>Orcs Must Die!</strong>, <strong>By The Blade</strong> and <strong>Killer Klowns From Outer Space</strong>, using various technologies. 
-                    Finally, I also love public speaking; my talks have been featured at events like <strong>GDC</strong>, <strong>Game Audio Conference Oslo</strong> and <strong>Game Sound Summit Puerto Rico</strong>.</p>
-                    
-                    <div class="bio-skills">
-                        <h3>TECH STACK</h3>
-                        <div class="skill-category">
-                            <h4>GAME ENGINES</h4>
-                            <p>Unreal Engine, Unity.</p>
-                        </div> <div class="skill-category">
-                            <h4>MIDDLEWARES</h4>
-                            <p>FMOD, Wwise.</p>
-                        </div> <div class="skill-category">
-                            <h4>PROGRAMMING</h4>
-                            <p>C++, C#, Blueprints, Python, HTML5, Javascript.</p>
-                        </div> </div> </div> <div class="bio-sidebar">
-                    <div class="bio-photo-wrapper">
-                        <img src="assets/img/bio/headshot trim_avif.avif" alt="Jose Angulo" class="bio-photo">
+                
+                <!-- BLOQUE SUPERIOR: BIO + FOTO -->
+                <div class="bio-main-row">
+                    <!-- COLUMNA IZQUIERDA: DOSSIER & TEXTO -->
+                    <div class="bio-text-column">
+                        <h1 class="bio-title">HELLO!</h1>
+                        <p class="bio-tagline">if the game makes "beep", "boop", or any weird noise... that was me.</p>
+                        
+                        <div class="bio-text-box">
+                            <p>
+                              I'm a sound designer and game audio programmer with over 10 years of professional experience. I have worked on games like Nekome, Orcs Must Die!, By The Blade and Killer Klowns From Outer Space, using various technologies.  
+                            </p>
+                            <p>
+                                Finally, I love public speaking; my talks have been featured at events like GDC, Game Audio Conference Oslo and Game Sound Summit Puerto Rico. One of the biggest highlights of my career was being selected as a member of The Game Awards Future Class 2023.
+                            </p>
+                        </div>
+
+                        <div class="bio-footer-details">
+                            <p><strong>BASED IN:</strong> Colombia</p>
+                            <p><strong>CURRENT ROLE:</strong> Freelance Technical Sound Designer/Gameplay Audio Programmer</p>
+                        </div>
+                    </div>
+
+                    <!-- COLUMNA DERECHA: FOTO & BADGE -->
+                    <div class="bio-image-column">
+                        <div class="profile-frame">
+                            <img src="assets/img/bio/headshot.avif" alt="José Angulo" class="profile-img">
+                        </div>
                     </div>
                 </div>
-            </div> <button class="back-btn" onclick="showPage('hero')">Back</button>
+
+                <!-- SECCIÓN: TECH STACK (TARJETAS EN FILA) -->
+                <div class="bio-section-divider">
+                    <span class="section-label-line">TECH STACK</span>
+                    <div class="tech-stack-grid">
+                        
+                        <!-- Caja 1: Game Engines -->
+                        <div class="tech-card card-yellow">
+                            <h3>GAME ENGINES</h3>
+                            <ul>
+                                <li>Unreal Engine</li>
+                                <li>Unity</li>
+                            </ul>
+                        </div>
+
+                        <!-- Caja 2: Middlewares -->
+                        <div class="tech-card card-pink">
+                            <h3>MIDDLEWARES</h3>
+                            <ul>
+                                <li>FMOD</li>
+                                <li>Wwise</li>
+                            </ul>
+                        </div>
+
+                        <!-- Caja 3: Programming -->
+                        <div class="tech-card card-blue">
+                            <h3>PROGRAMMING</h3>
+                            <ul>
+                                <li>C++</li>
+                                <li>C#</li>
+                                <li>Blueprints</li>
+                                <li>Python</li>
+                                <li>HTML5</li>
+                                <li>CSS</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- SECCIÓN: SPEAKING (BLOQUES EN VERTICAL) -->
+                <div class="bio-section-divider">
+                    <span class="section-label-line">SPEAKING</span>
+                    <div class="speaking-list">
+                        
+                        <!-- Conferencia 1 -->
+                        <div class="speaking-block">
+                            <div class="speaking-meta">
+                                <span class="speaking-year">2026</span>
+                                <span class="speaking-dot">•</span>
+                                <span class="speaking-location">SAN FRANCISCO, CA.</span>
+                            </div>
+                            <h4 class="speaking-title">GDC Festival of Gaming</h4>
+                            <p class="speaking-description">Debugging Audio Systems: Tools, tactics and real-world stories.</p>
+                        </div>
+                        <!-- Conferencia 2 -->
+                        <div class="speaking-block">
+                            <div class="speaking-meta">
+                                <span class="speaking-year">2025</span>
+                                <span class="speaking-dot">•</span>
+                                <span class="speaking-location">SAN JUAN, PUERTO RICO</span>
+                            </div>
+                            <h4 class="speaking-title">PUERTO RICO GAME SOUND SUMMIT</h4>
+                            <p class="speaking-description">You don't need a Visa! How to make a living from Game Audio without leaving your country.</p>
+                        </div>
+                        <!-- Conferencia 3 -->
+                        <div class="speaking-block">
+                            <div class="speaking-meta">
+                                <span class="speaking-year">2023</span>
+                                <span class="speaking-dot">•</span>
+                                <span class="speaking-location">OSLO, NORWAY</span>
+                            </div>
+                            <h4 class="speaking-title">GAME AUDIO CONFERENCE OSLO</h4>
+                            <p class="speaking-description">You don't need a Visa! How to make a living from Game Audio without leaving your country</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </section>
 
         <section id="blog" class="content-page">
-            <h2>Blog</h2>
+            <h2 class="section-title">BLOG</h2>
             <div id="blog-list" class="blog-container"></div>
             <button class="back-btn" onclick="showPage('hero')">Back</button>
         </section>
 
         <section id="portfolio" class="content-page">
-            <h2>Works</h2>
+            <h2 class="section-title">WORKS</h2>
             <div id="portfolio-grid" class="portfolio-works-grid"></div>
             <button class="back-btn" onclick="showPage('hero')">Back</button>
         </section>
 
         <section id="talks" class="content-page">
-            <h2>Talks</h2>
+            <h2 class="section-title">TALKS</h2>
             <button class="back-btn" onclick="showPage('hero')">Back</button>
         </section>
 
-        <div id="game-overlay" class="overlay">
-            <div class="overlay-content">
-                <button class="close-btn" onclick="closeGameDetails()">X</button>
-                <h2 id="game-title"></h2>
-                <p><strong id="game-studio"></strong></p>
-                <p><em id="game-role" style="color: var(--accent-color);"></em></p>
+        <div id="game-overlay"> <div class="modal-content"> <h2 id="game-title"></h2>
+                <p id="game-studio"></p> <p id="game-role"></p>   
                 <div class="video-container">
                     <div id="media-container"></div>
-                </div>
-                <p id="game-description"></p>
+                </div> 
+                <p id="game-description"></p>         
                 <p><strong>Tech:</strong> <span id="game-tech"></span></p>
-                <p><strong>Platforms:</strong> <span id="game-platforms"></span></p>
+                <p><strong>Platforms:</strong> <span id="game-platforms"></span></p> 
                 <button class="back-btn" onclick="closeGameDetails()">Close</button>
             </div>
         </div>

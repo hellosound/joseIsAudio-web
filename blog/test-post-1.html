@@ -4,56 +4,158 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CPU Optimization | joseIsAudio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="../style.css"> 
+
     <style>
- body {
-        overflow-y: auto !important; 
-        overflow-x: hidden;
-        height: auto;
-    }
-/* 1. Liberamos el scroll en el body para esta página */
-    .post-container {
-        max-width: 800px;
-        margin: 80px auto;
-        padding: 20px;
-        text-align: left;
-        line-height: 1.8;
-    }
+        body {
+            background-color: var(--bg-color);
+            overflow-y: auto !important; 
+            overflow-x: hidden;
+            height: auto;
+            color: #cbd5e1;
+            font-family: var(--font-body);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
 
-    /* 2. Estilos para el video que agregamos antes */
-    .video-wrapper {
-        position: relative;
-        padding-bottom: 56.25%;
-        height: 0;
-        overflow: hidden;
-        max-width: 100%;
-        background: #000;
-        margin: 30px 0;
-        border: 1px solid var(--accent-color);
-        border-radius: 8px;
-    }
+        /* Estructura para centrar el artículo */
+        .post-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 40px auto 80px auto;
+            padding: 0 24px;
+            text-align: left;
+            box-sizing: border-box;
+            flex: 1; /* Empuja al footer hacia abajo si el artículo es corto */
+        }
 
-    .video-wrapper iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-        .post-container h1 { font-family: var(--font-title); color: var(--accent-color); }
-        .post-container img { width: 100%; border-radius: 8px; margin: 20px 0; }
-        pre { background: #1a1e26; padding: 20px; border-radius: 8px; overflow-x: auto; color: #00ffcc; }
+        /* Encabezado del Post */
+        .post-header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(222, 27, 82, 0.15);
+            padding-bottom: 30px;
+        }
 
+        .post-date {
+            font-family: var(--font-subtitle);
+            font-size: 0.85rem;
+            color: #626f8a;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+        }
 
+        .post-container h1 { 
+            font-family: var(--font-title); 
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: white; 
+            margin: 0;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        /* Contenido del post */
+        .post-content p {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            margin-bottom: 25px;
+        }
+
+        .post-content h3 {
+            font-family: var(--font-title);
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: white;
+            margin: 40px 0 15px 0;
+            letter-spacing: -0.5px;
+        }
+
+        /* Bloques de código */
+        pre { 
+            background: #0b0d14; 
+            padding: 24px; 
+            border-radius: 12px; 
+            overflow-x: auto; 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 25px 0;
+        }
+
+        pre code {
+            font-family: var(--font-subtitle);
+            font-size: 0.9rem;
+            color: #00ffcc; 
+            line-height: 1.5;
+        }
+
+        .post-container img { 
+            width: 100%; 
+            border-radius: 12px; 
+            margin: 35px 0; 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Video de YouTube */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #0b0d14;
+            margin: 40px 0;
+            border: 1px solid rgba(222, 27, 82, 0.3);
+            border-radius: 12px;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Ajuste específico para que el botón back herede el estilo de tu CSS */
+        .post-container .back-btn {
+            margin-top: 40px;
+            display: block;
+            text-decoration: none;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
+<header class="global-header">
+    <div class="header-left">
+        <a class="back-btn" href="../index.html?page=blog" style="display: flex; align-items: center; justify-content: center;">
+            <img src="../assets/img/buttons/btn-back.svg" alt="Back">
+        </a>
+    </div>
+    
+    <div class="header-center">
+        <a href="../index.html">
+            <img src="../assets/img/header/hdr-logo.svg" alt="joseIsAudio" class="mini-logo">
+        </a>
+    </div>
+    
+<div class="header-right">
+    <a class="nav-sub-btn bio-sub" href="../index.html?page=bio" style="text-decoration: none; display: inline-block; text-align: center;">BIO</a>
+    <a class="nav-sub-btn blog-sub" href="../index.html?page=blog" style="text-decoration: none; display: inline-block; text-align: center;">BLOG</a>
+    <a class="nav-sub-btn works-sub" href="../index.html?page=portfolio" style="text-decoration: none; display: inline-block; text-align: center;">WORKS</a>
+</div>
+</header>
+
     <main class="post-container">
-        <a href="../index.html" style="color: var(--accent-color); text-decoration: none;">←Back to home</a>
         
-        <header>
-            <span style="color: var(--accent-color);">April 20, 2026</span>
+        <header class="post-header">
+            <span class="post-date">April 20, 2026</span>
             <h1>CPU Optimization in Unreal Engine</h1>
         </header>
 
@@ -68,18 +170,47 @@ if (SignificanceManager) {
             
             <p>Y así es como optimizamos el audio en proyectos grandes.</p>
         
-        <div class="video-wrapper">
-        <iframe 
-            src="https://www.youtube.com/embed/gL_rzDxgSw8?si=DvhOZ9EKVELBg3c1" 
-            title="YouTube video player" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            allowfullscreen>
-        </iframe>
-    </div>
+            <div class="video-wrapper">
+                <iframe 
+                    src="https://www.youtube.com/embed/gL_rzDxgSw8?si=DvhOZ9EKVELBg3c1" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
+            </div>
 
-    <p>Como pueden observar, los picos de CPU se mantienen estables...</p>
+            <p>Como pueden observar, los picos de CPU se mantienen estables...</p>
         </section>
+
+<div style="display: flex; justify-content: flex-start; margin-top: 50px;">
+    <a class="back-btn-icon" href="../index.html?page=blog">
+        <img src="../assets/img/buttons/btn-back.svg" alt="Back">
+    </a>
+</div>      
     </main>
+<footer class="global-footer">
+        <div class="footer-divider-line"></div>
+        
+        <div class="footer-socials">
+            <a href="https://www.linkedin.com/in/joseisaudio/" target="_blank" class="footer-btn">
+                <img src="..\assets/img/footer/foot-link.svg" alt="LinkedIn">
+            </a>
+            <a href="https://youtube.com/@joseisaudio" target="_blank" class="footer-btn">
+                <img src="..\assets/img/footer/foot-yt.svg" alt="YouTube">
+           
+            <a href="https://github.com/hellosound" target="_blank" class="footer-btn">
+                <img src= "..\assets\img\footer\foot-git.svg"alt="GitHub">
+            </a>
+            <a href="mailto:heyhellosound@gmail.com" class="footer-btn">
+                <img src="..\assets\img\footer\foot-mail.svg" alt="Email">
+            </a>
+        </div>
+
+        <p class="footer-credits">
+            © 2026 joseIsAudio • SOUND DESIGN • GAME AUDIO PROGRAMMING
+        </p>
+    </footer>
+
 </body>
 </html>

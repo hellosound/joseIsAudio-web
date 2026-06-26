@@ -143,7 +143,6 @@ function renderPortfolio() {
             <div class="work-info-overlay">
                 <h3>${game.title}</h3>
                 <p>${game.studio}</p>
-                <span class="read-more-tag">Read More</span>
             </div>
         </div>`;
     }).join('');
@@ -184,6 +183,18 @@ function openGameDetails(gameId) {
 
     document.getElementById('game-overlay').classList.add('active');
     document.body.style.overflow = 'hidden';
+
+    const overlay = document.getElementById('game-overlay');
+
+    if(overlay){
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    overlay.onclick = function(event) {
+        if (event.target === overlay) {
+            closeGameDetails();
+        }
+    }
 }
 
 function closeGameDetails() {
@@ -197,5 +208,22 @@ function closeGameDetails() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', loadInitialData);
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Detectar INMEDIATAMENTE si venimos con un parámetro (?page=...)
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetPage = urlParams.get('page');
+
+    if (targetPage) {
+        // Si hay un parámetro (ej: ?page=bio), activamos esa página directo
+        showPage(targetPage);
+    } else {
+        // Si NO hay parámetro, activamos el Hero por defecto desde el inicio
+        showPage('hero'); 
+    }
+
+    // 2. Cargamos los datos iniciales (proyectos, stickers, etc.) después,
+    // así el renderizado visual de la página no se retrasa por peticiones fetch
+    loadInitialData();
+});
+
 window.onresize = renderStickers;
