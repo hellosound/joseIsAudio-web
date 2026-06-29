@@ -59,22 +59,23 @@ body:has(#hero.active) .global-header {
     justify-content: center;
 }
 
-/* Botón Back Asset */
 .back-btn {
+    font-family: var(--font-title);
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 6px 18px;
+    width: fit-content;
+    border-radius: 20px;
+    border: 2px solid var(--btn-bio);
+    color: var(--btn-bio); 
     background: transparent;
-    border: none;
     cursor: pointer;
-    padding: 0;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+
 }
 
 .back-btn:hover {
-    transform: translateX(-4px); /* Sutil feedback hacia atrás */
-}
-
-.back-btn img {
-    height: 38px; /* Ajusta según el tamaño de exportación de tu asset */
-    display: block;
+  transform: scale(1.05);
 }
 
 /* Logo central mini */
@@ -103,7 +104,7 @@ body:has(#hero.active) .global-header {
 /* Estilos de bordes y colores específicos según tu paleta */
 .nav-sub-btn.bio-sub   { border: 2px solid var(--btn-bio); color: var(--btn-bio); font-family: var(--font-title); }
 .nav-sub-btn.blog-sub  { border: 2px solid var(--btn-blog); color: var(--btn-blog); font-family: var(--font-title) }
-.nav-sub-btn.works-sub { border: 2px solid var(--btn-works); color: #0b0d14; background-color: var(--btn-works); font-family: var(--font-title) }
+.nav-sub-btn.works-sub { border: 2px solid var(--btn-works); color: var(--btn-works); font-family: var(--font-title) }
 
 .nav-sub-btn:hover {
     transform: scale(1.05);
@@ -236,6 +237,33 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
+@media (max-width: 768px) {
+    /* 1. Modificamos el contenedor padre de los botones */
+    .nav-menu { /* ⚠️ Reemplaza por la clase exacta de tu contenedor */
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* Crea 2 columnas iguales */
+        gap: 12px !important; /* Espaciado entre los botones */
+        width: 100% !important;
+        padding: 0 20px; /* Evita que peguen a los bordes de la pantalla */
+        box-sizing: border-box;
+    }
+
+    /* 2. Forzamos a que los botones individuales se adapten al Grid */
+    .btn-bio,
+    .btn-blog,
+    .btn-works {
+        width: 100% !important; /* Ocupan todo el ancho de su celda asignada */
+        font-size: 0.9rem !important;
+        padding: 12px 0 !important; /* Ajuste vertical cómodo */
+        text-align: center;
+    }
+
+    /* 3. ¡EL TRUCO! Hacemos que el tercer botón ocupe las 2 columnas abajo */
+    .btn-works { /* O el botón que quieras que quede abajo solo */
+        grid-column: span 2 !important; 
+    }
+}
+
 /* STICKERS */
 .sticker {
     position: absolute;
@@ -327,7 +355,6 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
 
 /* OVERLAY */
 
-
 .overlay {
     position: fixed;
     top: 0; 
@@ -376,46 +403,12 @@ background: var(--bg-color);
 
 .video-container iframe { width: 100%; height: 100%; }
 
-.back-btn, .close-btn {
-    margin-top: 20px;
-    margin-bottom: 40px; 
-    flex-shrink: 0; /* Evita que el botón se deforme */
-}
-
 .close-btn {
     position: absolute;
     top: 10px; right: 10px;
     padding: 5px 15px;
 }
 
-/* ==========================================
-   BOTÓN BACK CON ICONO (SIN CAJA GIGANTE)
-   ========================================== */
-.back-btn-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: transform 0.2s ease, filter 0.2s ease;
-    width: fit-content;
-    height: fit-content;
-}
-
-/* Tamaño controlado para el SVG interno */
-.back-btn-icon img {
-    width: 44px; /* Ajusta este tamaño para que coincida perfectamente con tu diseño de Figma */
-    height: auto;
-    display: block;
-}
-
-/* Animación sutil al pasar el mouse */
-.back-btn-icon:hover {
-    transform: translateX(-4px);
-    filter: brightness(1.2); /* Hace que brille un poco más al hacer hover */
-}
 
 /* ==========================================
    OVERLAY DE DETALLES (MODAL UNIFICADO)
@@ -787,7 +780,7 @@ background: var(--bg-color);
     background-color: #0b0d14; 
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 16px;
-    padding: 24px;
+    padding:8px 20px;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -800,11 +793,10 @@ background: var(--bg-color);
 
 .speaking-meta {
     display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-subtitle);
-    font-size: 0.75rem;
-    letter-spacing: 1px;
+    flex-direction: column; /* Cambia de fila a columna (uno encima del otro) */
+    align-items: flex-start; /* Alinea ambos textos perfectamente a la izquierda */
+    gap: 4px; /* Espaciado sutil de 4px entre el año y el lugar */
+    margin-bottom: 12px; /* Espacio antes de que empiece el título h4 */
 }
 
 .speaking-year {
@@ -812,12 +804,12 @@ background: var(--bg-color);
     font-weight: bold;
 }
 
-.speaking-dot {
-    color: #4c5773;
-}
-
 .speaking-location {
-    color: #8fa0c4;
+    font-family: var(--font-subtitle); /* JetBrains Mono */
+    font-size: 0.75rem;
+    color: #626f8a; /* Gris azulado técnico */
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .speaking-title {
@@ -1063,6 +1055,81 @@ background: var(--bg-color);
     .work-info-overlay p{
         font-size: 1.1rem;
     }
+}
+
+==========================================
+   CONFERENCIAS (ESTILO CLÓN DEL BLOG CON ACENTO BIO)
+   ========================================== */
+
+/* Contenedor flexible de las tarjetas */
+.talks-container {
+    max-width: 1100px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin: 30px auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* La tarjeta interactiva (mismo comportamiento del blog) */
+.talk-card {
+    background-color: rgba(17, 20, 30, 0.4); /* Fondo oscuro translúcido */
+    border: 1px solid rgba(241, 184, 58, 0.15); /* Borde sutil amarillo (--btn-bio) */
+    border-radius: 12px;
+    text-decoration: none; /* Quitamos subrayado por ser un enlace <a> */
+    color: inherit;
+    display: block;
+    transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+/* Hover idéntico al del blog: se eleva 3px y enciende neón amarillo */
+.talk-card:hover {
+    background: rgba(241, 184, 58, 0.02);
+    border-color: var(--btn-bio); /* Enciende el amarillo de la Bio */
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(241, 184, 58, 0.12); /* Brillo neón amarillo */
+}
+
+/* Contenido interno ordenado */
+.talk-content {
+    display: flex;
+    flex-direction: column;
+    padding: 28px;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+/* Etiqueta del evento (ej: GDC, Festival of Gaming) */
+.talk-tag {
+    font-family: var(--font-subtitle); /* Tu JetBrains Mono */
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--btn-bio); /* Resaltado técnico en amarillo */
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+/* Título de la Charla */
+.talk-card h3 {
+    font-family: var(--font-title); /* Archivo pesado */
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: white;
+    margin: 0 0 10px 0;
+    letter-spacing: -0.5px;
+}
+
+/* Descripción de la Charla */
+.talk-card p {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #cbd5e1; /* Gris de alta legibilidad */
+    margin: 0;
 }
 
 /* Responsivo: 1 columna en móvil */

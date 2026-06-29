@@ -9,13 +9,17 @@
     "platforms": "Various ",
     "link": "",
     "video": "https://www.youtube.com/embed/ZUPd7ceW_O4?si=eTUr37d46iwgizxM",
+    "image": "assets/img/portfolio/img-reel.avif",
     "isSticker": true,
     "stickerImage": "assets/img/hero/stk_reel.svg",
     "stickerWidth":"191px",
     "stickerHeight":"172px",
     "stickerTop":"580px",
     "stickerLeft":"635px",
-    "stickerRotate": "0"
+    "stickerRotate": "0",
+
+    "stickerLeftMobile": "25%", 
+    "stickerTopMobile": "5%" 
 
   },
   {
@@ -36,10 +40,13 @@
     "stickerHeight":"162px",
     "stickerTop":"122px",
     "stickerLeft":"287.14px",
-    "stickerRotate": "-20.19"
+    "stickerRotate": "-20.19",
+
+    "stickerLeftMobile": "25%", 
+    "stickerTopMobile": "20%"
   },
   {
-    "id": "TEENAGE MUTANT NINJA TURTLES",
+    "id": "TMNT",
     "title": "Teenage Mutant Ninja Turtles: Rooftop Mayhem",
     "studio": "TicToc Games/ Teravision Games",
     "role": "Technical Sound Designer",
@@ -56,10 +63,12 @@
     "stickerHeight":"140px",
     "stickerTop":"109px",
     "stickerLeft":"950px",
-    "stickerRotate": "26.36"
+    "stickerRotate": "26.36",
+    "stickerLeftMobile": "25%", 
+    "stickerTopMobile": "35%"
   },
   {
-    "id": "KILLER KLOWNS FROM OUTER SPACE",
+    "id": "KILLER KLOWNS",
     "title": "Killer Klowns From Outer Space",
     "studio": "Illfonic / Teravision Games",
     "role": "Technical Sound Designer",
@@ -76,8 +85,10 @@
     "stickerHeight":"145px",
     "stickerTop":"322px",
     "stickerLeft":"239.21px",
-    "stickerRotate": "0"
-
+    "stickerRotate": "26",
+    
+    "stickerLeftMobile": "75%", 
+    "stickerTopMobile": "5%"
   },
   {
     "id": "AL-UMBRA",
@@ -97,7 +108,10 @@
     "stickerHeight":"175px",
     "stickerTop":"307px",
     "stickerLeft":"1032px",
-    "stickerRotate": "0"
+    "stickerRotate": "16",
+
+    "stickerLeftMobile": "75%", 
+    "stickerTopMobile": "20%"
 
   },
   {
@@ -118,7 +132,10 @@
     "stickerHeight":"145px",
     "stickerTop":"497px",
     "stickerLeft":"322.14px",
-    "stickerRotate": "0.5"
+    "stickerRotate": "12", 
+
+    "stickerLeftMobile": "75%", 
+    "stickerTopMobile": "35%"
   },
 
   {
@@ -139,7 +156,7 @@
     "stickerHeight":"159px",
     "stickerTop":"499px",
     "stickerLeft":"986.31px",
-    "stickerRotate": "-3.37"
+    "stickerRotate": "19"
   },
   {
     "id": "BTH",

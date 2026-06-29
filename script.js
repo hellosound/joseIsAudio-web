@@ -94,9 +94,9 @@ function renderStickers() {
 
         if (isMobile) {
             width = '105px'; 
-            height = '105px';
-            leftPos = "50%";
-            topPos = "85%";
+            height = '105px';  
+            leftPos = game.stickerLeftMobile || `${15 + (index * 20)}%`; 
+            topPos = game.stickerTopMobile || `${75 + (index * 2)}%`;     
             transformBase = `translate(-50%, -50%) rotate(${rotation}deg)`;
         }
         
@@ -111,10 +111,10 @@ function renderStickers() {
         `;
 
         let labelColor = '#ffffff';
-        if(game.id === 'OMD') labelColor = '#f1b83a'; 
+        if(game.id === 'INNER') labelColor = '#f1b83a'; 
         if(game.id === 'TMNT') labelColor = '#f1b83a';
-        if(game.id === 'KKFOS') labelColor = '#00b4eb'; 
-        if(game.id === 'ALUMBRA') labelColor = '#00b4eb';
+        if(game.id === 'KILLER KLOWNS') labelColor = '#00b4eb'; 
+        if(game.id === 'AL-UMBRA') labelColor = '#00b4eb';
 
         return `
             <div class="sticker ${'game-' + (index + 1)}" 
