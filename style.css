@@ -3,6 +3,7 @@
     --btn-bio: #f1b83a;  /* Amarillo de BIO */
     --btn-works: #00b4eb; /* Cian de WORKS */
     --btn-blog: #de1b52;  /* Rosa/Magenta de BLOG */
+    --btn-contact:#b82cdb;
     --clr-yellow:#f1b83a;
     --accent-color: #00b4eb; /* ¡Añadido para resolver fallos de render en overlay! */
     
@@ -90,6 +91,11 @@ body:has(#hero.active) .global-header {
     gap: 12px;
 }
 
+.header-right.submenu-wrapper {
+    display: flex;
+    align-items: center;
+}
+
 .nav-sub-btn {
     font-family: var(--font-subtitle);
     font-size: 0.8rem;
@@ -101,10 +107,87 @@ body:has(#hero.active) .global-header {
     transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
+.nav-sub-menu {
+    display: flex;
+    gap: 15px; /* Distancia horizontal normal en PC */
+}
+
+@media (max-width: 768px){
+    .nav-sub-menu {
+        display: flex !important;
+        flex-direction: column !important;
+        position: absolute !important;
+        top: 50px;       /* Lo posiciona justo debajo de la barra del header */
+        right: 20px;     /* Alineado con el borde derecho */
+        background-color: #0b0d14;
+        border: 2px solid var(--btn-works);
+        border-radius: 12px;
+        width: 180px;
+        padding: 12px !important;
+        gap: 10px !important;
+        box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.6);
+        
+        /* Estado inicial escondido */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        z-index: 999;
+    }
+
+    /* 🔥 Clase activadora (manejada por el JS) */
+    .nav-sub-menu.open {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) !important;
+    }
+
+    /* Ajuste estético de los botones dentro del menú de celular */
+    .nav-sub-btn {
+        width: 100% !important;
+        text-align: center !important;
+        padding: 8px 0 !important;
+        font-size: 0.9rem !important;
+        border-radius: 20px !important;
+    }
+}
+
+
+/* Ocultar el botón hamburguesa por defecto en computadoras */
+.hamburger-menu {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    /* 🍔 ACTIVAR BOTÓN DE 3 LÍNEAS */
+    .hamburger-menu {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 28px;
+        height: 18px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 1000;
+        padding: 0;
+    }
+
+    .hamburger-menu span {
+        width: 100%;
+        height: 3px;
+        background-color: var(--btn-works); /* Color cian neón */
+        border-radius: 3px;
+        transition: all 0.3s ease;
+    }
+}
+
+
 /* Estilos de bordes y colores específicos según tu paleta */
 .nav-sub-btn.bio-sub   { border: 2px solid var(--btn-bio); color: var(--btn-bio); font-family: var(--font-title); }
 .nav-sub-btn.blog-sub  { border: 2px solid var(--btn-blog); color: var(--btn-blog); font-family: var(--font-title) }
 .nav-sub-btn.works-sub { border: 2px solid var(--btn-works); color: var(--btn-works); font-family: var(--font-title) }
+.nav-sub-btn.contact-sub { border: 2px solid var(--btn-contact); color: var(--btn-contact); font-family: var(--font-title) }
 
 .nav-sub-btn:hover {
     transform: scale(1.05);
@@ -165,18 +248,15 @@ body:has(#hero.active) .global-header {
     overflow: hidden; /* Mantiene fijos los stickers en Desktop */
 }
 
-@media (max-width: 768px) {
-    .stickers-layer {
-        min-height: 160vh; /* Espacio para que el zigzag no se amontone */
-    }
-}
+
 /* NAVEGACIÓN CENTRAL (Hero) */
 .brand-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-top: 25vh; 
+    margin-top: 15vh;
+    margin-bottom: 8vh; 
     z-index: 10;
     pointer-events: auto;
 }
@@ -197,9 +277,14 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
 }
 
 .nav-menu {
-    display: flex;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 🚀 Crea las 2 columnas en PC */
+    gap: 20px 15px;                        /* 20px de separación vertical, 15px horizontal */
+    width: 100%;
+    max-width: 440px;                      /* 💡 Limita el ancho total para que mantenga una proporción perfecta */
+    margin: 20px auto 0 auto;              /* Centra horizontalmente la botonera entera */
 }
+
 .nav-btn {
     font-family: var(--font-title);
     font-weight: 900;
@@ -214,54 +299,133 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
 
 .bio-btn { 
     background-color: var(--btn-bio); 
-    padding: 10px 30px;            /* Reducido de 12px 38px a 10px 30px */
-    font-size: 1rem;               /* Bajado sutilmente de 1.1rem a 1rem */
-    transform: rotate(-3deg);      /* Rotación leve hacia la izquierda */
+    padding: 10px 30px;            
+    font-size: 1rem;               
+    font-family: var(--font-title);
+    font-weight: 900;
+    border-radius: 50px;
+    color: #0b0d14;
+    border: none;
+    cursor: pointer;
+    transform: rotate(-2deg);      
+    /* 🌟 Transición añadida directamente aquí */
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.25), box-shadow 0.3s ease;
 }
 
 .port-btn { 
     background-color: var(--btn-works); 
     padding: 10px 30px;
     font-size: 1rem;
-    transform: rotate(2deg);       /* Rotación leve hacia la derecha */
+    font-family: var(--font-title);
+    font-weight: 900;
+    border-radius: 50px;
+    color: #0b0d14;
+    border: none;
+    cursor: pointer;
+    transform: rotate(-1.5deg);    
+    /* 🌟 Transición añadida directamente aquí */
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.25), box-shadow 0.3s ease;
 }
 
 .blog-btn { 
     background-color: var(--btn-blog); 
     padding: 10px 30px;
     font-size: 1rem;
-    transform: rotate(-2deg);      /* Rotación leve hacia la izquierda */
+    font-family: var(--font-title);
+    font-weight: 900;
+    border-radius: 50px;
+    color: #0b0d14;
+    border: none;
+    cursor: pointer;
+    transform: rotate(2deg);       
+    /* 🌟 Transición añadida directamente aquí */
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.25), box-shadow 0.3s ease;
+}
+
+
+.contact-btn { 
+    background-color: #b82cdb; 
+    padding: 10px 30px;
+    font-size: 1rem;
+    font-family: var(--font-title);
+    font-weight: 900;
+    border-radius: 50px;
+    color: #0b0d14;
+    border: none;
+    cursor: pointer;
+    transform: rotate(2deg);       
+    /* 🌟 Transición añadida directamente aquí */
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.25), box-shadow 0.3s ease;
+}
+
+.bio-btn:hover {
+    transform: scale(1.06) rotate(-2deg); /* Mantiene la rotación base para que no pegue un salto */
+    box-shadow: 0 8px 20px rgba(241, 184, 94, 0.3);
+}
+
+.blog-btn:hover {
+    transform: scale(1.06) rotate(2deg);
+    box-shadow: 0 8px 20px rgba(222, 27, 82, 0.3);
+}
+
+.port-btn:hover {
+    transform: scale(1.06) rotate(-1.5deg);
+    box-shadow: 0 8px 20px rgba(0, 180, 235, 0.3);
+}
+
+.contact-btn:hover {
+    transform: scale(1.06) rotate(2deg);
+    box-shadow: 0 8px 20px rgba(184, 44, 219, 0.3);
 }
 .nav-btn:hover {
     transform: scale(1.08);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-}
 
-@media (max-width: 768px) {
-    /* 1. Modificamos el contenedor padre de los botones */
-    .nav-menu { /* ⚠️ Reemplaza por la clase exacta de tu contenedor */
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important; /* Crea 2 columnas iguales */
-        gap: 12px !important; /* Espaciado entre los botones */
-        width: 100% !important;
-        padding: 0 20px; /* Evita que peguen a los bordes de la pantalla */
-        box-sizing: border-box;
-    }
-
-    /* 2. Forzamos a que los botones individuales se adapten al Grid */
-    .btn-bio,
-    .btn-blog,
-    .btn-works {
+    .bio-btn,
+    .port-btn,
+    .works.btn,
+    .contact-btn {
         width: 100% !important; /* Ocupan todo el ancho de su celda asignada */
         font-size: 0.9rem !important;
         padding: 12px 0 !important; /* Ajuste vertical cómodo */
         text-align: center;
     }
+}
 
-    /* 3. ¡EL TRUCO! Hacemos que el tercer botón ocupe las 2 columnas abajo */
-    .btn-works { /* O el botón que quieras que quede abajo solo */
-        grid-column: span 2 !important; 
+.more-games-btn {
+    display: none !important;
+    background-color: #0b0d14 !important; /* Fondo oscuro base */
+    color: #fff2e2 !important;   /* Texto cian neón */
+    font-family: var(--font-title);
+    font-weight: 900;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    padding: 12px 24px;
+    border: 3px solid var(--btn-contact) !important; /* Borde cian */
+    border-radius: 12px;
+    white-space: nowrap;  
+    transform: rotate(8deg); 
+}
+
+@media (max-width: 768px) {
+    .more-games-btn {
+        display: flex !important;
+        left: 80% !important;
+        top: 105% !important; 
+        font-size: 1.5rem;
+        text-align: center;
+        transform: translate(-50%, -50%) rotate(4deg) !important;
+        pointer-events: auto !important;
+        z-index: 100 !important;
     }
+}
+
+/* Hover específico: cambia de color usando la transición heredada */
+.more-games-btn:hover {
+    background-color: var(--btn-works) !important;
+    color: #0b0d14 !important;
+    /* Mantiene el translate del sistema de stickers y solo ajustamos escala/rotación */
+    transform: scale(1.1) rotate(-4deg) !important;
 }
 
 /* STICKERS */
@@ -271,8 +435,9 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
     background: transparent !important; /* Fondo transparente */
     overflow: visible !important;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), z-index 0s ease;
     z-index: 5;
+    filter: drop-shadow(5px 8px 12px rgba(0, 0, 0, 0.45));    z-index: 5;
     /* Mantenemos una sombra muy sutil proyectada por la silueta */
     filter: drop-shadow(5px 8px 12px rgba(0, 0, 0, 0.45)); 
 }
@@ -315,6 +480,16 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
     margin-top: -40px;
 }
 
+.sticker:hover {
+    transform: translate(-50%, -50%) scale(1.08) !important;
+    z-index: 999 !important; /* Añadido !important para asegurar el orden de capas */
+}
+
+/* Si es un sticker normal (que no usa translate), aplicamos escala simple */
+.sticker:not(.reel-sticker):hover {
+    transform: scale(1.1) rotate(0deg) !important;
+}
+
 @media (max-width: 1440px) {
     .stickers-layer {
         transform: translateX(-50%) scale(0.85);
@@ -337,21 +512,14 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
         left: 0;
         transform: none;
         width: 100%;
-        height: auto;
-        margin-top: 0; /* Desactivado en móviles para mantener el flujo vertical */
+        height: 380px;
+        margin-top: 0;
+        margin-bottom: 30px !important;
+        padding-bottom: 0px !important;
     }
 }
 
 
-.sticker:hover {
-    transform: translate(-50%, -50%) scale(1.08) !important;
-    z-index: 999;
-}
-
-/* Si es un sticker normal (que no usa translate), aplicamos escala simple */
-.sticker:not(.reel-sticker):hover {
-    transform: scale(1.1) rotate(0deg) !important;
-}
 
 /* OVERLAY */
 
@@ -1057,10 +1225,6 @@ background: var(--bg-color);
     }
 }
 
-==========================================
-   CONFERENCIAS (ESTILO CLÓN DEL BLOG CON ACENTO BIO)
-   ========================================== */
-
 /* Contenedor flexible de las tarjetas */
 .talks-container {
     max-width: 1100px;
@@ -1136,6 +1300,101 @@ background: var(--bg-color);
 @media (max-width: 768px) {
     .portfolio-works-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+* ==========================================
+   CONTACT SECTION (ESTILO CONSOLA DEV)
+   ========================================== */
+#contact h2 { 
+    color: var(--btn-bio); /* Título en el amarillo de la Bio */
+}
+
+.contact-container {
+    max-width: 600px;
+    width: 100%;
+    margin: 20px auto 40px auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.contact-subtitle {
+    font-family: var(--font-subtitle);
+    font-size: 0.85rem;
+    color: #626f8a;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+}
+
+.contact-form {
+    background: rgba(17, 20, 30, 0.4);
+    border: 2px solid var(--btn-bio); /* Borde amarillo técnico */
+    border-radius: 14px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 10px 30px rgba(241, 184, 58, 0.05);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+.form-group label {
+    font-family: var(--font-subtitle);
+    font-size: 0.8rem;
+    color: var(--btn-bio);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.form-group input,
+.form-group textarea {
+    background-color: #0b0d14;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 12px;
+    color: white;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--btn-works); /* Enciende en cian al escribir */
+    box-shadow: 0 0 10px rgba(0, 180, 235, 0.2);
+}
+
+/* Botón de enviar estilo código */
+.submit-btn {
+    font-family: var(--font-subtitle);
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #0b0d14;
+    background-color: var(--btn-bio);
+    border: none;
+    border-radius: 50px;
+    padding: 12px 0;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    transform: scale(1.03);
+    box-shadow: 0 5px 15px rgba(241, 184, 58, 0.3);
+}
+
+/* Ajuste responsivo para móvil */
+@media (max-width: 768px) {
+    .contact-form {
+        padding: 20px;
     }
 }
 
@@ -1262,3 +1521,58 @@ background: var(--bg-color);
         text-align: center;
     }
 }
+
+@media (max-width: 768px) {
+
+
+    /* 2. Reducción y reajuste del menú de botones del Hero (Grid en 2 columnas) */
+    .nav-menu {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* 2 Columnas */
+        gap: 12px !important;
+        width: 100% !important;
+        padding: 0 20px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Forzamos el redimensionamiento de los botones grandes del Hero */
+    .bio-btn,
+    .port-btn,
+    .blog-btn,
+    .contact-btn {
+    
+        width: 100% !important; 
+        font-size: 0.85rem !important;     /* 📉 Bajado a 0.85rem para que no quede gigante el texto */
+        padding: 8px 0 !important;         /* 📉 Reducido a 8px vertical para que sean más delgados */
+        text-align: center !important;
+        transform: none !important;        /* Quita las rotaciones para que no se encima el texto en pantallas angostas */
+    }
+
+
+.global-footer {
+        padding: 12px 0 !important; /* Reduce el colchón superior e inferior de la barra negra */
+        margin-top: 4px !important; 
+    }
+
+    /* Reduce la separación entre la línea azul y los stickers de redes */
+    .footer-divider-line {
+        margin-bottom: 15px !important; 
+    }
+
+    /* Reduce el espacio debajo de las redes sociales */
+    .footer-socials {
+        margin-bottom: 6px !important; 
+        gap: 20px !important; /* Junta un poquito más los iconos entre sí */
+    }
+
+    /* Achica el tamaño físico de los stickers SVG de redes sociales */
+    .footer-btn img {
+        width: 36px !important; /* Bajado de 42px/52px a un tamaño más compacto y sutil */
+    }
+
+    /* Reduce el tamaño del texto de copyright/créditos */
+    .footer-credits {
+        font-size: 0.6rem !important; /* Un poco más pequeño para mantener el look técnico */
+        letter-spacing: 1.5px !important;
+    }
+    }

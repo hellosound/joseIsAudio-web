@@ -93,10 +93,10 @@ function renderStickers() {
         let transformBase = `rotate(${rotation}deg)`;
 
         if (isMobile) {
-            width = '105px'; 
-            height = '105px';  
+            width = '80px'; 
+            height = '80px';  
             leftPos = game.stickerLeftMobile || `${15 + (index * 20)}%`; 
-            topPos = game.stickerTopMobile || `${75 + (index * 2)}%`;     
+            topPos = game.stickerTopMobile || `${65 + (index *4)}%`;     
             transformBase = `translate(-50%, -50%) rotate(${rotation}deg)`;
         }
         
@@ -225,5 +225,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // así el renderizado visual de la página no se retrasa por peticiones fetch
     loadInitialData();
 });
+
+function toggleMobileMenu() {
+    // Solo actúa si estamos en pantallas móviles
+    if (window.innerWidth <= 768) {
+        const menu = document.getElementById('mobileNavMenu');
+        menu.classList.toggle('open');
+    }
+}
 
 window.onresize = renderStickers;

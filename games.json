@@ -43,7 +43,7 @@
     "stickerRotate": "-20.19",
 
     "stickerLeftMobile": "25%", 
-    "stickerTopMobile": "20%"
+    "stickerTopMobile": "35%"
   },
   {
     "id": "TMNT",
@@ -65,7 +65,7 @@
     "stickerLeft":"950px",
     "stickerRotate": "26.36",
     "stickerLeftMobile": "25%", 
-    "stickerTopMobile": "35%"
+    "stickerTopMobile": "65%"
   },
   {
     "id": "KILLER KLOWNS",
@@ -111,7 +111,7 @@
     "stickerRotate": "16",
 
     "stickerLeftMobile": "75%", 
-    "stickerTopMobile": "20%"
+    "stickerTopMobile": "43%"
 
   },
   {
@@ -135,7 +135,7 @@
     "stickerRotate": "12", 
 
     "stickerLeftMobile": "75%", 
-    "stickerTopMobile": "35%"
+    "stickerTopMobile": "75%"
   },
 
   {
@@ -152,11 +152,14 @@
     "isSticker": true,
     "stickerImage":"assets/img/hero/stk_shadow.svg",
     
-    "stickerWidth":"130px",
-    "stickerHeight":"159px",
+    "stickerWidth":"122px",
+    "stickerHeight":"149px",
     "stickerTop":"499px",
     "stickerLeft":"986.31px",
-    "stickerRotate": "19"
+    "stickerRotate": "5",
+
+    "stickerLeftMobile": "25%", 
+    "stickerTopMobile": "95%"
   },
   {
     "id": "BTH",
