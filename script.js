@@ -105,7 +105,7 @@ function renderStickers() {
             width = '80px'; 
             height = '80px';  
             leftPos = game.stickerLeftMobile || `${15 + (index * 20)}%`; 
-            topPos = game.stickerTopMobile || `${65 + (index *4)}%`;     
+            topPos = game.stickerTopMobile || `${65 + (index * 4)}%`;     
             transformBase = `translate(-50%, -50%) rotate(0deg)`;
         }
         

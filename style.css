@@ -510,13 +510,8 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
 }
 
 .sticker:hover {
-    transform: translate(-50%, -50%) scale(1.08) !important;
-    z-index: 999 !important; /* Añadido !important para asegurar el orden de capas */
-}
-
-/* Si es un sticker normal (que no usa translate), aplicamos escala simple */
-.sticker:not(.reel-sticker):hover {
     transform: scale(1.1) rotate(0deg) !important;
+    z-index: 999 !important;
 }
 
 @media (max-width: 1440px) {
@@ -534,8 +529,8 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
         margin-top: -20px;
     }
 }
+
 @media (max-width: 768px) {
-    /* Mantiene la configuración de tu contenedor base móvil intacta */
     .stickers-layer {
         position: relative;
         left: 0;
@@ -547,39 +542,25 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
         padding-bottom: 0px !important;
     }
 
-    /* 🎯 1. ESTADO BASE EN MÓVIL (Reseteo y animación ultra rápida de salida) */
+    /* 🎯 ESTADO BASE EN MÓVIL: Matamos la animación de entrada heredada de PC */
     .sticker,
     .sticker-btn,
     .more-games-btn {
+        /* 🚨 CLAVE ABSOLUTA: Apaga el keyframe floatIn de escritorio para que no se trasladen */
+        animation: none !important; 
+        
+        /* Mantenemos el centrado exacto sobre los porcentajes del JS sin delays lentos */
         transform: translate(-50%, -50%) rotate(0deg) scale(1) !important;
-        /* ⚡ Bajamos el tiempo a 0.1s para que regresen a su posición al instante sin flotar lento */
-        transition: none !important; 
+        transition: transform 0.1s ease-out !important; 
     }
 
-    /* 🎯 2. EFECTO HOVER EN MÓVIL (Giro inmediato al tocar) */
+    /* 🎯 EFECTO AL TOCAR CON EL DEDO (Giro controlado en su propio eje) */
     .sticker:hover,
     .sticker-btn:hover,
     .more-games-btn:hover {
         transform: translate(-50%, -50%) rotate(-3deg) scale(1) !important;
-        transition: none !important;
-    }
-
-    /* Alternamos el giro en elementos pares */
-    .sticker:nth-child(even):hover,
-    .sticker-btn:nth-child(even):hover {
-        transform: translate(-50%, -50%) rotate(3deg) scale(1) !important;
-        transition: none !important;
-    }
-
-    /* 🖐️ 3. RESPUESTA TÁCTIL ACTIVA (Feedback de compresión instantáneo) */
-    .sticker:active,
-    .sticker-btn:active,
-    .more-games-btn:active {
-        transform: translate(-50%, -50%) rotate(0deg) scale(0.96) !important;
-        transition: none !important; /* Ultra rápido al presionar */
     }
 }
-
 
 
 
