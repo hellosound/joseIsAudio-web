@@ -23,6 +23,10 @@ body {
     margin: 0;
 }
 
+body.no-scroll {
+    overflow: hidden !important;
+    height: 100vh !important;
+}
 
 /* ==========================================
    GLOBAL HEADER (ESTILO FIGMA)
@@ -41,11 +45,6 @@ body {
     position: sticky;
     top: 0;
     z-index: 200;
-}
-
-/* Ocultar el header automáticamente si estás en la landing de inicio (home) */
-body:has(#hero.active) .global-header {
-    display: none;
 }
 
 /* Contenedores de secciones */
@@ -82,6 +81,8 @@ body:has(#hero.active) .global-header {
 /* Logo central mini */
 .mini-logo {
     height: 32px;
+    width: 150px;
+    height: 150px;
     cursor: pointer;
     object-fit: contain;
 }
@@ -96,62 +97,28 @@ body:has(#hero.active) .global-header {
     align-items: center;
 }
 
-.nav-sub-btn {
-    font-family: var(--font-subtitle);
-    font-size: 0.8rem;
-    font-weight: bold;
-    padding: 6px 18px;
-    border-radius: 20px;
-    background: transparent;
-    cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease;
+@media (max-width: 768px) {
+    body:has(#hero.active) .mini-logo {
+        display: none !important;
+    }
+
+    body:has(#hero.active) .global-header .back-btn{
+        display: none;
+    }
 }
+
+/* 💻 DESKTOP: Ocultar el header completo si estás en la landing de inicio */
+@media (min-width: 769px) {
+    body:has(#hero.active) .global-header {
+        display: none;
+    }
+}
+
 
 .nav-sub-menu {
     display: flex;
     gap: 15px; /* Distancia horizontal normal en PC */
 }
-
-@media (max-width: 768px){
-    .nav-sub-menu {
-        display: flex !important;
-        flex-direction: column !important;
-        position: absolute !important;
-        top: 50px;       /* Lo posiciona justo debajo de la barra del header */
-        right: 20px;     /* Alineado con el borde derecho */
-        background-color: #0b0d14;
-        border: 2px solid var(--btn-works);
-        border-radius: 12px;
-        width: 180px;
-        padding: 12px !important;
-        gap: 10px !important;
-        box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.6);
-        
-        /* Estado inicial escondido */
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-10px);
-        transition: all 0.3s ease;
-        z-index: 999;
-    }
-
-    /* 🔥 Clase activadora (manejada por el JS) */
-    .nav-sub-menu.open {
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: translateY(0) !important;
-    }
-
-    /* Ajuste estético de los botones dentro del menú de celular */
-    .nav-sub-btn {
-        width: 100% !important;
-        text-align: center !important;
-        padding: 8px 0 !important;
-        font-size: 0.9rem !important;
-        border-radius: 20px !important;
-    }
-}
-
 
 /* Ocultar el botón hamburguesa por defecto en computadoras */
 .hamburger-menu {
@@ -159,7 +126,8 @@ body:has(#hero.active) .global-header {
 }
 
 @media (max-width: 768px) {
-    /* 🍔 ACTIVAR BOTÓN DE 3 LÍNEAS */
+
+    /* 🍔 ACTIVAR BOTÓN DE 3 LÍNEAS EN MÓVIL */
     .hamburger-menu {
         display: flex !important;
         flex-direction: column;
@@ -169,37 +137,98 @@ body:has(#hero.active) .global-header {
         background: transparent;
         border: none;
         cursor: pointer;
-        z-index: 1000;
+        z-index: 2000 !important; /* Siempre visible por encima de la cortina */
         padding: 0;
     }
 
     .hamburger-menu span {
         width: 100%;
         height: 3px;
-        background-color: var(--btn-works); /* Color cian neón */
+        background-color: var(--btn-works);
         border-radius: 3px;
         transition: all 0.3s ease;
     }
-}
 
+    /* 📜 CONTENEDOR DE LA CORTINA OVERLAY */
+    .nav-sub-menu {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important; 
+        align-items: flex-end !important;   /* Alinea los bloques al lado derecho */
+        
+        position: fixed !important;        
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;           
+        height: 100vh !important;          
+        background-color: rgba(11, 13, 20, 0.98) !important; 
+        
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        padding-left: 0 !important;
+        
+        /* 📏 MARGEN AMPLIADO: Mueve los textos notablemente hacia la izquierda */
+        padding-right: 100px !important;    
+        gap: 30px !important;              
+        
+        transform: translateY(-100%) !important;
+        transition: transform 0.4s cubic-bezier(0.1, 0.76, 0.55, 0.94) !important;
+        z-index: 1999 !important; 
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
 
-/* Estilos de bordes y colores específicos según tu paleta */
-.nav-sub-btn.bio-sub   { border: 2px solid var(--btn-bio); color: var(--btn-bio); font-family: var(--font-title); }
-.nav-sub-btn.blog-sub  { border: 2px solid var(--btn-blog); color: var(--btn-blog); font-family: var(--font-title) }
-.nav-sub-btn.works-sub { border: 2px solid var(--btn-works); color: var(--btn-works); font-family: var(--font-title) }
-.nav-sub-btn.contact-sub { border: 2px solid var(--btn-contact); color: var(--btn-contact); font-family: var(--font-title) }
+    .menu-links-holder {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 25px !important;
+        margin-right: 20px !important; 
+        width: auto !important;
+    }
+    
 
-.nav-sub-btn:hover {
-    transform: scale(1.05);
+    /* 🔥 ESTADO ABIERTO */
+    .nav-sub-menu.open {
+        transform: translateY(0) !important;
+    }
+
+    /* 🔤 TEXTOS ESTILO "WORD" SIN CONTENEDORES */
+    .menu-overlay-link {
+        background: none !important;
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        width: auto !important;
+        padding: 0 !important;
+        
+        font-family: var(--font-title) !important; 
+        font-weight: 900 !important;
+        font-size: 2.8rem !important;            
+        text-align: right !important;            
+        text-transform: uppercase;
+        text-decoration: none !important;
+        letter-spacing: 2px;
+        cursor: pointer;
+        display: block !important;
+        transition: transform 0.2s ease !important;
+    }
+
+    .menu-overlay-link:active {
+        transform: scale(0.95) !important;
+    }
+
+    .home-txt    { color: #ffffff !important; }
+    .bio-txt     { color: #f1b83a !important; } /* Amarillo Bio */
+    .blog-txt    { color: #de1b52 !important; } /* Rosa/Magenta Blog */
+    .port-txt    { color: #00b4eb !important; } /* Cian Works/Portfolio */
+    .contact-txt { color: #b82cdb !important; } /* Morado Contact */
 }
 
 /* Responsivo para pantallas pequeñas */
 @media (max-width: 600px) {
     .global-header {
         padding: 0 15px;
-    }
-    .mini-logo {
-        display: none; /* Quitamos el logo al centro en móviles para que no colisione */
     }
 }
 
@@ -505,8 +534,8 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
         margin-top: -20px;
     }
 }
-
 @media (max-width: 768px) {
+    /* Mantiene la configuración de tu contenedor base móvil intacta */
     .stickers-layer {
         position: relative;
         left: 0;
@@ -517,7 +546,40 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
         margin-bottom: 30px !important;
         padding-bottom: 0px !important;
     }
+
+    /* 🎯 1. ESTADO BASE EN MÓVIL (Reseteo y animación ultra rápida de salida) */
+    .sticker,
+    .sticker-btn,
+    .more-games-btn {
+        transform: translate(-50%, -50%) rotate(0deg) scale(1) !important;
+        /* ⚡ Bajamos el tiempo a 0.1s para que regresen a su posición al instante sin flotar lento */
+        transition: none !important; 
+    }
+
+    /* 🎯 2. EFECTO HOVER EN MÓVIL (Giro inmediato al tocar) */
+    .sticker:hover,
+    .sticker-btn:hover,
+    .more-games-btn:hover {
+        transform: translate(-50%, -50%) rotate(-3deg) scale(1) !important;
+        transition: none !important;
+    }
+
+    /* Alternamos el giro en elementos pares */
+    .sticker:nth-child(even):hover,
+    .sticker-btn:nth-child(even):hover {
+        transform: translate(-50%, -50%) rotate(3deg) scale(1) !important;
+        transition: none !important;
+    }
+
+    /* 🖐️ 3. RESPUESTA TÁCTIL ACTIVA (Feedback de compresión instantáneo) */
+    .sticker:active,
+    .sticker-btn:active,
+    .more-games-btn:active {
+        transform: translate(-50%, -50%) rotate(0deg) scale(0.96) !important;
+        transition: none !important; /* Ultra rápido al presionar */
+    }
 }
+
 
 
 

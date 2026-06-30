@@ -30,12 +30,15 @@
             <span></span>
             <span></span>
         </button>
-        <nav class="nav-sub-menu" id="mobileNavMenu">
-            <button class="nav-sub-btn bio-sub" onclick="showPage('bio')">BIO</button>
-            <button class="nav-sub-btn blog-sub" onclick="showPage('blog')">BLOG</button>
-            <button class="nav-sub-btn works-sub" onclick="showPage('portfolio')">PORTFOLIO</button>
-            <button class="nav-sub-btn bio-sub" onclick="showPage('contact')">CONTACT</button>
-        </nav>
+            <nav class="nav-sub-menu" id="mobileNavMenu">
+                <div class ="menu-links-holder">
+                    <a class="menu-overlay-link home-txt" onclick="toggleMobileMenu(); showPage('hero');">HOME</a>
+                    <a class="menu-overlay-link bio-txt" onclick="toggleMobileMenu(); showPage('bio');">BIO</a>
+                    <a class="menu-overlay-link blog-txt" onclick="toggleMobileMenu(); showPage('blog');">BLOG</a>
+                    <a class="menu-overlay-link port-txt" onclick="toggleMobileMenu(); showPage('portfolio');">PORTFOLIO</a>
+                    <a class="menu-overlay-link contact-txt" onclick="toggleMobileMenu(); showPage('contact');">CONTACT</a>
+                </div>
+            </nav>
     </div>
 </header>
 

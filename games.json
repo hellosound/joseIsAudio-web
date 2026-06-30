@@ -108,11 +108,10 @@
     "stickerHeight":"175px",
     "stickerTop":"307px",
     "stickerLeft":"1032px",
-    "stickerRotate": "16",
+    "stickerRotate": "6",
 
     "stickerLeftMobile": "75%", 
     "stickerTopMobile": "43%"
-
   },
   {
     "id": "INNER",

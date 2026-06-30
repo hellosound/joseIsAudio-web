@@ -27,6 +27,15 @@ function showPage(sectionId) {
         target.classList.add('active');
         target.scrollTop = 0;
     }
+
+    if (window.innerWidth <= 768) {
+        const menu = document.getElementById('mobileNavMenu');
+        if (menu && menu.classList.contains('open')) {
+            menu.classList.remove('open');
+            document.body.classList.remove('no-scroll');
+            document.body.style.overflow = '';
+        }
+    }
 }
 
 // FUNCIÓN DINÁMICA PARA EL BOTÓN BACK
@@ -97,7 +106,7 @@ function renderStickers() {
             height = '80px';  
             leftPos = game.stickerLeftMobile || `${15 + (index * 20)}%`; 
             topPos = game.stickerTopMobile || `${65 + (index *4)}%`;     
-            transformBase = `translate(-50%, -50%) rotate(${rotation}deg)`;
+            transformBase = `translate(-50%, -50%) rotate(0deg)`;
         }
         
         const style = `
@@ -228,9 +237,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function toggleMobileMenu() {
     // Solo actúa si estamos en pantallas móviles
-    if (window.innerWidth <= 768) {
+if (window.innerWidth <= 768) {
         const menu = document.getElementById('mobileNavMenu');
+        const body = document.body;
+        
+        // Alternamos la clase open
         menu.classList.toggle('open');
+        
+        // Evaluamos el estado real actual del menú para controlar el scroll
+        if (menu.classList.contains('open')) {
+            body.classList.add('no-scroll');
+            body.style.overflow = 'hidden'; /* Parche extra directo al estilo */
+        } else {
+            body.classList.remove('no-scroll');
+            body.style.overflow = ''; /* Devuelve el scroll nativo */
+        }
     }
 }
 
