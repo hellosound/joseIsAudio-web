@@ -1,12 +1,11 @@
 :root {
-    --bg-color: #10131D; /* Fondo oscuro azulado profundo */
-    --btn-bio: #f1b83a;  /* Amarillo de BIO */
-    --btn-works: #00b4eb; /* Cian de WORKS */
-    --btn-blog: #de1b52;  /* Rosa/Magenta de BLOG */
+    --bg-color: #10131D; 
+    --btn-bio: #f1b83a;  
+    --btn-works: #00b4eb;
+    --btn-blog: #de1b52; 
     --btn-contact:#b82cdb;
     --clr-yellow:#f1b83a;
-    --accent-color: #00b4eb; /* ¡Añadido para resolver fallos de render en overlay! */
-    
+    --accent-color: #00b4eb; 
     --font-title: 'Archivo', sans-serif;
     --font-subtitle: 'JetBrains Mono', monospace;
     --font-body: 'Archivo', sans-serif;
@@ -28,10 +27,6 @@ body.no-scroll {
     height: 100vh !important;
 }
 
-/* ==========================================
-   GLOBAL HEADER (ESTILO FIGMA)
-   ========================================== */
-
 .global-header {
     display: flex;
     justify-content: space-between;
@@ -41,13 +36,12 @@ body.no-scroll {
     padding: 0 40px;
     box-sizing: border-box;
     background-color: #0b0d14;
-    border-bottom: 2px solid #00b4eb; /* Línea azul neón inferior de tu captura */
+    border-bottom: 2px solid #00b4eb;
     position: sticky;
     top: 0;
     z-index: 200;
 }
 
-/* Contenedores de secciones */
 .header-left, .header-right {
     display: flex;
     align-items: center;
@@ -78,16 +72,15 @@ body.no-scroll {
   transform: scale(1.05);
 }
 
-/* Logo central mini */
 .mini-logo {
-    height: 32px;
-    width: 150px;
-    height: 150px;
+    height: 30px;
+    width: 148px;
+    height: 148px;
     cursor: pointer;
+    align-items: center;
     object-fit: contain;
 }
 
-/* Botones del menú derecho tipo cápsula compacta */
 .header-right {
     gap: 12px;
 }
@@ -105,29 +98,102 @@ body.no-scroll {
     body:has(#hero.active) .global-header .back-btn{
         display: none;
     }
+
+    .global-header .back-btn{
+        padding: 4px 10px;
+    }
 }
 
-/* 💻 DESKTOP: Ocultar el header completo si estás en la landing de inicio */
 @media (min-width: 769px) {
     body:has(#hero.active) .global-header {
         display: none;
     }
-}
 
+    .global-header {
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 0 40px !important;
+    }
+
+    .global-header .header-left {
+        display: flex !important;
+        align-items: center !important;
+        width: 200px !important; 
+    }
+
+    .global-header .header-left .back-btn {
+        display: none !important; 
+    }
+
+    .global-header .header-center {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        flex-grow: 1 !important; 
+    }
+
+    .global-header .header-right {
+        width: 200px !important; 
+        display: flex !important;
+        justify-content: flex-end !important;
+    }
+
+    .global-header .hamburger-menu {
+        display: none !important;
+    }
+
+    .global-header .nav-sub-menu {
+        display: flex !important;
+        position: static !important;
+        background: transparent !important;
+        transform: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        height: auto !important;
+        width: auto !important; 
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(16, 19, 29, 0.6) !important;
+        backdrop-filter: blur(8px);
+        padding: 6px 24px !important; 
+        border-radius: 30px !important; 
+    }
+
+    .global-header .menu-links-holder {
+        display: flex !important;
+        flex-direction: row !important; 
+        gap: 24px !important;
+        width: auto !important;
+    }
+
+    .global-header .menu-overlay-link {
+        font-family: var(--font-title) !important;
+        font-size: 0.85rem !important;
+        font-weight: bold !important;
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+        padding: 4px 8px !important;
+        display: inline-block !important;
+        background: none !important;
+        border: none !important;
+        transition: color 0.2s ease, transform 0.2s ease !important;
+    }
+
+    .global-header .menu-overlay-link:hover {
+        color: var(--accent-color) !important;
+        transform: translateY(-1px) !important;
+    }
+}
 
 .nav-sub-menu {
     display: flex;
-    gap: 15px; /* Distancia horizontal normal en PC */
+    gap: 15px;
 }
 
-/* Ocultar el botón hamburguesa por defecto en computadoras */
 .hamburger-menu {
     display: none;
 }
 
 @media (max-width: 768px) {
-
-    /* 🍔 ACTIVAR BOTÓN DE 3 LÍNEAS EN MÓVIL */
     .hamburger-menu {
         display: flex !important;
         flex-direction: column;
@@ -137,7 +203,7 @@ body.no-scroll {
         background: transparent;
         border: none;
         cursor: pointer;
-        z-index: 2000 !important; /* Siempre visible por encima de la cortina */
+        z-index: 2000 !important; 
         padding: 0;
     }
 
@@ -149,12 +215,11 @@ body.no-scroll {
         transition: all 0.3s ease;
     }
 
-    /* 📜 CONTENEDOR DE LA CORTINA OVERLAY */
     .nav-sub-menu {
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important; 
-        align-items: flex-end !important;   /* Alinea los bloques al lado derecho */
+        align-items: flex-end !important;
         
         position: fixed !important;        
         top: 0 !important;
@@ -167,7 +232,6 @@ body.no-scroll {
         padding-bottom: 0 !important;
         padding-left: 0 !important;
         
-        /* 📏 MARGEN AMPLIADO: Mueve los textos notablemente hacia la izquierda */
         padding-right: 100px !important;    
         gap: 30px !important;              
         
@@ -182,18 +246,17 @@ body.no-scroll {
         display: flex !important;
         flex-direction: column !important;
         gap: 25px !important;
+        align-items: flex-end;
         margin-right: 20px !important; 
-        width: auto !important;
+        width: 100% !important;
     }
     
-
-    /* 🔥 ESTADO ABIERTO */
     .nav-sub-menu.open {
         transform: translateY(0) !important;
     }
 
-    /* 🔤 TEXTOS ESTILO "WORD" SIN CONTENEDORES */
     .menu-overlay-link {
+        display: inline-block !important;
         background: none !important;
         border: none !important;
         outline: none !important;
@@ -219,13 +282,12 @@ body.no-scroll {
     }
 
     .home-txt    { color: #ffffff !important; }
-    .bio-txt     { color: #f1b83a !important; } /* Amarillo Bio */
-    .blog-txt    { color: #de1b52 !important; } /* Rosa/Magenta Blog */
-    .port-txt    { color: #00b4eb !important; } /* Cian Works/Portfolio */
-    .contact-txt { color: #b82cdb !important; } /* Morado Contact */
+    .bio-txt     { color: #f1b83a !important; }
+    .blog-txt    { color: #de1b52 !important; } 
+    .port-txt    { color: #00b4eb !important; }
+    .contact-txt { color: #b82cdb !important; } 
 }
 
-/* Responsivo para pantallas pequeñas */
 @media (max-width: 600px) {
     .global-header {
         padding: 0 15px;
@@ -233,7 +295,6 @@ body.no-scroll {
 }
 
 @media (min-width: 769px) {
-    /* Forzamos a que el contenedor en PC no use comportamiento de cortina */
     .nav-sub-menu {
         display: flex !important;
         position: static !important;
@@ -248,7 +309,6 @@ body.no-scroll {
         width: auto !important;
     }
 
-    /* Restauramos el look de botones/links horizontales de Figma en PC */
     .nav-sub-menu .menu-overlay-link {
         font-family: var(--font-title);
         font-size: 0.8rem;
@@ -261,17 +321,16 @@ body.no-scroll {
         transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-    .home-txt    { color: #ffffff; border: 2px solid #ffffff; }
-    .bio-txt     { color: var(--btn-bio);border: 2px solid var(--btn-bio);} /* Amarillo Bio */
-    .blog-txt    { color: var(--btn-blog);border: 2px solid var(--btn-blog); } /* Rosa/Magenta Blog */
-    .port-txt    { color: var(--btn-works);border: 2px solid var(--btn-works) } /* Cian Works/Portfolio */
-    .contact-txt { color: var(--btn-contact); border: 2px solid var(--btn-contact); }
+    .home-txt    { color: #ffffff; border: 2px solid #ffffff; text-decoration: none;}
+    .bio-txt     { color: var(--btn-bio);border: 2px solid var(--btn-bio); text-decoration: none;} 
+    .blog-txt    { color: var(--btn-blog);border: 2px solid var(--btn-blog); text-decoration: none;} 
+    .port-txt    { color: var(--btn-works);border: 2px solid var(--btn-works);text-decoration: none;}
+    .contact-txt { color: var(--btn-contact); border: 2px solid var(--btn-contact);text-decoration: none; }
     }
 
-    /* Efecto hover limpio para PC (Subrayado o cambio sutil) */
     .nav-sub-menu .menu-overlay-link:hover {
         opacity: 0.8;
-        transform: none !important; /* Evitamos que intenten rotar en PC */
+        transform: none !important; 
     }
 
 
@@ -286,42 +345,38 @@ body.no-scroll {
     position: relative;
 }
 
-/* ==========================================
-   ESTILO PREDEFINIDO PARA LOS TÍTULOS H2
-   ========================================== */
 .content-page h2 {
-    font-family: var(--font-title);   /* Tu fuente pesada 'Archivo' */
-    font-size: 4.5rem;                /* Tamaño idéntico al de tu Bio */
+    font-family: var(--font-title);   
+    font-size: 4.5rem;               
     font-weight: 900;
     color: white;
     letter-spacing: -1px;
     
     text-align: left;                 
     width: 100%;
-    max-width: 1100px;                /* Se alinea al ancho máximo de tu grilla */
-    margin: 40px auto 20px auto;      /* Centra el bloque del título, pero el texto vive a la izquierda */
-    padding: 0 20px;                  /* Mismo colchón lateral que tienen tus tarjetas */
-    box-sizing: border-box;
+    max-width: 1100px;           
 }
 
-/* ==========================================
-   VARIACIONES DE COLORES POR SECCIÓN (OPCIONAL)
-   ========================================== */
-#portfolio h2 { color: var(--btn-works); } /* Cian neón para Works */
-#blog h2      { color: var(--btn-blog); }  /* Magenta para Blog */
-#talks h2     { color: var(--btn-bio); }   /* Amarillo para Talks */
+
+#portfolio h2 { color: var(--btn-works); } 
+#blog h2      { color: var(--btn-blog); }  
+#talks h2     { color: var(--btn-bio); } 
+#contact h2 {color: var(--btn-contact);}
+#bio h2 {color: var(--btn-bio);}
+
+@media (max-width: 768px){
+#contact h2 {font-size: 3.5rem;}
+#portfolio h2{ font-size: 3.5rem;}
+}
 
 .content-page.active {
     display: flex !important;
 }
 
-/* Evita el parpadeo de scrollbar */
 #hero.active {
-    overflow: hidden; /* Mantiene fijos los stickers en Desktop */
+    overflow: hidden; 
 }
 
-
-/* NAVEGACIÓN CENTRAL (Hero) */
 .brand-container {
     display: flex;
     flex-direction: column;
@@ -334,7 +389,7 @@ body.no-scroll {
 }
 
 .hero-logo {
-width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo bajamos */
+width: clamp(200px, 25vw, 340px); 
     height: auto;
     object-fit: contain;
     margin-bottom: 5px;
@@ -350,11 +405,10 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
 
 .nav-menu {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 🚀 Crea las 2 columnas en PC */
-    gap: 20px 15px;                        /* 20px de separación vertical, 15px horizontal */
-    width: 100%;
-    max-width: 440px;                      /* 💡 Limita el ancho total para que mantenga una proporción perfecta */
-    margin: 20px auto 0 auto;              /* Centra horizontalmente la botonera entera */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 15px;
+    max-width: 440px;
+    margin: 20px auto 0 auto;
 }
 
 .nav-btn {
@@ -380,7 +434,6 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
     border: none;
     cursor: pointer;
     transform: rotate(-2deg);      
-    /* 🌟 Transición añadida directamente aquí */
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.25), box-shadow 0.3s ease;
 }
 
@@ -395,7 +448,6 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
     border: none;
     cursor: pointer;
     transform: rotate(-1.5deg);    
-    /* 🌟 Transición añadida directamente aquí */
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.25), box-shadow 0.3s ease;
 }
 
@@ -410,7 +462,6 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
     border: none;
     cursor: pointer;
     transform: rotate(2deg);       
-    /* 🌟 Transición añadida directamente aquí */
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.25), box-shadow 0.3s ease;
 }
 
@@ -426,12 +477,11 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
     border: none;
     cursor: pointer;
     transform: rotate(2deg);       
-    /* 🌟 Transición añadida directamente aquí */
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.25), box-shadow 0.3s ease;
 }
 
 .bio-btn:hover {
-    transform: scale(1.06) rotate(-2deg); /* Mantiene la rotación base para que no pegue un salto */
+    transform: scale(1.06) rotate(-2deg);
     box-shadow: 0 8px 20px rgba(241, 184, 94, 0.3);
 }
 
@@ -457,23 +507,23 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
     .port-btn,
     .works.btn,
     .contact-btn {
-        width: 100% !important; /* Ocupan todo el ancho de su celda asignada */
+        width: 100% !important; 
         font-size: 0.9rem !important;
-        padding: 12px 0 !important; /* Ajuste vertical cómodo */
+        padding: 12px 0 !important; 
         text-align: center;
     }
 }
 
 .more-games-btn {
     display: none !important;
-    background-color: #0b0d14 !important; /* Fondo oscuro base */
-    color: #fff2e2 !important;   /* Texto cian neón */
+    background-color: #0b0d14 !important; 
+    color: #fff2e2 !important; 
     font-family: var(--font-title);
     font-weight: 900;
     font-size: 0.9rem;
     letter-spacing: 1px;
     padding: 12px 24px;
-    border: 3px solid var(--btn-contact) !important; /* Borde cian */
+    border: 3px solid var(--btn-contact) !important; 
     border-radius: 12px;
     white-space: nowrap;  
     transform: rotate(8deg); 
@@ -492,42 +542,35 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
     }
 }
 
-/* Hover específico: cambia de color usando la transición heredada */
 .more-games-btn:hover {
     background-color: var(--btn-works) !important;
     color: #0b0d14 !important;
-    /* Mantiene el translate del sistema de stickers y solo ajustamos escala/rotación */
     transform: scale(1.1) rotate(-4deg) !important;
 }
 
-/* STICKERS */
 .sticker {
     position: absolute;
-    border: none !important; /* Quitamos el borde CSS antiguo */
-    background: transparent !important; /* Fondo transparente */
+    border: none !important;
+    background: transparent !important; 
     overflow: visible !important;
     cursor: pointer;
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), z-index 0s ease;
     z-index: 5;
     filter: drop-shadow(5px 8px 12px rgba(0, 0, 0, 0.45));    z-index: 5;
-    /* Mantenemos una sombra muy sutil proyectada por la silueta */
-    filter: drop-shadow(5px 8px 12px rgba(0, 0, 0, 0.45)); 
 }
 .sticker-thumb {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Cambiado a 'contain' para que el personaje recortado no se mutile */
-    filter: brightness(1); /* Quitamos el filtro oscuro para que los colores cartoon resalten */
+    object-fit: contain; 
+    filter: brightness(1); 
     display: block;
 }
 
-/* LA ETIQUETA DE TEXTO EXTERNA EN DIAGONAL */
-.sticker-label {
+    .sticker-label {
     position: absolute;
-    bottom: -20px; /* Lo empuja hacia abajo, fuera del recuadro */
+    bottom: -20px; 
     left: 50%;
-    transform: translateX(-50%) rotate(-5deg); /* Centrado horizontal y rotación leve */
-    background: #0b0f19; /* Fondo oscuro sólido */
+    transform: translateX(-50%) rotate(-5deg);
     color: #ffffff;
     font-size: 0.75rem;
     font-weight: 700;
@@ -535,17 +578,15 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
     text-align: center;
     padding: 4px 10px;
     border-radius: 6px;
-    white-space: nowrap; /* Evita que el texto se rompa en dos líneas */
-    box-shadow: 3px 3px 8px rgba(0,0,0,0.3);
+    white-space: nowrap; 
 }
 
-/* CAPA DE STICKERS TRASERA */
 .stickers-layer {
     position: absolute;
     top: 0;
     left: 50%;
-    transform: translateX(-50%) scale(0.85); /* Centra el lienzo de los stickers en pantallas gigantes */
-    width: 1440px; /* Ancho idéntico al canvas base de tu Figma */
+    transform: translateX(-50%) scale(0.85);
+    width: 1440px;
     height: 100vh;
     z-index: 1;
     pointer-events: none;
@@ -561,7 +602,7 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
     .stickers-layer {
         transform: translateX(-50%) scale(0.85);
         transform-origin: center top;
-        margin-top: -30px; /* Ajuste leve del truco en escala */
+        margin-top: -30px;
     }
 }
 
@@ -585,29 +626,20 @@ width: clamp(200px, 25vw, 340px); /* Antes estaba en 500px máximo, aquí lo baj
         padding-bottom: 0px !important;
     }
 
-    /* 🎯 ESTADO BASE EN MÓVIL: Matamos la animación de entrada heredada de PC */
     .sticker,
     .sticker-btn,
     .more-games-btn {
-        /* 🚨 CLAVE ABSOLUTA: Apaga el keyframe floatIn de escritorio para que no se trasladen */
         animation: none !important; 
-        
-        /* Mantenemos el centrado exacto sobre los porcentajes del JS sin delays lentos */
         transform: translate(-50%, -50%) rotate(0deg) scale(1) !important;
         transition: transform 0.1s ease-out !important; 
     }
 
-    /* 🎯 EFECTO AL TOCAR CON EL DEDO (Giro controlado en su propio eje) */
     .sticker:hover,
     .sticker-btn:hover,
     .more-games-btn:hover {
         transform: translate(-50%, -50%) rotate(-3deg) scale(1) !important;
     }
 }
-
-
-
-/* OVERLAY */
 
 .overlay {
     position: fixed;
@@ -663,19 +695,14 @@ background: var(--bg-color);
     padding: 5px 15px;
 }
 
-
-/* ==========================================
-   OVERLAY DE DETALLES (MODAL UNIFICADO)
-   ========================================== */
-
 #game-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(11, 13, 21, 0.85); /* Fondo base a juego con tu paleta */
-    backdrop-filter: blur(8px); /* Desenfoque elegante del fondo de la página */
+    background-color: rgba(11, 13, 21, 0.85); 
+    backdrop-filter: blur(8px); 
     -webkit-backdrop-filter: blur(8px);
     display: flex;
     justify-content: center;
@@ -688,27 +715,24 @@ background: var(--bg-color);
     box-sizing: border-box;
 }
 
-/* Cuando el modal se activa en JS */
 #game-overlay.active {
     opacity: 1;
     pointer-events: auto;
 }
 
-/* La tarjeta que hace el efecto "dash" hacia abajo */
 .modal-content {
-    background-color: #0b0d14; /* Fondo oscuro sólido premium */
-    border: 2px solid var(--btn-works); /* Borde cian por defecto */
+    background-color: #0b0d14; 
+    border: 2px solid var(--btn-works); 
     border-radius: 16px;
     width: 100%;
-    max-width: 700px; /* Tamaño ideal y compacto */
+    max-width: 700px; 
     max-height: 90vh;
     overflow-y: auto;
     padding: 35px;
     box-sizing: border-box;
     position: relative;
-    box-shadow: 0 20px 50px rgba(0, 180, 235, 0.15); /* Brillo neón sutil */
+    box-shadow: 0 20px 50px rgba(0, 180, 235, 0.15); 
     
-    /* Animación de entrada: Dash/Desplazamiento sutil hacia abajo */
     transform: translateY(-30px);
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -717,9 +741,6 @@ background: var(--bg-color);
     transform: translateY(0);
 }
 
-/* --- CONTENIDO INTERNO --- */
-
-/* Título Principal */
 #game-title {
     font-family: var(--font-title);
     font-size: 2rem;
@@ -729,17 +750,15 @@ background: var(--bg-color);
     letter-spacing: -0.5px;
 }
 
-/* Estudio / Desarrolladora */
 #game-studio {
     font-family: var(--font-subtitle);
     font-size: 0.85rem;
-    color: var(--btn-bio); /* Detalle en amarillo técnico */
+    color: var(--btn-bio);
     text-transform: uppercase;
     letter-spacing: 1.5px;
     margin: 0 0 20px 0;
 }
 
-/* Contenedor del Video o Imagen */
 .video-container {
     width: 100%;
     border-radius: 10px;
@@ -750,29 +769,26 @@ background: var(--bg-color);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
-/* Texto de la descripción de tu Rol */
 #game-role {
     font-family: var(--font-subtitle);
     font-size: 0.9rem;
-    color: var(--btn-works); /* Resaltado técnico */
+    color: var(--btn-works);
     margin: 0 0 12px 0;
     font-weight: bold;
 }
 
-/* Cuerpo de texto descriptivo */
 #game-description {
     font-family: var(--font-body);
     font-size: 0.95rem;
     line-height: 1.6;
-    color: #cbd5e1; /* Gris claro de alta legibilidad de la bio */
+    color: #cbd5e1; 
     margin: 0 0 25px 0;
 }
 
-/* Datos técnicos (Tech y Platforms) estilo consola */
 .modal-content p strong {
     font-family: var(--font-subtitle);
     font-size: 0.8rem;
-    color: #626f8a; /* Gris azulado técnico */
+    color: #626f8a;
     text-transform: uppercase;
     letter-spacing: 1px;
     display: inline-block;
@@ -791,15 +807,13 @@ background: var(--bg-color);
     align-items: center;
 }
 
-/* Botón de cierre ("Close") estilo consola */
 .modal-content .back-btn {
     font-family: var(--font-subtitle);
     font-size: 0.75rem;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    border: 1px solid #de1b52; /* Color de acento de salida (Blog magenta) */
-    padding: 8px 20px;
+    border: 1px solid #de1b52;
     width: fit-content;
     color: #de1b52;
     border-radius: 6px;
@@ -816,7 +830,6 @@ background: var(--bg-color);
     box-shadow: 0 0 15px rgba(222, 27, 82, 0.4);
 }
 
-/* Personalización del scroll interno del modal */
 .modal-content::-webkit-scrollbar {
     width: 6px;
 }
@@ -828,24 +841,19 @@ background: var(--bg-color);
     border-radius: 3px;
 }
 
-/* ==========================================
-   BIO SECTION (ESTILO DOSSIER COMPACTO FIGMA)
-   ========================================== */
 .bio-container {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 20px;
     width: 100%;
-    max-width: 900px; /* Tamaño ideal para albergar las 3 columnas de tech cards */
-    margin: 40px auto;
+    max-width: 900px; 
+    margin: 0px auto 30px auto;
     padding: 20px;
     box-sizing: border-box;
 }
 
-/* --- BLOQUE SUPERIOR (BIO & IMAGEN) --- */
-.bio-main-row {
+ .bio-main-row {
     display: grid;
-    /* Reservamos los 280px exactos para la foto a la derecha */
     grid-template-columns: 1fr 280px; 
     gap: 40px;
     align-items: start;
@@ -901,9 +909,6 @@ background: var(--bg-color);
 .bio-footer-details p {
     margin: 4px 0;
 }
-/* ==========================================
-   IMAGEN DE PERFIL (DIMENSIONES EXACTAS FIGMA)
-   ========================================== */
 
 .bio-image-column {
     width: 280px; 
@@ -941,7 +946,6 @@ background: var(--bg-color);
     transform: rotate(-1deg); 
 }
 
-/* --- DIVISORES CON TEXTO DE SECCIÓN --- */
 .bio-section-divider {
     display: flex;
     flex-direction: column;
@@ -960,7 +964,6 @@ background: var(--bg-color);
     text-transform: uppercase;
 }
 
-/* --- TARJETAS DE TECH STACK (FILA HORIZONTAL INQUEBRANTABLE) --- */
 .tech-stack-grid {
     display: flex !important;
     flex-direction: row !important; 
@@ -976,7 +979,7 @@ background: var(--bg-color);
     background-color: #0b0d14;
     border-radius: 14px;
     padding: 25px 20px;
-    min-height: 220px;
+    min-height: auto;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -1022,7 +1025,6 @@ background: var(--bg-color);
     color: #4c5773;
 }
 
-/* --- SECCIÓN DE CONFERENCIAS (SPEAKING) --- */
 .speaking-list {
     display: flex;
     flex-direction: column;
@@ -1047,10 +1049,10 @@ background: var(--bg-color);
 
 .speaking-meta {
     display: flex;
-    flex-direction: column; /* Cambia de fila a columna (uno encima del otro) */
-    align-items: flex-start; /* Alinea ambos textos perfectamente a la izquierda */
-    gap: 4px; /* Espaciado sutil de 4px entre el año y el lugar */
-    margin-bottom: 12px; /* Espacio antes de que empiece el título h4 */
+    flex-direction: column; 
+    align-items: flex-start;
+    gap: 4px;
+    margin-bottom: 12px; 
 }
 
 .speaking-year {
@@ -1059,9 +1061,9 @@ background: var(--bg-color);
 }
 
 .speaking-location {
-    font-family: var(--font-subtitle); /* JetBrains Mono */
+    font-family: var(--font-subtitle);
     font-size: 0.75rem;
-    color: #626f8a; /* Gris azulado técnico */
+    color: #626f8a; 
     letter-spacing: 1px;
     text-transform: uppercase;
 }
@@ -1081,33 +1083,35 @@ background: var(--bg-color);
     color: #8fa0c4;
     margin: 0;
 }
-/* --- RESPONSIVO PARA PANTALLAS PEQUEÑAS --- */
-@media (max-width: 820px) {
+@media (max-width: 768px) {
     .bio-main-row {
         grid-template-columns: 1fr;
     }
     .bio-image-column {
         margin: 0 auto;
     }
+
+    .tech-stack-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+    .tech-card{
+        width: 100% !important;
+        height: max-content !important;
+    }
+
 }
     .profile-frame {
         width: 100%;
         height: auto;
-        aspect-ratio: 384 / 504; /* Mantiene la proporción figma en responsive */
-}
+        aspect-ratio: 384 / 504; 
+    }
 
     .bio-image-column {
         max-width: 220px;
         margin: 0 auto;
-}
-    .tech-stack-grid {
-        grid-template-columns: 1fr; /* Tarjetas se apilan en móvil */
-        gap: 16px;
-}
-
-/* ==========================================
-   BLOG SECTION (REPARADA)
-   ========================================== */
+    }
 
 .blog-container {
     max-width: 1100px;
@@ -1115,34 +1119,31 @@ background: var(--bg-color);
     display: flex;
     flex-direction: column;
     gap: 20px;
-    margin: 40px auto;
+    margin: 0px auto 30px auto;
     padding: 0 20px;
     box-sizing: border-box;
-}
-/* Tarjetas con la estética oscura translúcida y borde magenta de tu paleta */
+    }
 .blog-card {
     background: rgba(17, 20, 30, 0.4);
-    border: 1px solid rgba(222, 27, 82, 0.15); /* --btn-blog con opacidad baja */
+    border: 1px solid rgba(222, 27, 82, 0.15); 
     border-radius: 12px;
     transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
     text-align: left;
-}
+    }
 
-/* Hover interactivo: se ilumina el borde magenta y se desplaza sutilmente */
 .blog-card:hover {
     background: rgba(222, 27, 82, 0.03);
-    border-color: var(--btn-blog); /* Encendido neón magenta */
+    border-color: var(--btn-blog);
     transform: translateX(6px); 
-}
+    }
 
 .blog-link {
     text-decoration: none;
     color: white;
     padding: 24px;
     display: block;
-}
+    }
 
-/* Fecha formateada con tu tipografía técnica mono y el color de la sección */
 .blog-date {
     font-family: var(--font-subtitle);
     font-size: 0.75rem;
@@ -1153,7 +1154,6 @@ background: var(--bg-color);
     margin-bottom: 8px;
 }
 
-/* Títulos con tipografía principal pesada */
 .blog-card h3 {
     margin: 0 0 10px 0;
     font-family: var(--font-title);
@@ -1163,16 +1163,14 @@ background: var(--bg-color);
     color: white;
 }
 
-/* Párrafo de lectura limpio y suave */
 .blog-card p {
     font-family: var(--font-body);
     font-size: 0.9rem;
     line-height: 1.5;
-    color: #cbd5e1; /* Gris claro de alta legibilidad usado en la bio */
+    color: #cbd5e1; 
     margin: 0;
 }
 
-/* Paginación a juego con las etiquetas técnicas punteadas */
 .pagination {
     margin-top: 30px;
     font-family: var(--font-subtitle);
@@ -1184,23 +1182,23 @@ background: var(--bg-color);
 }
 #blog.content-page {
     display: none; 
-    width: 100%; /* Cambiado de 100vw para que no rompa el contenedor global */
+    width: 100%; 
     box-sizing: border-box;
 }
 
 #blog.content-page.active {
-    display: flex; /* Se muestra cuando está activo */
+    display: flex; 
 }
 
 .video-wrapper {
     position: relative;
-    padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+    padding-bottom: 56.25%; 
     height: 0;
     overflow: hidden;
     max-width: 100%;
     background: #000;
     margin: 30px 0;
-    border: 1px solid var(--accent-color); /* Un borde neón para que combine */
+    border: 1px solid var(--accent-color); 
     border-radius: 8px;
 }
 
@@ -1211,10 +1209,6 @@ background: var(--bg-color);
     width: 100%;
     height: 100%;
 }
-
-/* ==========================================
-   PORTFOLIO (WORKS) GRID (ESTILO UNIFICADO)
-   ========================================== */
 
 .portfolio-works-grid {
     display: grid;
@@ -1228,7 +1222,6 @@ background: var(--bg-color);
 
 @media (max-width: 768px) {
     .portfolio-works-grid {
-        /* En pantallas pequeñas colapsa automáticamente a 1 sola columna */
         grid-template-columns: 1fr; 
         gap: 20px;
     }
@@ -1237,12 +1230,12 @@ background: var(--bg-color);
 .work-card {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9; /* Proporción panorámica idéntica */
-    background-color: rgba(17, 20, 30, 0.4); /* Fondo oscuro translúcido */
+    aspect-ratio: 16 / 9;
+    background-color: rgba(17, 20, 30, 0.4); 
     border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
-    border: 1px solid rgba(0, 180, 235, 0.15); /* Borde cian sutil usando var(--btn-works) */
+    border: 1px solid rgba(0, 180, 235, 0.15); 
     transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
@@ -1252,13 +1245,13 @@ background: var(--bg-color);
     height: 100%;
     object-fit: cover;
     display: block; 
-    filter: brightness(0.45); /* Atenuado para dar contraste al texto */
+    filter: brightness(0.45); 
     transition: transform 0.5s ease, filter 0.5s ease;
 }
 
 .work-card:hover {
     background: rgba(0, 180, 235, 0.03);
-    border-color: var(--btn-works); /* Encendido neón de WORKS */
+    border-color: var(--btn-works);
     transform: translateY(-4px); 
     box-shadow: 0 12px 32px rgba(0, 180, 235, 0.15);
 }
@@ -1267,14 +1260,14 @@ background: var(--bg-color);
     filter: brightness(0.6);
     transform: scale(1.02);
 }
-/* Texto sobre la imagen */
+
 .work-info-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     padding: 24px;
-    background: linear-gradient(transparent, rgba(11, 14, 20, 0.95)); /* Degradado profundo */
+    background: linear-gradient(transparent, rgba(11, 14, 20, 0.95));
     text-align: left; 
     box-sizing: border-box;
     display: flex;
@@ -1283,7 +1276,6 @@ background: var(--bg-color);
     z-index: 2;
 }
 
-/* Títulos de proyectos con tu tipografía pesada principal */
 .work-info-overlay h3 {
     font-family: var(--font-subtitle);
     font-size: 2rem;
@@ -1298,11 +1290,10 @@ background: var(--bg-color);
     }
 }
 
-/* El texto del Rol/Subtítulo adaptado a las fuentes de tu sistema */
 .work-info-overlay p {
     font-family: var(--font-body);
     font-size: 1.4rem;
-    color: #cbd5e1; /* Gris claro de alta legibilidad idéntico al del blog */
+    color: #cbd5e1; 
     margin: 0 0 15px 0;
 }
 @media (max-width:768px){
@@ -1311,7 +1302,6 @@ background: var(--bg-color);
     }
 }
 
-/* Contenedor flexible de las tarjetas */
 .talks-container {
     max-width: 1100px;
     width: 100%;
@@ -1323,27 +1313,22 @@ background: var(--bg-color);
     box-sizing: border-box;
 }
 
-/* La tarjeta interactiva (mismo comportamiento del blog) */
 .talk-card {
-    background-color: rgba(17, 20, 30, 0.4); /* Fondo oscuro translúcido */
-    border: 1px solid rgba(241, 184, 58, 0.15); /* Borde sutil amarillo (--btn-bio) */
+    background-color: rgba(17, 20, 30, 0.4); 
+    border: 1px solid rgba(241, 184, 58, 0.15); 
     border-radius: 12px;
-    text-decoration: none; /* Quitamos subrayado por ser un enlace <a> */
-    color: inherit;
+    text-decoration: none; 
     display: block;
     transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
 }
 
-/* Hover idéntico al del blog: se eleva 3px y enciende neón amarillo */
 .talk-card:hover {
     background: rgba(241, 184, 58, 0.02);
-    border-color: var(--btn-bio); /* Enciende el amarillo de la Bio */
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(241, 184, 58, 0.12); /* Brillo neón amarillo */
+    border-color: var(--btn-bio); 
+    box-shadow: 0 10px 30px rgba(241, 184, 58, 0.12); 
 }
 
-/* Contenido interno ordenado */
 .talk-content {
     display: flex;
     flex-direction: column;
@@ -1352,20 +1337,18 @@ background: var(--bg-color);
     box-sizing: border-box;
 }
 
-/* Etiqueta del evento (ej: GDC, Festival of Gaming) */
 .talk-tag {
-    font-family: var(--font-subtitle); /* Tu JetBrains Mono */
+    font-family: var(--font-subtitle); 
     font-size: 0.8rem;
     font-weight: bold;
-    color: var(--btn-bio); /* Resaltado técnico en amarillo */
+    color: var(--btn-bio);
     letter-spacing: 1.5px;
     text-transform: uppercase;
     margin-bottom: 12px;
 }
 
-/* Título de la Charla */
 .talk-card h3 {
-    font-family: var(--font-title); /* Archivo pesado */
+    font-family: var(--font-title);
     font-size: 1.5rem;
     font-weight: 900;
     color: white;
@@ -1373,27 +1356,22 @@ background: var(--bg-color);
     letter-spacing: -0.5px;
 }
 
-/* Descripción de la Charla */
 .talk-card p {
     font-family: var(--font-body);
     font-size: 0.95rem;
     line-height: 1.6;
-    color: #cbd5e1; /* Gris de alta legibilidad */
+    color: #cbd5e1;
     margin: 0;
 }
 
-/* Responsivo: 1 columna en móvil */
 @media (max-width: 768px) {
     .portfolio-works-grid {
         grid-template-columns: 1fr;
     }
 }
 
-* ==========================================
-   CONTACT SECTION (ESTILO CONSOLA DEV)
-   ========================================== */
 #contact h2 { 
-    color: var(--btn-bio); /* Título en el amarillo de la Bio */
+    color: var(--btn-bio);
 }
 
 .contact-container {
@@ -1414,7 +1392,7 @@ background: var(--bg-color);
 
 .contact-form {
     background: rgba(17, 20, 30, 0.4);
-    border: 2px solid var(--btn-bio); /* Borde amarillo técnico */
+    border: 2px solid var(--btn-bio); 
     border-radius: 14px;
     padding: 30px;
     display: flex;
@@ -1453,11 +1431,10 @@ background: var(--bg-color);
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: var(--btn-works); /* Enciende en cian al escribir */
+    border-color: var(--btn-works); 
     box-shadow: 0 0 10px rgba(0, 180, 235, 0.2);
 }
 
-/* Botón de enviar estilo código */
 .submit-btn {
     font-family: var(--font-subtitle);
     font-weight: bold;
@@ -1477,14 +1454,13 @@ background: var(--bg-color);
     box-shadow: 0 5px 15px rgba(241, 184, 58, 0.3);
 }
 
-/* Ajuste responsivo para móvil */
 @media (max-width: 768px) {
     .contact-form {
         padding: 20px;
     }
 }
 
-/* Footer Estilo Figma */
+
 .global-footer {
     display: flex;
     justify-content: space-between;
@@ -1492,33 +1468,30 @@ background: var(--bg-color);
     width: 100%;
     padding: 20px 40px;
     box-sizing: border-box;
-    background-color: transparent; /* Se fusiona con el fondo con texturas de la web */
-    margin-top: auto; /* Truco de flexbox para empujarlo siempre al fondo de la pantalla */
+    background-color: transparent; 
+    margin-top: auto;
     z-index: 100;
-    font-family: var(--font-subtitle); /* Tipografía mono para el look dev */
-    border-top: 1px solid rgba(255, 255, 255, 0.05); /* Línea divisoria sutil */
+    font-family: var(--font-subtitle); 
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Sección de Iconos / Redes */
 .footer-left {
     display: flex;
     gap: 20px;
 }
 
 .footer-icon {
-    color: #626f8a; /* Un color gris slate sutil para que no compita */
-    text-decoration: none;
+    color: #626f8a;
     font-size: 0.85rem;
     font-weight: bold;
     transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .footer-icon:hover {
-    color: var(--btn-works); /* Brillo cian interactivo al pasar el mouse */
+    color: var(--btn-works);
     transform: translateY(-2px);
 }
 
-/* Sección de Copyright */
 .footer-right p {
     margin: 0;
     font-size: 0.8rem;
@@ -1526,7 +1499,6 @@ background: var(--bg-color);
     letter-spacing: 0.5px;
 }
 
-/* Ajuste Responsivo para Móviles */
 @media (max-width: 768px) {
     .global-footer {
         flex-direction: column;
@@ -1553,7 +1525,6 @@ background: var(--bg-color);
     z-index: 10;
 }
 
-/* Línea divisoria superior */
 .footer-divider-line {
     width: 100%;
     height: 0.06px;
@@ -1561,7 +1532,6 @@ background: var(--bg-color);
     margin-bottom: 30px;
 }
 
-/* Fila de redes sociales */
 .footer-socials {
     display: flex;
     justify-content: center;
@@ -1569,7 +1539,6 @@ background: var(--bg-color);
     margin-bottom: 25px;
 }
 
-/* El contenedor del enlace solo maneja la animación */
 .footer-btn {
     display: block;
     transition: transform 0.2s ease;
@@ -1577,17 +1546,15 @@ background: var(--bg-color);
 }
 
 .footer-btn:hover {
-    transform: scale(1.1); /* Crece sutilmente al pasar el mouse */
+    transform: scale(1.1); 
 }
 
-/* Controlas el tamaño de tu bloque SVG aquí si lo necesitas */
 .footer-btn img {
-    width: 52px;  /* El tamaño que desees que ocupe el sticker en la web */
+    width: 52px;  
     height: auto;
     display: block;
 }
 
-/* Texto de créditos inferior */
 .footer-credits {
     font-family: var(--font-subtitle);
     font-size: 0.75rem;
@@ -1599,7 +1566,7 @@ background: var(--bg-color);
 
 @media (max-width: 480px) {
     .footer-btn img {
-        width: 42px; /* Se achican un poco en pantallas de celular */
+        width: 42px; 
     }
     .footer-credits {
         font-size: 0.65rem;
@@ -1610,55 +1577,45 @@ background: var(--bg-color);
 
 @media (max-width: 768px) {
 
-
-    /* 2. Reducción y reajuste del menú de botones del Hero (Grid en 2 columnas) */
     .nav-menu {
         display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important; /* 2 Columnas */
+        grid-template-columns: repeat(2, 1fr) !important; 
         gap: 12px !important;
         width: 100% !important;
         padding: 0 20px !important;
         box-sizing: border-box !important;
     }
 
-    /* Forzamos el redimensionamiento de los botones grandes del Hero */
     .bio-btn,
     .port-btn,
     .blog-btn,
     .contact-btn {
     
         width: 100% !important; 
-        font-size: 0.85rem !important;     /* 📉 Bajado a 0.85rem para que no quede gigante el texto */
-        padding: 8px 0 !important;         /* 📉 Reducido a 8px vertical para que sean más delgados */
-        text-align: center !important;
-        transform: none !important;        /* Quita las rotaciones para que no se encima el texto en pantallas angostas */
+        font-size: 0.85rem !important;
+        padding: 8px 0 !important;
+        transform: none !important;
     }
 
-
 .global-footer {
-        padding: 12px 0 !important; /* Reduce el colchón superior e inferior de la barra negra */
+        padding: 12px 0 !important; 
         margin-top: 4px !important; 
     }
 
-    /* Reduce la separación entre la línea azul y los stickers de redes */
     .footer-divider-line {
         margin-bottom: 15px !important; 
     }
 
-    /* Reduce el espacio debajo de las redes sociales */
     .footer-socials {
         margin-bottom: 6px !important; 
-        gap: 20px !important; /* Junta un poquito más los iconos entre sí */
+        gap: 20px !important;
     }
 
-    /* Achica el tamaño físico de los stickers SVG de redes sociales */
     .footer-btn img {
-        width: 36px !important; /* Bajado de 42px/52px a un tamaño más compacto y sutil */
+        width: 36px !important; 
     }
 
-    /* Reduce el tamaño del texto de copyright/créditos */
     .footer-credits {
-        font-size: 0.6rem !important; /* Un poco más pequeño para mantener el look técnico */
-        letter-spacing: 1.5px !important;
+        font-size: 0.6rem !important; 
     }
     }

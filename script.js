@@ -1,9 +1,9 @@
 let allGames = [];
 let navigationHistory = [];
-let currentPage = 'hero'; // Corregido: cambiamos 'home' por 'hero' para que coincida con tu HTML
+let currentPage = 'hero';
 
 function showPage(sectionId) {
-    // 1. Si ya estamos en esa página, no hacemos nada
+    // Si ya estamos en esa página, no hacemos nada
     if (sectionId === currentPage) return;
     
     closeGameDetails();
@@ -234,25 +234,45 @@ document.addEventListener('DOMContentLoaded', () => {
     // así el renderizado visual de la página no se retrasa por peticiones fetch
     loadInitialData();
 });
-
 function toggleMobileMenu() {
-    // Solo actúa si estamos en pantallas móviles
-if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 768) {
         const menu = document.getElementById('mobileNavMenu');
         const body = document.body;
         
-        // Alternamos la clase open
+        // Alternamos la clase open al presionar la hamburguesa
         menu.classList.toggle('open');
         
-        // Evaluamos el estado real actual del menú para controlar el scroll
+        // Evaluamos el estado para controlar el scroll del fondo
         if (menu.classList.contains('open')) {
             body.classList.add('no-scroll');
-            body.style.overflow = 'hidden'; /* Parche extra directo al estilo */
+            body.style.overflow = 'hidden'; 
         } else {
             body.classList.remove('no-scroll');
-            body.style.overflow = ''; /* Devuelve el scroll nativo */
+            body.style.overflow = ''; 
         }
     }
 }
 
+// 🎯 DETECTOR GLOBAL DE CLICS (Fuera de la función para que no se duplique)
+document.addEventListener('click', (e) => {
+    const menu = document.getElementById('mobileNavMenu');
+    const hamburger = document.querySelector('.hamburger-menu');
+    
+    // Si el menú está abierto en móvil...
+    if (menu && menu.classList.contains('open')) {
+        
+        // 1. Si hacen clic en el botón hamburguesa, dejamos que toggleMobileMenu() se encargue
+        if (hamburger.contains(e.target)) {
+            return;
+        }
+        
+        // 2. 🚨 TRUCO DEL WHITESPACE: Si el clic NO fue en una etiqueta de enlace (A), 
+        // significa que tocaron el aire vacío o el fondo oscuro. ¡Colapsamos!
+        if (e.target.tagName !== 'A') {
+            menu.classList.remove('open');
+            document.body.classList.remove('no-scroll');
+            document.body.style.overflow = '';
+        }
+    }
+});
 window.onresize = renderStickers;

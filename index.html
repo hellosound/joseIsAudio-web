@@ -13,35 +13,34 @@
 <header class="global-header">
 
     <div class="header-left">
-        <a class="back-btn" onclick="goBack()">
-            BACK
-        </a>
+        <!-- Aqui va el toggle-->
     </div>
     
     <div class="header-center">
-        <!-- Logo mini del Hero -->
-        <img src="assets/img/header/hdr-logo.svg" alt="joseIsAudiox x   " class="mini-logo" onclick="showPage('hero')">
+        <a href="#" onclick="showPage('hero')" style="display: flex; align-items: center;">
+            <img src="assets/img/header/hdr-logo.svg" alt="joseIsAudio" class="mini-logo">
+        </a>
     </div>
     
     <div class="header-right submenu-wrapper">
+        <nav class="nav-sub-menu" id="mobileNavMenu">
+            <div class="menu-links-holder">
+                <a class="menu-overlay-link home-txt" onclick="showPage('hero')">HOME</a>
+                <a class="menu-overlay-link bio-txt" onclick="showPage('bio')">BIO</a>
+                <a class="menu-overlay-link blog-txt" onclick="showPage('blog')">BLOG</a>
+                <a class="menu-overlay-link port-txt" onclick="showPage('portfolio')">PROJECTS</a>
+                <a class="menu-overlay-link contact-txt" onclick="showPage('contact')">CONTACT</a>
+            </div>
+        </nav>
 
-        <button class ="hamburger-menu" onclick="toggleMobileMenu()">
+        <button class="hamburger-menu" onclick="toggleMobileMenu()">
             <span></span>
             <span></span>
             <span></span>
         </button>
-            <nav class="nav-sub-menu" id="mobileNavMenu">
-                <div class ="menu-links-holder">
-                    <a class="menu-overlay-link home-txt" onclick="toggleMobileMenu(); showPage('hero');">HOME</a>
-                    <a class="menu-overlay-link bio-txt" onclick="toggleMobileMenu(); showPage('bio');">BIO</a>
-                    <a class="menu-overlay-link blog-txt" onclick="toggleMobileMenu(); showPage('blog');">BLOG</a>
-                    <a class="menu-overlay-link port-txt" onclick="toggleMobileMenu(); showPage('portfolio');">PORTFOLIO</a>
-                    <a class="menu-overlay-link contact-txt" onclick="toggleMobileMenu(); showPage('contact');">CONTACT</a>
-                </div>
-            </nav>
     </div>
-</header>
 
+</header>
 <body>  
     <main id="app-container">
         <section id="hero" class="content-page active">
@@ -51,7 +50,7 @@
                 
                 <nav class="nav-menu">
                     <button class="nav-btn bio-btn" onclick="showPage('bio')">BIO</button>
-                    <button class="nav-btn port-btn" onclick="showPage('portfolio')">PORTFOLIO</button>
+                    <button class="nav-btn port-btn" onclick="showPage('portfolio')">PROJECTS</button>
 
                     </button>
                     <button class="nav-btn blog-btn" onclick="showPage('blog')">BLOG</button>
@@ -71,11 +70,9 @@
         <section id="bio" class="content-page">
             <div class="bio-container">
                 
-                <!-- BLOQUE SUPERIOR: BIO + FOTO -->
                 <div class="bio-main-row">
-                    <!-- COLUMNA IZQUIERDA: DOSSIER & TEXTO -->
                     <div class="bio-text-column">
-                        <h1 class="bio-title">HELLO!</h1>
+                        <h2 class="bio-title">HELLO!</h2>
                         <p class="bio-tagline">if the game makes "beep", "boop", or any weird noise... that was me.</p>
                         
                         <div class="bio-text-box">
@@ -93,7 +90,6 @@
                         </div>
                     </div>
 
-                    <!-- COLUMNA DERECHA: FOTO & BADGE -->
                     <div class="bio-image-column">
                         <div class="profile-frame">
                             <img src="assets/img/bio/headshot.avif" alt="José Angulo" class="profile-img">
@@ -101,12 +97,10 @@
                     </div>
                 </div>
 
-                <!-- SECCIÓN: TECH STACK (TARJETAS EN FILA) -->
                 <div class="bio-section-divider">
                     <span class="section-label-line">TECH STACK</span>
                     <div class="tech-stack-grid">
                         
-                        <!-- Caja 1: Game Engines -->
                         <div class="tech-card card-yellow">
                             <h3>GAME ENGINES</h3>
                             <ul>
@@ -115,7 +109,6 @@
                             </ul>
                         </div>
 
-                        <!-- Caja 2: Middlewares -->
                         <div class="tech-card card-pink">
                             <h3>MIDDLEWARES</h3>
                             <ul>
@@ -124,7 +117,6 @@
                             </ul>
                         </div>
 
-                        <!-- Caja 3: Programming -->
                         <div class="tech-card card-blue">
                             <h3>PROGRAMMING</h3>
                             <ul>
@@ -139,8 +131,7 @@
 
                     </div>
                 </div>
-
-                    <!-- SECCIÓN: SPEAKING (BLOQUES EN VERTICAL) -->
+                    <!-- Conferencia 1 -->
                     <div class="bio-section-divider">
                         <span class="section-label-line">SPEAKING</span>
                         <a href="https://schedule.gdconf.com/session/debugging-audio-systems-tools-tactics-and-real-world-stories/914457" target="_blank" class="speaking-block talk-card">
@@ -154,6 +145,7 @@
                             </div>
                         </a>
                     </div>
+
                     <!-- Conferencia 2 -->
                     <div class="bio-section-divider">
                         <a href="https://www.youtube.com/watch?v=Xm83Qvu7I0I" target="_blank" class="speaking-block talk-card">
@@ -193,7 +185,7 @@
         </section>
 
         <section id="portfolio" class="content-page">
-            <h2 class="section-title">WORKS</h2>
+            <h2 class="section-title">PROJECTS</h2>
             <div id="portfolio-grid" class="portfolio-works-grid"></div>
             <button class="back-btn" onclick="showPage('hero')">BACK</button>
         </section>
@@ -219,7 +211,6 @@
             <h2>CONTACT</h2>
             
             <div class="contact-container">
-                <p class="contact-subtitle">// LET'S WORK TOGETHER!</p>
                 
                 <form action="https://formspree.io/f/xbdvkvky" method="POST" class="contact-form">
                     <div class="form-group">

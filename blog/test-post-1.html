@@ -132,25 +132,38 @@
     </style>
 </head>
 <body>
+
 <header class="global-header">
+
     <div class="header-left">
         <a class="back-btn" href="../index.html?page=blog" style="display: flex; align-items: center; justify-content: center; text-decoration: none;">
-            ←BACK
+            BACK
         </a>
     </div>
-
     
     <div class="header-center">
-        <a href="../index.html">
+        <a href="../index.html?page=hero">
             <img src="../assets/img/header/hdr-logo.svg" alt="joseIsAudio" class="mini-logo">
         </a>
     </div>
     
-<div class="header-right">
-    <a class="nav-sub-btn bio-sub" href="../index.html?page=bio" style="text-decoration: none; display: inline-block; text-align: center;">BIO</a>
-    <a class="nav-sub-btn blog-sub" href="../index.html?page=blog" style="text-decoration: none; display: inline-block; text-align: center;">BLOG</a>
-    <a class="nav-sub-btn works-sub" href="../index.html?page=portfolio" style="text-decoration: none; display: inline-block; text-align: center;">WORKS</a>
-</div>
+    <div class="header-right submenu-wrapper">
+        <button class="hamburger-menu" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <nav class="nav-sub-menu" id="mobileNavMenu">
+            <div class="menu-links-holder">
+                <a class="menu-overlay-link home-txt" href="../index.html?page=hero">HOME</a>
+                <a class="menu-overlay-link bio-txt" href="../index.html?page=bio">BIO</a>
+                <a class="menu-overlay-link blog-txt" href="../index.html?page=blog">BLOG</a>
+                <a class="menu-overlay-link port-txt" href="../index.html?page=portfolio">PROJECTS</a>
+                <a class="menu-overlay-link contact-txt" href="../index.html?page=contact">CONTACT</a>
+            </div>
+        </nav>
+    </div>
 </header>
 
     <main class="post-container">
@@ -236,6 +249,43 @@ function goBack() {
             © 2026 joseIsAudio • SOUND DESIGN • GAME AUDIO PROGRAMMING
         </p>
     </footer>
+    <script>
+        function toggleMobileMenu() {
+            if (window.innerWidth <= 768) {
+                const menu = document.getElementById('mobileNavMenu');
+                const body = document.body;
+                
+                // Alternamos la clase open al presionar la hamburguesa
+                menu.classList.toggle('open');
+                
+                // Evaluamos el estado para controlar el scroll del fondo
+                if (menu.classList.contains('open')) {
+                    body.classList.add('no-scroll');
+                    body.style.overflow = 'hidden'; 
+                } else {
+                    body.classList.remove('no-scroll');
+                    body.style.overflow = ''; 
+                }
+            }
+        }
 
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('mobileNavMenu');
+            const hamburger = document.querySelector('.hamburger-menu');
+            
+            if (menu && menu.classList.contains('open')) {
+                
+                if (hamburger.contains(e.target)) {
+                    return;
+                }
+                
+                if (e.target.tagName !== 'A') {
+                    menu.classList.remove('open');
+                    document.body.classList.remove('no-scroll');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+    </script>
 </body>
 </html>
