@@ -232,6 +232,49 @@ body.no-scroll {
     }
 }
 
+@media (min-width: 769px) {
+    /* Forzamos a que el contenedor en PC no use comportamiento de cortina */
+    .nav-sub-menu {
+        display: flex !important;
+        position: static !important;
+        background: transparent !important;
+        flex-direction: row !important;
+        gap: 20px !important;
+        padding: 0 !important;
+        transform: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        height: auto !important;
+        width: auto !important;
+    }
+
+    /* Restauramos el look de botones/links horizontales de Figma en PC */
+    .nav-sub-menu .menu-overlay-link {
+        font-family: var(--font-title);
+        font-size: 0.8rem;
+        font-weight: bold;
+        padding: 6px 18px;
+        width: fit-content;
+        border-radius: 20px;
+        background: transparent;
+        cursor: pointer;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+    .home-txt    { color: #ffffff; border: 2px solid #ffffff; }
+    .bio-txt     { color: var(--btn-bio);border: 2px solid var(--btn-bio);} /* Amarillo Bio */
+    .blog-txt    { color: var(--btn-blog);border: 2px solid var(--btn-blog); } /* Rosa/Magenta Blog */
+    .port-txt    { color: var(--btn-works);border: 2px solid var(--btn-works) } /* Cian Works/Portfolio */
+    .contact-txt { color: var(--btn-contact); border: 2px solid var(--btn-contact); }
+    }
+
+    /* Efecto hover limpio para PC (Subrayado o cambio sutil) */
+    .nav-sub-menu .menu-overlay-link:hover {
+        opacity: 0.8;
+        transform: none !important; /* Evitamos que intenten rotar en PC */
+    }
+
+
 .content-page {
     display: none !important;
     width: 100%;

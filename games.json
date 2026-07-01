@@ -104,8 +104,8 @@
     "isSticker": true,
     "stickerImage":"assets/img/hero/stk_alumbra.svg",
 
-    "stickerWidth":"179px",
-    "stickerHeight":"175px",
+    "stickerWidth":"169px",
+    "stickerHeight":"165px",
     "stickerTop":"307px",
     "stickerLeft":"1032px",
     "stickerRotate": "6",
