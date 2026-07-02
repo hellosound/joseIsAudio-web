@@ -13,7 +13,9 @@
 <header class="global-header">
 
     <div class="header-left">
-        <!-- Aqui va el toggle-->
+        <button class="mute-btn" onclick="toggleGlobalMute(event)">
+            <span id="mute-icon">🔊</span>
+        </button>
     </div>
     
     <div class="header-center">
@@ -42,6 +44,7 @@
 
 </header>
 <body>  
+
     <main id="app-container">
         <section id="hero" class="content-page active">
             <div class="brand-container">
@@ -64,6 +67,11 @@
                 <div class="sticker more-games-btn" onclick="showPage('portfolio')" style="left: 10%; top: 45%;">
                     MORE<br>GAMES
                 </div>
+
+                <button class="hero-mute-btn" onclick="toggleGlobalMute(event)">
+                    <span class="mute-line-top">SOUND</span>
+                    <span class="mute-line-bottom">ON</span>
+                </button>
             </div>
         </section>
 
@@ -173,7 +181,7 @@
                        </a>
             </div>
             <div style="display: flex; justify-content: center; width: 100%; margin-top: 40px;">
-                <button class="back-btn" onclick="showPage('hero')">BACK</button>
+                <button class="back-btn" onclick="goBack()">BACK</button>
             </div>
 
         </section>
@@ -181,18 +189,18 @@
         <section id="blog" class="content-page">
             <h2 class="section-title">BLOG</h2>
             <div id="blog-list" class="blog-container"></div>
-            <button class="back-btn" onclick="showPage('hero')">BACK</button>
+            <button class="back-btn" onclick="goBack()">BACK</button>
         </section>
 
         <section id="portfolio" class="content-page">
             <h2 class="section-title">PROJECTS</h2>
             <div id="portfolio-grid" class="portfolio-works-grid"></div>
-            <button class="back-btn" onclick="showPage('hero')">BACK</button>
+            <button class="back-btn" onclick="onclick=goBack()">BACK</button>
         </section>
 
         <section id="talks" class="content-page">
             <h2 class="section-title">TALKS</h2>
-            <button class="back-btn" onclick="showPage('hero')">BACK</button>
+            <button class="back-btn" onclick="onclick="goBack()">BACK</button>
         </section>
 
         <div id="game-overlay"> <div class="modal-content"> <h2 id="game-title"></h2>
@@ -231,7 +239,9 @@
                     <button type="submit" class="submit-btn">SEND_MESSAGE()</button>
                 </form>
             </div>
-
+            <div style="display: flex; justify-content: center; width: 100%; margin-top: 40px;">
+                <button class="back-btn" onclick="goBack()">BACK</button>
+            </div>
         </section>
     </main>
 

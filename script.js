@@ -282,11 +282,12 @@ const AudioManager = {
             { key: 'KILLER KLOWNS', url: 'assets/snd/s_kkfos_click.opus' },
             { key: 'AL-UMBRA', url: 'assets/snd/s_alumbra_click.opus' },
             { key: 'NEKOME', url: 'assets/snd/s_nekome_click.opus' },
-            { key: 'THE SHADOW SYNDICATE', url: 'assets/snd/s_shadow_click.opus' }
+            { key: 'THE SHADOW SYNDICATE', url: 'assets/snd/s_shadow_click.opus' },
+            { key: 'REEL', url: 'assets/snd/s_reel_click.opus'}
         ];
 
         await Promise.all(assetsToPreload.map(asset => this.preloadBuffer(asset.key, asset.url)));
-        console.log("📦 Binarios de audio precargados en memoria RAM.");
+        console.log("Binarios de audio precargados en memoria RAM.");
     },
 
     async preloadBuffer(key, url) {
@@ -345,7 +346,53 @@ const AudioManager = {
     }
 };
 
-// ⚡ ESCUCHAR CLICS DE STICKERS CON REACCIÓN INSTANTÁNEA
+function toggleGlobalMute(event) {
+    if (event) event.stopPropagation(); // Evita interrupciones en el canvas de stickers
+    
+    // Cambia el estado del hardware y nos dice si quedó en mute (true/false)
+    const isMuted = AudioManager.toggleMute();
+    
+    // Despierta el contexto si el navegador lo tenía en pausa
+    if (!isMuted && AudioManager.audioCtx && AudioManager.audioCtx.state === 'suspended') {
+        AudioManager.audioCtx.resume();
+    }
+
+    // Pasamos el estado a la capa visual para que refresque la pantalla
+    updateMuteVisuals(isMuted);
+}
+
+// 2. CAPA VISUAL: Se encarga de pintar la UI en base al estado del motor
+function updateMuteVisuals(isMuted) {
+    // Capturamos todos los contenedores de botón de mute que existan (tanto en header como en el hero)
+    const muteBtns = document.querySelectorAll('.mute-btn, .hero-mute-btn');
+    const statusTexts = document.querySelectorAll('.mute-line-bottom, #mute-text');
+    const muteIcons = document.querySelectorAll('#mute-icon');
+
+    // Cambiamos las clases de estado a todos los botones encontrados
+    muteBtns.forEach(btn => {
+        if (isMuted) {
+            btn.classList.add('muted');
+        } else {
+            btn.classList.remove('muted');
+        }
+    });
+
+    // Actualizamos los textos (ON / OFF / SOUND ON / SOUND OFF) según su clase o ID
+    statusTexts.forEach(text => {
+        if (text.id === 'mute-text') {
+            text.innerText = isMuted ? 'SOUND OFF' : 'SOUND ON';
+        } else {
+            text.innerText = isMuted ? 'OFF' : 'ON';
+        }
+    });
+
+    // Actualizamos los iconos de emoticón si es que los estás usando
+    muteIcons.forEach(icon => {
+        icon.innerText = isMuted ? '🔇' : '🔊';
+    });
+}
+
+//ESCUCHAR CLICS DE STICKERS CON REACCIÓN INSTANTÁNEA
 document.addEventListener('DOMContentLoaded', () => {
     document.body.addEventListener('click', async (e) => {
         const sticker = e.target.closest('[data-sound]');
