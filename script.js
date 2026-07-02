@@ -77,6 +77,10 @@ async function loadInitialData() {
         renderStickers();
         renderPortfolio();
         renderBlog(posts);
+
+        // 🚨 PRECARGA EN SEGUNDO PLANO: Descargamos los binarios apenas la web esté lista
+        AudioManager.startLoadingAssets();
+
     } catch (error) {
         console.error("Error cargando datos:", error);
     }
@@ -128,6 +132,7 @@ function renderStickers() {
         return `
             <div class="sticker ${'game-' + (index + 1)}" 
                  onclick="openGameDetails('${game.id}')" 
+                 data-sound="${game.id}"
                  style="${style}">
                 <img src="${imgSrc}" class="sticker-thumb" onerror="this.src='${placeholder}';">
                 <div class="sticker-label" style="color: ${labelColor};">${game.id}</div>
@@ -173,7 +178,7 @@ function renderBlog(posts) {
 }
 
 function openGameDetails(gameId) {
-    const game = allGames.find(g => g.id === gameId);
+    const game = allGames.find(g => g.id === g.gameId || g.id === gameId);
     if (!game) return;
 
     document.getElementById('game-title').innerText = game.title;
@@ -190,19 +195,15 @@ function openGameDetails(gameId) {
         media.innerHTML = `<img src="${game.image || 'assets/portfolio/placeholder.avif'}" style="width:100%; border-radius:8px;">`;
     }
 
-    document.getElementById('game-overlay').classList.add('active');
-    document.body.style.overflow = 'hidden';
-
     const overlay = document.getElementById('game-overlay');
-
     if(overlay){
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
-    }
-    overlay.onclick = function(event) {
-        if (event.target === overlay) {
-            closeGameDetails();
-        }
+        overlay.onclick = function(event) {
+            if (event.target === overlay) {
+                closeGameDetails();
+            }
+        };
     }
 }
 
@@ -223,26 +224,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const targetPage = urlParams.get('page');
 
     if (targetPage) {
-        // Si hay un parámetro (ej: ?page=bio), activamos esa página directo
         showPage(targetPage);
     } else {
-        // Si NO hay parámetro, activamos el Hero por defecto desde el inicio
         showPage('hero'); 
     }
 
-    // 2. Cargamos los datos iniciales (proyectos, stickers, etc.) después,
-    // así el renderizado visual de la página no se retrasa por peticiones fetch
+    // 2. Cargamos los datos iniciales e iniciamos precarga de audios
     loadInitialData();
 });
+
 function toggleMobileMenu() {
     if (window.innerWidth <= 768) {
         const menu = document.getElementById('mobileNavMenu');
         const body = document.body;
         
-        // Alternamos la clase open al presionar la hamburguesa
         menu.classList.toggle('open');
         
-        // Evaluamos el estado para controlar el scroll del fondo
         if (menu.classList.contains('open')) {
             body.classList.add('no-scroll');
             body.style.overflow = 'hidden'; 
@@ -253,21 +250,15 @@ function toggleMobileMenu() {
     }
 }
 
-// 🎯 DETECTOR GLOBAL DE CLICS (Fuera de la función para que no se duplique)
+// 🎯 DETECTOR GLOBAL DE CLICS PARA EL MENÚ MÓVIL
 document.addEventListener('click', (e) => {
     const menu = document.getElementById('mobileNavMenu');
     const hamburger = document.querySelector('.hamburger-menu');
     
-    // Si el menú está abierto en móvil...
     if (menu && menu.classList.contains('open')) {
-        
-        // 1. Si hacen clic en el botón hamburguesa, dejamos que toggleMobileMenu() se encargue
-        if (hamburger.contains(e.target)) {
+        if (hamburger && hamburger.contains(e.target)) {
             return;
         }
-        
-        // 2. 🚨 TRUCO DEL WHITESPACE: Si el clic NO fue en una etiqueta de enlace (A), 
-        // significa que tocaron el aire vacío o el fondo oscuro. ¡Colapsamos!
         if (e.target.tagName !== 'A') {
             menu.classList.remove('open');
             document.body.classList.remove('no-scroll');
@@ -275,4 +266,100 @@ document.addEventListener('click', (e) => {
         }
     }
 });
+
+// 🎛️ MOTOR DE AUDIO GLOBAL OPTIMIZADO
+const AudioManager = {
+    audioCtx: null,
+    masterGain: null,
+    isMuted: false, 
+    sounds: {},    
+
+    // 1. Descarga los archivos en crudo (.arrayBuffer) sin activar el AudioContext
+    async startLoadingAssets() {
+        const assetsToPreload = [
+            { key: 'ORCS MUST DIE', url: 'assets/snd/s_omd_click.opus' },
+            { key: 'TMNT', url: 'assets/snd/s_tmnt_click.opus' },
+            { key: 'KILLER KLOWNS', url: 'assets/snd/s_kkfos_click.opus' },
+            { key: 'AL-UMBRA', url: 'assets/snd/s_alumbra_click.opus' },
+            { key: 'NEKOME', url: 'assets/snd/s_nekome_click.opus' },
+            { key: 'THE SHADOW SYNDICATE', url: 'assets/snd/s_shadow_click.opus' }
+        ];
+
+        await Promise.all(assetsToPreload.map(asset => this.preloadBuffer(asset.key, asset.url)));
+        console.log("📦 Binarios de audio precargados en memoria RAM.");
+    },
+
+    async preloadBuffer(key, url) {
+        try {
+            const response = await fetch(url);
+            this.sounds[key] = await response.arrayBuffer();
+        } catch (error) {
+            console.warn(`No se pudo precargar el buffer: ${url}`, error);
+        }
+    },
+
+    // 2. Se ejecuta síncronamente al primer clic para armar el ruteo y decodificar instantáneamente
+    async init() {
+        if (this.audioCtx) return; 
+
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        this.audioCtx = new AudioContext();
+
+        this.masterGain = this.audioCtx.createGain();
+        this.masterGain.gain.setValueAtTime(this.isMuted ? 0 : 1, this.audioCtx.currentTime);
+        this.masterGain.connect(this.audioCtx.destination);
+
+        // Decodificación flash de los buffers que ya están en memoria
+        for (const key in this.sounds) {
+            if (this.sounds[key] instanceof ArrayBuffer) {
+                try {
+                    this.sounds[key] = await this.audioCtx.decodeAudioData(this.sounds[key]);
+                } catch (err) {
+                    console.error(`Error decodificando el asset: ${key}`, err);
+                }
+            }
+        }
+    },
+
+    play(key) {
+        if (this.audioCtx && this.audioCtx.state === 'suspended') {
+            this.audioCtx.resume();
+        }
+
+        // Si no está listo o sigue siendo un ArrayBuffer sin decodificar, salimos de seguridad
+        if (!this.audioCtx || !this.sounds[key] || this.sounds[key] instanceof ArrayBuffer) return;
+
+        const source = this.audioCtx.createBufferSource();
+        source.buffer = this.sounds[key];
+        source.connect(this.masterGain);
+        source.start(0);
+    },
+
+    toggleMute() {
+        this.isMuted = !this.isMuted;
+        if (this.masterGain && this.audioCtx) {
+            const targetVolume = this.isMuted ? 0 : 1;
+            this.masterGain.gain.setValueAtTime(targetVolume, this.audioCtx.currentTime);
+        }
+        return this.isMuted; 
+    }
+};
+
+// ⚡ ESCUCHAR CLICS DE STICKERS CON REACCIÓN INSTANTÁNEA
+document.addEventListener('DOMContentLoaded', () => {
+    document.body.addEventListener('click', async (e) => {
+        const sticker = e.target.closest('[data-sound]');
+        
+        if (sticker) {
+            // Si el motor no existe, lo inicializamos y decodificamos de golpe en este mismo hilo de ejecución
+            if (!AudioManager.audioCtx) {
+                await AudioManager.init();
+            }
+            
+            const soundKey = sticker.getAttribute('data-sound');
+            AudioManager.play(soundKey);
+        }
+    });
+});
+
 window.onresize = renderStickers;
