@@ -40,6 +40,7 @@ function showPage(sectionId) {
 
 // FUNCIÓN DINÁMICA PARA EL BOTÓN BACK
 function goBack() {
+
     if (navigationHistory.length > 0) {
         // Sacamos la última página guardada
         const previousPage = navigationHistory.pop();
@@ -78,7 +79,6 @@ async function loadInitialData() {
         renderPortfolio();
         renderBlog(posts);
 
-        // 🚨 PRECARGA EN SEGUNDO PLANO: Descargamos los binarios apenas la web esté lista
         AudioManager.startLoadingAssets();
 
     } catch (error) {
@@ -243,15 +243,56 @@ function toggleMobileMenu() {
         if (menu.classList.contains('open')) {
             body.classList.add('no-scroll');
             body.style.overflow = 'hidden'; 
+
+            AudioManager.play('MENU_IN');
         } else {
             body.classList.remove('no-scroll');
             body.style.overflow = ''; 
+            AudioManager.play('MENU_OUT');
+
         }
     }
 }
+// ESCUCHAR CLICS DE STICKERS Y BOTONES CON REACCIÓN INSTANTÁNEA
+document.addEventListener('DOMContentLoaded', () => {
+    loadInitialData();
+
+    window.addEventListener('resize', () => {
+        renderStickers();
+    });
+
+    document.body.addEventListener('click', async (e) => {
+        const sticker = e.target.closest('[data-sound]');
+        
+        /*if (sticker) {
+            if (!AudioManager.audioCtx) {
+                AudioManager.init();
+                await new Promise(resolve => setTimeout(resolve, 50));
+            }
+            const soundKey = sticker.getAttribute('data-sound');
+            AudioManager.play(soundKey);
+            return;
+        } 
+        // ⬇️ AGREGA ESTO: Detecta clics en botones de sección o controles de audio ⬇️
+        else if (e.target.closest('.menu-btn, .bio-btn, .port-btn, .blog-btn, .contact-btn, .hero-mute-btn, .menu-overlay-link')) {
+            if (!AudioManager.audioCtx) {
+                AudioManager.init();
+            }
+            AudioManager.play('BUTTON_CLICK');
+        }*/
+
+            if (sticker) {
+            if (!AudioManager.audioCtx) {
+                AudioManager.init();
+                await new Promise(resolve => setTimeout(resolve, 50));
+            }
+            const soundKey = sticker.getAttribute('data-sound');
+            AudioManager.play(soundKey);}
+    });
+});
 
 // 🎯 DETECTOR GLOBAL DE CLICS PARA EL MENÚ MÓVIL
-document.addEventListener('click', (e) => {
+document.addEventListener('click', async (e) => {
     const menu = document.getElementById('mobileNavMenu');
     const hamburger = document.querySelector('.hamburger-menu');
     
@@ -267,7 +308,6 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// 🎛️ MOTOR DE AUDIO GLOBAL OPTIMIZADO
 const AudioManager = {
     audioCtx: null,
     masterGain: null,
@@ -283,7 +323,14 @@ const AudioManager = {
             { key: 'AL-UMBRA', url: 'assets/snd/s_alumbra_click.opus' },
             { key: 'NEKOME', url: 'assets/snd/s_nekome_click.opus' },
             { key: 'THE SHADOW SYNDICATE', url: 'assets/snd/s_shadow_click.opus' },
-            { key: 'REEL', url: 'assets/snd/s_reel_click.opus'}
+            { key: 'REEL', url: 'assets/snd/s_reel_click.opus'},
+
+            { key: 'MENU_IN', url: './assets/snd/s_toggle_menu_out.opus' },
+            { key: 'MENU_OUT', url: './assets/snd/s_toggle_menu_in.opus' },
+            { key: 'BUTTON_CLICK', url: './assets/snd/s_button_back.opus' },
+            { key: 'BUTTON_BACK', url: './assets/snd/s_button_click.opus' },
+            { key: 'BUTTON_TOGGLE', url: './assets/snd/s_toggle.opus'}
+
         ];
 
         await Promise.all(assetsToPreload.map(asset => this.preloadBuffer(asset.key, asset.url)));
@@ -392,21 +439,79 @@ function updateMuteVisuals(isMuted) {
     });
 }
 
-//ESCUCHAR CLICS DE STICKERS CON REACCIÓN INSTANTÁNEA
+// ESCUCHAR CLICS GLOBALES E INTERACCIONES DE AUDIO
 document.addEventListener('DOMContentLoaded', () => {
+    AudioManager.startLoadingAssets();
+    loadInitialData();
+
     document.body.addEventListener('click', async (e) => {
-        const sticker = e.target.closest('[data-sound]');
-        
-        if (sticker) {
-            // Si el motor no existe, lo inicializamos y decodificamos de golpe en este mismo hilo de ejecución
-            if (!AudioManager.audioCtx) {
-                await AudioManager.init();
-            }
-            
-            const soundKey = sticker.getAttribute('data-sound');
-            AudioManager.play(soundKey);
+        const target = e.target;
+
+        // 1. SELECTORES DE INTERFAZ (Buscamos coincidencias de clics en un solo mapeo)
+        const sticker     = target.closest('[data-sound]');
+        const isBack      = target.closest('.back-btn');
+        const isToggle = target.closest('.hero-mute-btn, .hero-mute-btn.muted');
+        const isHamburger = target.closest('.hamburger-menu');
+        const isUiButton  = target.closest('.more-games-btn, .menu-btn, .bio-btn, .port-btn, .blog-btn, .contact-btn, .mute-btn, .nav-sub-menu a');
+
+        // Si el clic no coincide con ningún elemento interactivo de audio, salimos de inmediato
+        if (!sticker && !isBack && !isToggle && !isHamburger && !isUiButton) return;
+
+        // 2. DESPERTAR EL CONTEXTO (Garantiza el hilo activo de audio en CUALQUIER interacción válida)
+        if (!AudioManager.audioCtx) {
+            await AudioManager.init();
         }
+        if (AudioManager.audioCtx && AudioManager.audioCtx.state === 'suspended') {
+            await AudioManager.audioCtx.resume();
+        }
+
+        // 3. ENRUTADOR DE AUDIO (Play global al soundKey determinado por la UI)
+        if (sticker) {
+            AudioManager.play(sticker.getAttribute('data-sound'));
+        } 
+        else if (isToggle) {
+            AudioManager.play('BUTTON_TOGGLE'); // Nota: Cambiado de guion medio a guion bajo por consistencia
+        } 
+        else if (isBack) {
+            AudioManager.play('BUTTON_BACK');   // Nota: Cambiado de guion medio a guion bajo por consistencia
+        } 
+        else if (isHamburger) {
+            AudioManager.play('MENU_IN');
+        } 
+        else if (isUiButton) {
+            AudioManager.play('BUTTON_CLICK');
+        }
+
+    // debug
+        let soundKey = ''; 
+        if (sticker)       soundKey = sticker.getAttribute('data-sound');
+        else if (isToggle)    soundKey = 'BUTTON_TOGGLE';
+        else if (isBack)      soundKey = 'BUTTON_BACK';
+        else if (isHamburger) soundKey = 'MENU_IN';
+        else if (isUiButton)  soundKey = 'BUTTON_CLICK';
+
+        if (soundKey) {
+            AudioManager.play(soundKey);
+            console.log(`[AudioManager] Reproduciendo cue: ${soundKey}`);
+        } else {
+            console.log("play sound failed");
+    }
     });
 });
-
+    // Cierre al hacer clic fuera del menú móvil (Hamburger custom handler)
+    document.addEventListener('click', (e) => {
+        const menu = document.getElementById('mobileNavMenu');
+        const hamburger = document.querySelector('.hamburger-menu');
+        
+        if (menu && menu.classList.contains('open')) {
+            if (hamburger.contains(e.target)) return;
+            
+            if (e.target.tagName !== 'A') {
+                menu.classList.remove('open');
+                document.body.classList.remove('no-scroll');
+                document.body.style.overflow = '';
+                AudioManager.play('MENU_OUT');
+            }
+        }
+    });
 window.onresize = renderStickers;
