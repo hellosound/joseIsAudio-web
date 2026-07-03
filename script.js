@@ -244,11 +244,13 @@ function toggleMobileMenu() {
             body.classList.add('no-scroll');
             body.style.overflow = 'hidden'; 
 
-            AudioManager.play('MENU_IN');
+            AudioManager.play('MENU_IN', 0.8, true);
+            console.log("Menu in")
         } else {
             body.classList.remove('no-scroll');
             body.style.overflow = ''; 
-            AudioManager.play('MENU_OUT');
+            AudioManager.play('MENU_OUT', 0.5, true);
+            console.log("Menu out")
 
         }
     }
@@ -259,35 +261,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('resize', () => {
         renderStickers();
-    });
-
-    document.body.addEventListener('click', async (e) => {
-        const sticker = e.target.closest('[data-sound]');
-        
-        /*if (sticker) {
-            if (!AudioManager.audioCtx) {
-                AudioManager.init();
-                await new Promise(resolve => setTimeout(resolve, 50));
-            }
-            const soundKey = sticker.getAttribute('data-sound');
-            AudioManager.play(soundKey);
-            return;
-        } 
-        // ⬇️ AGREGA ESTO: Detecta clics en botones de sección o controles de audio ⬇️
-        else if (e.target.closest('.menu-btn, .bio-btn, .port-btn, .blog-btn, .contact-btn, .hero-mute-btn, .menu-overlay-link')) {
-            if (!AudioManager.audioCtx) {
-                AudioManager.init();
-            }
-            AudioManager.play('BUTTON_CLICK');
-        }*/
-
-            if (sticker) {
-            if (!AudioManager.audioCtx) {
-                AudioManager.init();
-                await new Promise(resolve => setTimeout(resolve, 50));
-            }
-            const soundKey = sticker.getAttribute('data-sound');
-            AudioManager.play(soundKey);}
     });
 });
 
@@ -317,20 +290,19 @@ const AudioManager = {
     // 1. Descarga los archivos en crudo (.arrayBuffer) sin activar el AudioContext
     async startLoadingAssets() {
         const assetsToPreload = [
-            { key: 'ORCS MUST DIE', url: 'assets/snd/s_omd_click.opus' },
-            { key: 'TMNT', url: 'assets/snd/s_tmnt_click.opus' },
-            { key: 'KILLER KLOWNS', url: 'assets/snd/s_kkfos_click.opus' },
-            { key: 'AL-UMBRA', url: 'assets/snd/s_alumbra_click.opus' },
-            { key: 'NEKOME', url: 'assets/snd/s_nekome_click.opus' },
-            { key: 'THE SHADOW SYNDICATE', url: 'assets/snd/s_shadow_click.opus' },
-            { key: 'REEL', url: 'assets/snd/s_reel_click.opus'},
+            { key: 'ORCS MUST DIE', url: '/assets/snd/s_omd_click.opus' },
+            { key: 'TMNT', url: '/assets/snd/s_tmnt_click.opus' },
+            { key: 'KILLER KLOWNS', url: '/assets/snd/s_kkfos_click.opus' },
+            { key: 'AL-UMBRA', url: '/assets/snd/s_alumbra_click.opus' },
+            { key: 'NEKOME', url: '/assets/snd/s_nekome_click.opus' },
+            { key: 'THE SHADOW SYNDICATE', url: '/assets/snd/s_shadow_click.opus' },
+            { key: 'REEL', url: '/assets/snd/s_reel_click.opus'},
 
-            { key: 'MENU_IN', url: './assets/snd/s_toggle_menu_out.opus' },
-            { key: 'MENU_OUT', url: './assets/snd/s_toggle_menu_in.opus' },
-            { key: 'BUTTON_CLICK', url: './assets/snd/s_button_back.opus' },
-            { key: 'BUTTON_BACK', url: './assets/snd/s_button_click.opus' },
-            { key: 'BUTTON_TOGGLE', url: './assets/snd/s_toggle.opus'}
-
+            { key: 'MENU_IN', url: '/assets/snd/s_toggle_menu_out.opus' },
+            { key: 'MENU_OUT', url: '/assets/snd/s_toggle_menu_in.opus' },
+            { key: 'BUTTON_CLICK', url: '/assets/snd/s_button_back.opus' },
+            { key: 'BUTTON_BACK', url: '/assets/snd/s_button_click.opus' },
+            { key: 'BUTTON_TOGGLE', url: '/assets/snd/s_toggle.opus'}
         ];
 
         await Promise.all(assetsToPreload.map(asset => this.preloadBuffer(asset.key, asset.url)));
@@ -369,7 +341,7 @@ const AudioManager = {
         }
     },
 
-    play(key) {
+    play(key, volume = 1, randomPitch = false) {
         if (this.audioCtx && this.audioCtx.state === 'suspended') {
             this.audioCtx.resume();
         }
@@ -379,7 +351,19 @@ const AudioManager = {
 
         const source = this.audioCtx.createBufferSource();
         source.buffer = this.sounds[key];
-        source.connect(this.masterGain);
+
+        if(randomPitch){
+            const minPitch = 0.90;
+            const maxPitch = 1.10;
+            const randomFactor = Math.random() * (maxPitch - minPitch) + minPitch;
+
+            source.playbackRate.setValueAtTime(randomFactor, this.audioCtx.currentTime);
+        }
+        const voiceGain = this.audioCtx.createGain();
+        voiceGain.gain.setValueAtTime(volume * volume, this.audioCtx.currentTime);
+        source.connect(voiceGain);
+        voiceGain.connect(this.masterGain);
+
         source.start(0);
     },
 
@@ -393,8 +377,12 @@ const AudioManager = {
     }
 };
 
-function toggleGlobalMute(event) {
+async function toggleGlobalMute(event) {
     if (event) event.stopPropagation(); // Evita interrupciones en el canvas de stickers
+    
+    if (!AudioManager.audioCtx) {
+        await AudioManager.init();
+    }
     
     // Cambia el estado del hardware y nos dice si quedó en mute (true/false)
     const isMuted = AudioManager.toggleMute();
@@ -404,13 +392,14 @@ function toggleGlobalMute(event) {
         AudioManager.audioCtx.resume();
     }
 
+    AudioManager.play('BUTTON_TOGGLE', 1, true);
     // Pasamos el estado a la capa visual para que refresque la pantalla
     updateMuteVisuals(isMuted);
 }
 
 // 2. CAPA VISUAL: Se encarga de pintar la UI en base al estado del motor
 function updateMuteVisuals(isMuted) {
-    // Capturamos todos los contenedores de botón de mute que existan (tanto en header como en el hero)
+    // Capturamos todos los contenedores de botón de mute que existan
     const muteBtns = document.querySelectorAll('.mute-btn, .hero-mute-btn');
     const statusTexts = document.querySelectorAll('.mute-line-bottom, #mute-text');
     const muteIcons = document.querySelectorAll('#mute-icon');
@@ -424,7 +413,7 @@ function updateMuteVisuals(isMuted) {
         }
     });
 
-    // Actualizamos los textos (ON / OFF / SOUND ON / SOUND OFF) según su clase o ID
+    // Actualizamos los textos (ON / OFF / SOUND ON / SOUND OFF)
     statusTexts.forEach(text => {
         if (text.id === 'mute-text') {
             text.innerText = isMuted ? 'SOUND OFF' : 'SOUND ON';
@@ -433,12 +422,17 @@ function updateMuteVisuals(isMuted) {
         }
     });
 
-    // Actualizamos los iconos de emoticón si es que los estás usando
+    // 🎛️ NUEVA LÓGICA: Inyección mediante archivos .svg externos
     muteIcons.forEach(icon => {
-        icon.innerText = isMuted ? '🔇' : '🔊';
+        if (isMuted) {
+            // Ruta al SVG de volumen apagado (usa '../' por si estás en la carpeta blog)
+            icon.innerHTML = `<img src="../assets/img/buttons/btn-volume-off.svg" alt="Mute" class="mute-svg-icon" style="width:24px; height:24px;">`;
+        } else {
+            // Ruta al SVG de volumen activo
+            icon.innerHTML = `<img src="../assets/img/buttons/btn-volume-on.svg" alt="Sound On" class="mute-svg-icon" style="width:24px; height:24px;">`;
+        }
     });
 }
-
 // ESCUCHAR CLICS GLOBALES E INTERACCIONES DE AUDIO
 document.addEventListener('DOMContentLoaded', () => {
     AudioManager.startLoadingAssets();
@@ -450,12 +444,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // 1. SELECTORES DE INTERFAZ (Buscamos coincidencias de clics en un solo mapeo)
         const sticker     = target.closest('[data-sound]');
         const isBack      = target.closest('.back-btn');
-        const isToggle = target.closest('.hero-mute-btn, .hero-mute-btn.muted');
         const isHamburger = target.closest('.hamburger-menu');
-        const isUiButton  = target.closest('.more-games-btn, .menu-btn, .bio-btn, .port-btn, .blog-btn, .contact-btn, .mute-btn, .nav-sub-menu a');
+        const isUiButton  = target.closest('.more-games-btn, .menu-btn, .bio-btn, .port-btn, .blog-btn, .contact-btn, .nav-sub-menu a');
 
         // Si el clic no coincide con ningún elemento interactivo de audio, salimos de inmediato
-        if (!sticker && !isBack && !isToggle && !isHamburger && !isUiButton) return;
+        if (!sticker && !isBack && !isHamburger && !isUiButton) {
+            console.log("No matching ref");
+            return;
+            }
 
         // 2. DESPERTAR EL CONTEXTO (Garantiza el hilo activo de audio en CUALQUIER interacción válida)
         if (!AudioManager.audioCtx) {
@@ -465,37 +461,18 @@ document.addEventListener('DOMContentLoaded', () => {
             await AudioManager.audioCtx.resume();
         }
 
-        // 3. ENRUTADOR DE AUDIO (Play global al soundKey determinado por la UI)
         if (sticker) {
-            AudioManager.play(sticker.getAttribute('data-sound'));
-        } 
-        else if (isToggle) {
-            AudioManager.play('BUTTON_TOGGLE'); // Nota: Cambiado de guion medio a guion bajo por consistencia
+            AudioManager.play(sticker.getAttribute('data-sound'), 0.8,true);
         } 
         else if (isBack) {
-            AudioManager.play('BUTTON_BACK');   // Nota: Cambiado de guion medio a guion bajo por consistencia
+            AudioManager.play('BUTTON_BACK', 0.9, true);
         } 
         else if (isHamburger) {
-            AudioManager.play('MENU_IN');
+            AudioManager.play('MENU_IN', 0.8, true);
         } 
         else if (isUiButton) {
-            AudioManager.play('BUTTON_CLICK');
+            AudioManager.play('BUTTON_CLICK', 0.9, true);        
         }
-
-    // debug
-        let soundKey = ''; 
-        if (sticker)       soundKey = sticker.getAttribute('data-sound');
-        else if (isToggle)    soundKey = 'BUTTON_TOGGLE';
-        else if (isBack)      soundKey = 'BUTTON_BACK';
-        else if (isHamburger) soundKey = 'MENU_IN';
-        else if (isUiButton)  soundKey = 'BUTTON_CLICK';
-
-        if (soundKey) {
-            AudioManager.play(soundKey);
-            console.log(`[AudioManager] Reproduciendo cue: ${soundKey}`);
-        } else {
-            console.log("play sound failed");
-    }
     });
 });
     // Cierre al hacer clic fuera del menú móvil (Hamburger custom handler)

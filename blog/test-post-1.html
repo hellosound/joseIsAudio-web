@@ -136,6 +136,9 @@
 <header class="global-header">
 
     <div class="header-left">
+        <button class="mute-btn" onclick="toggleGlobalMute(event)">
+        <span id="mute-icon">🔊</span>
+</button>
     </div>
     
     <div class="header-center">
@@ -219,9 +222,7 @@ function goBack() {
         </section>
 
 <div style="display: flex; justify-content: center; width: 100%; margin-top: 60px; margin-bottom: 20px;">
-    <a class="back-btn" href="../index.html?page=blog" style="text-decoration: none;">
-        BACK
-    </a>
+    <a class="back-btn" href="../index.html?page=blog">BACK</a>
 </div>
     </main>
 <footer class="global-footer">
@@ -246,43 +247,33 @@ function goBack() {
             © 2026 joseIsAudio • SOUND DESIGN • GAME AUDIO PROGRAMMING
         </p>
     </footer>
-    <script>
-        function toggleMobileMenu() {
-            if (window.innerWidth <= 768) {
-                const menu = document.getElementById('mobileNavMenu');
-                const body = document.body;
-                
-                // Alternamos la clase open al presionar la hamburguesa
-                menu.classList.toggle('open');
-                
-                // Evaluamos el estado para controlar el scroll del fondo
-                if (menu.classList.contains('open')) {
-                    body.classList.add('no-scroll');
-                    body.style.overflow = 'hidden'; 
-                } else {
-                    body.classList.remove('no-scroll');
-                    body.style.overflow = ''; 
-                }
-            }
-        }
 
-        document.addEventListener('click', (e) => {
-            const menu = document.getElementById('mobileNavMenu');
-            const hamburger = document.querySelector('.hamburger-menu');
-            
-            if (menu && menu.classList.contains('open')) {
-                
-                if (hamburger.contains(e.target)) {
-                    return;
-                }
-                
-                if (e.target.tagName !== 'A') {
-                    menu.classList.remove('open');
-                    document.body.classList.remove('no-scroll');
-                    document.body.style.overflow = '';
-                }
+   <script src="../script.js"></script>
+    
+    <script>
+        // 🎯 INTERCEPTOR DEL BOTÓN BACK PARA EVITAR LA NAVEGACIÓN INSTANTÁNEA
+        document.addEventListener('DOMContentLoaded', () => {
+            const backBtn = document.querySelector('.post-container .back-btn');
+            if (backBtn) {
+                backBtn.addEventListener('click', (e) => {
+                    // 1. Congelamos la redirección inmediata del enlace HTML
+                    e.preventDefault(); 
+                    
+                    // 2. Forzamos de forma directa el disparo del sonido a través del motor central
+                    if (typeof AudioManager !== 'undefined') {
+                        AudioManager.play('BUTTON_BACK', 0.8, true);
+                    }
+                    
+                    // 3. Dejamos un delay ultra sutil (180ms) para que el transitorio suene limpio antes de migrar
+                    setTimeout(() => {
+                        window.location.href = backBtn.getAttribute('href');
+                    }, 180);
+                });
             }
         });
+
+        // El resto de funciones repetidas (toggleMobileMenu) fueron removidas 
+        // para que herede de forma nativa el comportamiento con audio de tu script.js
     </script>
 </body>
 </html>
