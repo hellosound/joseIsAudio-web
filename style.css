@@ -9,15 +9,16 @@
     --font-title: 'Archivo', sans-serif;
     --font-subtitle: 'JetBrains Mono', monospace;
     --font-body: 'Archivo', sans-serif;
+    color-scheme: dark;
 }
 
 body {
     background-color: var(--bg-color);
+    color: #ffffff;
     background-image: url('assets/img/hero/bg-pattern.svg'); 
     background-repeat: repeat;
     background-size: 380px; 
     background-blend-mode: multiply;
-    color: white;
     font-family: var(--font-body);
     margin: 0;
 }
