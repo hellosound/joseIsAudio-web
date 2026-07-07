@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CPU Optimization | joseIsAudio</title>
-    
+    <title>Optimización de CPU en Audio para Juegos | joseIsAudio</title>
+
+    <meta name="description" content="Aprende estrategias avanzadas de optimización de CPU y gestión de hilos de audio en Unreal Engine y Wwise para juegos AA y AAA.">
+
+    <meta property="og:title" content="Optimización de CPU en Audio para Juegos | joseIsAudio">
+    <meta property="og:description" content="Cómo exprimir cada ciclo de CPU implementando sistemas de audio interactivos sin romper el juego.">
+    <meta property="og:image" content="https://tuweb.com/assets/img/blog/cpu-opt-thumb.jpg">
+    <meta property="og:url" content="https://tuweb.com/blog/test-post-1.html">
+
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="../style.css"> 
@@ -137,8 +144,9 @@
 
     <div class="header-left">
         <button class="mute-btn" onclick="toggleGlobalMute(event)">
-        <span id="mute-icon">🔊</span>
-</button>
+     <span id="mute-icon">
+            <img src="../assets/img/buttons/btn-volume-on.svg" alt="Sound On">
+        </span></button>
     </div>
     
     <div class="header-center">
@@ -220,6 +228,13 @@ function goBack() {
 
             </p>
         </section>
+
+        <div class="post-tags">
+            <span class="tag">Game Audio</span>
+            <span class="tag">Unreal Engine</span>
+            <span class="tag">Wwise</span>
+            <span class="tag">C++</span>
+        </div>
 
 <div style="display: flex; justify-content: center; width: 100%; margin-top: 60px; margin-bottom: 20px;">
     <a class="back-btn" href="../index.html?page=blog">BACK</a>

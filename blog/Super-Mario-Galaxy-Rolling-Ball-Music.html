@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Mario Galaxy: Recreating the rolling ball music system | Jose Angulo</title>
+
+    <meta name="description" content="A technical breakdown on how to recreate the iconic interactive rolling ball music system from Super Mario Galaxy using Unreal Engine.">
+
+    <meta property="og:title" content="Recreating Super Mario Galaxy's Music System | joseIsAudio">
+    <meta property="og:description" content="How to build a dynamic, physics-driven interactive music system using MetaSounds and Blueprints.">
+    <meta property="og:image" content="https://joseisaudio.com/assets/img/blog/smg-thumb.avif">
+    <meta property="og:url" content="https://joseisaudio.com/blog/Super-Mario-Galaxy-Rolling-Ball-Music.html">
+
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../style.css"> 
+
+    <style>
+        body {
+            background-color: var(--bg-color);
+            overflow-y: auto !important; 
+            overflow-x: hidden;
+            height: auto;
+            color: #cbd5e1;
+            font-family: var(--font-body);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Estructura para centrar el artículo */
+        .post-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 40px auto 80px auto;
+            padding: 0 24px;
+            text-align: left;
+            box-sizing: border-box;
+            flex: 1; /* Empuja al footer hacia abajo si el artículo es corto */
+        }
+
+        /* Encabezado del Post */
+        .post-header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(222, 27, 82, 0.15);
+            padding-bottom: 30px;
+        }
+
+        .post-date {
+            font-family: var(--font-subtitle);
+            font-size: 0.85rem;
+            color: #626f8a;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .post-container h1 { 
+            font-family: var(--font-title); 
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: white; 
+            margin: 0;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        /* Contenido del post */
+        .post-content p {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            margin-bottom: 25px;
+        }
+
+        .post-content h3 {
+            font-family: var(--font-title);
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: white;
+            margin: 40px 0 15px 0;
+            letter-spacing: -0.5px;
+        }
+
+        /* Bloques de código */
+        pre { 
+            background: #0b0d14; 
+            padding: 24px; 
+            border-radius: 12px; 
+            overflow-x: auto; 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 25px 0;
+        }
+
+        pre code {
+            font-family: var(--font-subtitle);
+            font-size: 0.9rem;
+            color: #00ffcc; 
+            line-height: 1.5;
+        }
+
+        .post-container img { 
+            width: 100%; 
+            border-radius: 12px; 
+            margin: 35px 0; 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Video de YouTube */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #0b0d14;
+            margin: 40px 0;
+            border: 1px solid rgba(222, 27, 82, 0.3);
+            border-radius: 12px;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Ajuste específico para que el botón back herede el estilo de tu CSS */
+        .post-container .back-btn {
+            margin-top: 40px;
+            display: block;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        /* Estilos para los tags de este post */
+        .post-tags {
+            display: flex;
+            gap: 10px;
+            margin-top: 40px;
+        }
+        
+        .tag {
+            background: rgba(222, 27, 82, 0.1);
+            border: 1px solid rgba(222, 27, 82, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #ff3366;
+        }
+        .post-figure {
+    margin: 35px 0; /* Hereda el margen que ya tenías en tus imágenes */
+    padding: 0;
+    width: 100%;
+}
+
+/* Forzamos a que la imagen dentro del figure mantenga tus estilos */
+.post-figure img {
+    width: 100%; 
+    border-radius: 12px; 
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    margin: 0 0 10px 0; /* Solo margen abajo para separarse de su texto */
+}
+
+/* Estilo para el Footer / Pie de foto de la imagen */
+.post-figure figcaption {
+    font-family: var(--font-subtitle);
+    font-size: 0.85rem;
+    color: #626f8a; /* Un tono gris azulado sutil para que no compita con el texto principal */
+    text-align: center;
+    line-height: 1.4;
+    font-style: italic;
+    padding: 0 10px;
+}
+    </style>
+</head>
+<body>
+
+<header class="global-header">
+    <div class="header-left">
+        <button class="mute-btn" onclick="toggleGlobalMute(event)">
+            <span id="mute-icon">
+                <img src="../assets/img/buttons/btn-volume-on.svg" alt="Sound On">
+            </span>
+        </button>
+    </div>
+    
+    <div class="header-center">
+        <a href="../index.html?page=hero">
+            <img src="../assets/img/header/hdr-logo.svg" alt="joseIsAudio" class="mini-logo">
+        </a>
+    </div>
+    
+    <div class="header-right submenu-wrapper">
+        <button class="hamburger-menu" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <nav class="nav-sub-menu" id="mobileNavMenu">
+            <div class="menu-links-holder">
+                <a class="menu-overlay-link home-txt" href="../index.html?page=hero">HOME</a>
+                <a class="menu-overlay-link bio-txt" href="../index.html?page=bio">BIO</a>
+                <a class="menu-overlay-link blog-txt" href="../index.html?page=blog">BLOG</a>
+                <a class="menu-overlay-link port-txt" href="../index.html?page=portfolio">PROJECTS</a>
+                <a class="menu-overlay-link contact-txt" href="../index.html?page=contact">CONTACT</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+    <main class="post-container">
+        <header class="post-header">
+            <span class="post-date">May 26, 2026</span>
+            <h1>Re-creating the Super Mario Galaxy Rolling Ball Music System in Unreal Engine</h1>
+        </header>
+        
+        <section class="post-content">
+            <p>Earlier this year, the massive hype surrounding the <i>Super Mario Galaxy</i> movie release triggered a huge wave of nostalgia for one of the greatest Nintendo franchises ever made. For me, beyond the mind-bending gravity and galaxy hopping, there’s one specific feature that has always blown my mind: <strong>the Rolling Ball Galaxies.</strong></p>
+            
+            <p>In these levels, Mario hops on top of a giant sphere, and while the controls get wacky and chaotic, the real masterpiece lies in <strong>the music system</strong>. The audio reacts so fluidly to the ball's movement—shifting pitch, altering pace, and dynamically weaving layers in and out—that the immersion is absolute. You don't even realize it's happening until you really stop and pay close attention to it.</p>
+            
+            <p>As a sound designer with some free time on my hands, I couldn't resist the challenge. I hopped into Unreal Engine to re-create this iconic interactive music system from scratch using <strong>MetaSounds</strong> and <strong>Blueprints</strong>. Here is a breakdown of how I did it!</p>
+
+            <h3>1. Prototyping the Core Mechanics</h3>
+            <p>To match the organic feel of the original game, the music system needed to follow three core rules driven by the ball's physics:</p>
+            <p>• <strong>Pitch/Speed Modulation:</strong> Accelerating shifts the pitch up (speeding up the track), while slowing down drops the pitch.<br>
+               • <strong>Vertical Layering:</strong> Instrumental layers fade in and out based on specific speed thresholds.<br>
+               • <strong>Playback Memory:</strong> If the player stops completely, the music pauses but stores its exact location so it can resume <i>exactly</i> where it left off, rather than restarting from the beginning.</p>
+
+            <h3>2. The MetaSounds Architecture: Managing the Layers</h3>
+            <p>The magic of interactive mixing happens entirely inside MetaSounds. For this project, I structured the soundtrack into three separate audio layers: a <strong>Base Layer</strong> (drums and bass), <strong>Layer 1</strong> (bells and wobble), and <strong>Layer 2</strong> (additional bells and synthesizer).</p>
+
+            <figure class="post-figure">
+                <img src="../assets/img/blog/super-mario-galaxy/smg-layers.avif" alt="Unreal Engine MetaSounds music layers routing graph structure">
+                <figcaption>Example of layer mixing</figcaption>
+            </figure>           
+            
+            <p>To prevent instruments from cutting in abruptly—which would completely break the illusion—I built custom <strong>interpolation</strong> logic hooked up to the gain control of each sub-mixer. When the game tells the MetaSound to <i>"trigger Layer 1"</i>, the audio smoothly fades in while staying perfectly in sync. Each sub-mixer feeds into a master mixer, giving me granular control over the entire system's balance.</p>
+
+            <h3>3. The Blueprint Logic: Bridging Physics and Audio</h3>
+            <p>For this prototype, I attached the music component directly to the main character's ball Blueprint. While a larger project would definitely warrant a dedicated <i>Music Manager</i> system, having it directly inside the character actor makes it incredibly efficient to grab physical velocity variables on the fly.</p>
+            
+            <p>Instead of tanking performance by hooking this up to the heavy <i>Event Tick</i> node, I used a <strong>Set Timer by Event</strong> node on <i>Begin Play</i>. This calls a custom <code>Play Music</code> event at a regulated interval, which keeps things well-optimized. The Pitch input is clamped to a range between <code>-2</code> and <code>2</code>, and the speed is clamped between <code>0</code> and <code>1</code> before feeding those parameters straight into the MetaSound.</p>
+            
+            <figure class="post-figure">
+                <img src="../assets/img/blog/super-mario-galaxy/smg-set-timer.avif" alt="Unreal Engine Node Set Timer By Event">
+                <figcaption>Set timer by event</figcaption>
+            </figure> 
+
+            <h3>4. Solving the Playback Time Headache</h3>
+            <p>One of the trickiest parts of this process, was is dealing with pauses. I needed a way to store the current position in time of the music when the music stopped, so we could restart from there when it started again. If the music restarted from second zero every single time the ball stopped, it would drive players crazy within minutes. To solve this, I designed a mathematical function that calculates the passage of time using <strong>World Delta Seconds</strong> added to a custom timestamp variable, wrapped neatly with a modulo operator.</p>
+            <figure class="post-figure">
+                <img src="../assets/img/blog/super-mario-galaxy/smg-get-playback-time.avif" alt="Function to get the playback time">
+                <figcaption>Math function to retrieve the current playback time</figcaption>
+            </figure>      
+            
+            <p>This ensures that whenever the timer exceeds the track duration, it cleanly wraps back around to zero and feeds back into itself. When the ball stops moving, the system safely stores that final timestamp, allowing the music to resume flawlessly on the next push.</p>
+                        <p>This ensures that whenever the timer exceeds the track duration, it cleanly wraps back around to zero and feeds back into itself. When the ball stops moving, the system safely stores that final timestamp, allowing the music to resume flawlessly on the next push.</p>
+
+            <p>Re-creating classic industry mechanics is one of the best ways to master the true potential of tools like MetaSounds. This prototype proves that with a handful of interpolation nodes, an optimized timer handle, and a tiny bit of looping math, you can craft incredibly immersive dynamic audio experiences.</p>
+        
+                    <p>Don't wanna read? I got you! Here's the video version of this blog!!</p>
+
+            <div class="video-wrapper">
+                <iframe 
+                    src="https://www.youtube.com/embed/JfzLjzTNImw?si=zM4r8b5VpRm12SxE" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </section>
+
+        <div class="post-tags">
+            <span class="tag">Game Audio</span>
+            <span class="tag">Unreal Engine</span>
+            <span class="tag">MetaSounds</span>
+            <span class="tag">Blueprints</span>
+        </div>
+
+        <div style="display: flex; justify-content: center; width: 100%; margin-top: 60px; margin-bottom: 20px;">
+            <a class="back-btn" href="../index.html?page=blog">BACK</a>
+        </div>
+    </main>
+
+    <footer class="global-footer">
+        <div class="footer-divider-line"></div>
+        
+        <div class="footer-socials">
+            <a href="https://www.linkedin.com/in/joseisaudio/" target="_blank" class="footer-btn">
+                <img src="../assets/img/footer/foot-link.svg" alt="LinkedIn">
+            </a>
+            <a href="https://youtube.com/@joseisaudio" target="_blank" class="footer-btn">
+                <img src="../assets/img/footer/foot-yt.svg" alt="YouTube">
+            </a>
+            <a href="https://github.com/hellosound" target="_blank" class="footer-btn">
+                <img src="../assets/img/footer/foot-git.svg" alt="GitHub">
+            </a>
+            <a href="mailto:heyhellosound@gmail.com" class="footer-btn">
+                <img src="../assets/img/footer/foot-mail.svg" alt="Email">
+            </a>
+        </div>
+
+        <p class="footer-credits">
+            © 2026 joseIsAudio • SOUND DESIGN • GAME AUDIO PROGRAMMING
+        </p>
+    </footer>
+
+    <script src="../script.js"></script>
+    
+    <script>
+        // 🎯 INTERCEPTOR DEL BOTÓN BACK PARA EVITAR LA NAVEGACIÓN INSTANTÁNEA
+        document.addEventListener('DOMContentLoaded', () => {
+            const backBtn = document.querySelector('.post-container .back-btn');
+            if (backBtn) {
+                backBtn.addEventListener('click', (e) => {
+                    e.preventDefault(); 
+                    
+                    if (typeof AudioManager !== 'undefined') {
+                        AudioManager.play('BUTTON_BACK', 0.8, true);
+                    }
+                    
+                    setTimeout(() => {
+                        window.location.href = backBtn.getAttribute('href');
+                    }, 180);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
