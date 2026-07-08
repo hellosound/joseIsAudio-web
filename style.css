@@ -706,8 +706,6 @@ width: clamp(200px, 25vw, 340px);
     overflow: visible !important;
     cursor: pointer;
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), z-index 0s ease;
-    z-index: 5;
-    filter: drop-shadow(5px 8px 12px rgba(0, 0, 0, 0.45));    z-index: 5;
 }
 .sticker-thumb {
     width: 100%;
