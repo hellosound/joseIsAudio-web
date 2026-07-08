@@ -13,11 +13,11 @@
 }
 
 body {
-    background-color: var(--bg-color);
     color: #ffffff;
-    background-image: url('assets/img/hero/bg-pattern.svg'); 
+    background-color: rgba(13, 17, 23, 0.4);
+    background-image: url('assets/img/hero/bg-pattern-dark.webp'); 
     background-repeat: repeat;
-    background-size: 380px; 
+    background-size: 721px 440px; 
     background-blend-mode: multiply;
     font-family: var(--font-body);
     margin: 0;
@@ -1262,8 +1262,9 @@ background: var(--bg-color);
     }
 
 .blog-card:hover {
-    background: rgba(222, 27, 82, 0.03);
-    border-color: var(--btn-blog);
+    background: rgba(241, 184, 58, 0.02);
+    border-color: var(--btn-bio); 
+    box-shadow: 0 10px 30px rgba(241, 184, 58, 0.12); 
     transform: translateX(6px); 
     }
 
@@ -1457,6 +1458,8 @@ background: var(--bg-color);
     background: rgba(241, 184, 58, 0.02);
     border-color: var(--btn-bio); 
     box-shadow: 0 10px 30px rgba(241, 184, 58, 0.12); 
+    transform: translateX(6px); 
+
 }
 
 .talk-content {
