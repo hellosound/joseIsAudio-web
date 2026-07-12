@@ -11,7 +11,7 @@
     "video": "https://www.youtube.com/embed/ZUPd7ceW_O4?si=eTUr37d46iwgizxM",
     "image": "assets/img/portfolio/img-reel.avif",
     "isSticker": true,
-    "stickerImage": "assets/img/hero/stk_reel.svg",
+    "stickerImage": "assets/img/hero/stk_reel.png",
     "stickerWidth":"191px",
     "stickerHeight":"172px",
     "stickerTop":"580px",
@@ -34,7 +34,7 @@
     "video": "https://www.youtube.com/embed/1cTftd4pNaY?si=TOYe2xMg-bkS10n-",
     "image": "assets/img/portfolio/img_OMD2.avif",
     "isSticker": true,
-    "stickerImage":"assets/img/hero/stk_omd.svg",
+    "stickerImage":"assets/img/hero/stk_omd.png",
 
     "stickerWidth":"157px",
     "stickerHeight":"162px",
@@ -57,7 +57,7 @@
     "video": "https://www.youtube.com/embed/bmfb927dxwY?si=OdlYYjn2G6vIeZqy",
     "image": "assets/img/portfolio/img_TMNT.avif",
     "isSticker": true,
-    "stickerImage":"assets/img/hero/stk_tmnt.svg",
+    "stickerImage":"assets/img/hero/stk_tmnt.png",
 
     "stickerWidth":"166px",
     "stickerHeight":"140px",
@@ -79,7 +79,7 @@
     "video": "https://www.youtube.com/embed/wpt9u33z0dg?si=KaoJ18Tg0yRQyfhS",
     "image": "assets/img/portfolio/img_KKFOS.avif",
     "isSticker": true,
-    "stickerImage":"assets/img/hero/stk_kkfos.svg",
+    "stickerImage":"assets/img/hero/stk_kkfos.png",
 
     "stickerWidth":"167px",
     "stickerHeight":"145px",
@@ -102,7 +102,7 @@
     "video": "https://www.youtube.com/embed/PYIgqPr74Q8?si=FZN6Tq77AtyC4T-p",
     "image": "assets/img/portfolio/img_AlUmbra.avif",
     "isSticker": true,
-    "stickerImage":"assets/img/hero/stk_alumbra.svg",
+    "stickerImage":"assets/img/hero/stk_alumbra.png",
 
     "stickerWidth":"169px",
     "stickerHeight":"165px",
@@ -125,7 +125,7 @@
     "video": "https://www.youtube.com/embed/8AyoJfn-3AY?si=9lwpOErWhZCdkw_b",
     "image": "assets/img/portfolio/img_nekome.avif",
     "isSticker": true,
-    "stickerImage":"assets/img/hero/stk_nekome.svg",
+    "stickerImage":"assets/img/hero/stk_nekome.png",
 
     "stickerWidth":"122px",
     "stickerHeight":"145px",
@@ -149,7 +149,7 @@
     "video": "https://www.youtube.com/embed/8X6q8Rkbwkw?si=DxlrpyzbMHcOcePE",
     "image": "assets/img/portfolio/img_Shadow.avif",
     "isSticker": true,
-    "stickerImage":"assets/img/hero/stk_shadow.svg",
+    "stickerImage":"assets/img/hero/stk_shadow.png",
     
     "stickerWidth":"122px",
     "stickerHeight":"149px",
