@@ -747,6 +747,7 @@ width: clamp(200px, 25vw, 340px);
     z-index: 999 !important;
 }
 
+
 @media (max-width: 1440px) {
     .stickers-layer {
         transform: translateX(-50%) scale(0.85);
