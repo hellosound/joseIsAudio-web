@@ -1,8 +1,20 @@
 [
-    {
+  {
     "title": "Super-Mario-Galaxy-Rolling-Ball-Music",
-    "date": "July 2026",
-    "description": "A technical breakdown on how to recreate the iconic interactive rolling ball music system from Super Mario Galaxy using Unreal Engine..",
+    "date": "June 2026",
+    "description": "A technical breakdown on how to recreate the iconic interactive rolling ball music system from Super Mario Galaxy using Unreal Engine.",
     "link": "blog/Super-Mario-Galaxy-Rolling-Ball-Music.html"
+  },
+  {
+    "title": "Ten Years Later",
+    "date": "July 2026",
+    "description": "What I learned stepping out of my comfort zone to build an interactive space that represents me as an artist and programmer.",
+    "link": "blog/Ten-years-later.html"
+  },
+  {
+    "title": "Creating a website with sounds",
+    "date": "July 2026",
+    "description": "A look into the audio engine of this web page.",
+    "link": "blog/Creating-a-website-with-sounds.html"
   }
 ]

@@ -3,26 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Mario Galaxy: Recreating the rolling ball music system | Jose Angulo</title>
+    <title>Ten Years Later: Why I Finally Built a Portfolio Website | Jose Angulo</title>
 
-    <meta name="description" content="A technical breakdown on how to recreate the iconic interactive rolling ball music system from Super Mario Galaxy using Unreal Engine.">
+    <meta name="description" content="Reflections on a decade of freelancing in game audio, the power of networking, and the challenges of coding my own portfolio website.">
 
-    <meta property="og:title" content="Recreating Super Mario Galaxy's Music System | joseIsAudio">
-    <meta property="og:description" content="How to build a dynamic, physics-driven interactive music system using MetaSounds and Blueprints.">
-    <meta property="og:image" content="https://joseisaudio.com/assets/img/blog/smg-thumb.avif">
-    <meta property="og:url" content="https://joseisaudio.com/blog/Super-Mario-Galaxy-Rolling-Ball-Music.html">
-    
-    <link rel="icon" type="image/png" href="../assets/img/web/img-favicon.png">    
+    <meta property="og:title" content="Ten Years Later: Why I Finally Built a Portfolio Website | joseIsAudio">
+    <meta property="og:description" content="What I learned stepping out of my comfort zone to build an interactive space that represents me as an artist and programmer.">
+    <meta property="og:image" content="https://joseisaudio.com/assets/img/web/img-embeed-miniature.png">
+    <meta property="og:url" content="https://joseisaudio.com/blog/Ten-years-later.html">
+
+     <link rel="icon" type="image/png" href="../assets/img/web/img-favicon.png">    
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Jose Angulo | Technical Sound Designer & Gameplay Audio Programmer">
-    <meta name="twitter:description" content="If the game makes 'beep', 'boop', or any weird noise... that was me.">
-    <meta name="twitter:image" content="https://joseisaudio.com/assets/img/blog/smg-thumb.avif">
+    <meta name="twitter:title" content="Ten Years Later: Why I Finally Built a Portfolio Website | joseIsAudio">
+    <meta name="twitter:description" content="What I learned stepping out of my comfort zone to build an interactive space that represents me as an artist and programmer.">
+    <meta name="twitter:image" content="https://joseisaudio.com/assets/img/web/img-embeed-miniature.png">
+    
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="../style.css"> 
 
-    <style>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+     <link rel="stylesheet" href="../style.css"> 
+
+     <style>
         body {
        
             color: #ffffff;
@@ -182,7 +186,7 @@
     font-style: italic;
     padding: 0 10px;
 }
-</style>
+    </style>
 </head>
 <body>
 
@@ -222,73 +226,46 @@
 
     <main class="post-container">
         <header class="post-header">
-            <span class="post-date">June, 2026</span>
-            <h1>Re-creating the Super Mario Galaxy Rolling Ball Music System in Unreal Engine</h1>
+            <span class="post-date">July, 2026</span>
+            <h1>Ten Years Later: Why I Finally Built a Portfolio Website (And What I Learned)</h1>
         </header>
         
         <section class="post-content">
-            <p>Earlier this year, the massive hype surrounding the <i>Super Mario Galaxy</i> movie release triggered a huge wave of nostalgia for one of the greatest Nintendo franchises ever made. For me, beyond the mind-bending gravity and galaxy hopping, there’s one specific feature that has always blown my mind: <strong>the Rolling Ball Galaxies.</strong></p>
+            <p>It’s been almost 10 years since I started freelancing in game audio, and I’ve never felt the need to have a webpage.</p>
             
-            <p>In these levels, Mario hops on top of a giant sphere, and while the controls get wacky and chaotic, the real masterpiece lies in <strong>the music system</strong>. The audio reacts so fluidly to the ball's movement—shifting pitch, altering pace, and dynamically weaving layers in and out—that the immersion is absolute. You don't even realize it's happening until you really stop and pay close attention to it.</p>
+            <p>I don’t really think it’s necessary in order to thrive in this industry; there is no webpage that can get you a gig if you don’t first focus on creating great relationships with the people who can actually give you work.</p>
             
-            <p>As a sound designer with some free time on my hands, I couldn't resist the challenge. I hopped into Unreal Engine to re-create this iconic interactive music system from scratch using <strong>MetaSounds</strong> and <strong>Blueprints</strong>. Here is a breakdown of how I did it!</p>
+            <p>That being said, with a network built and running through these years, combined with my growing personal interest in coding, I thought it was a good challenge to build a website that represents me as both an artist and a programmer. I want to give potential clients an experience they will remember, presenting myself as someone who takes his job very seriously—and therefore, a person they can trust.</p>
 
-            <h3>1. Prototyping the Core Mechanics</h3>
-            <p>To match the organic feel of the original game, the music system needed to follow three core rules driven by the ball's physics:</p>
-            <p>• <strong>Pitch/Speed Modulation:</strong> Accelerating shifts the pitch up (speeding up the track), while slowing down drops the pitch.<br>
-               • <strong>Vertical Layering:</strong> Instrumental layers fade in and out based on specific speed thresholds.<br>
-               • <strong>Playback Memory:</strong> If the player stops completely, the music pauses but stores its exact location so it can resume <i>exactly</i> where it left off, rather than restarting from the beginning.</p>
+            <p>Here are some lessons I learned while working on this project:</p>
 
-            <h3>2. The MetaSounds Architecture: Managing the Layers</h3>
-            <p>The magic of interactive mixing happens entirely inside MetaSounds. For this project, I structured the soundtrack into three separate audio layers: a <strong>Base Layer</strong> (drums and bass), <strong>Layer 1</strong> (bells and wobble), and <strong>Layer 2</strong> (additional bells and synthesizer).</p>
-
-            <figure class="post-figure">
-                <img src="../assets/img/blog/super-mario-galaxy/smg-layers.avif" alt="Unreal Engine MetaSounds music layers routing graph structure">
-                <figcaption>Example of layer mixing</figcaption>
-            </figure>           
+            <h3>Inspiration and References</h3>
+            <p>I wanted a website that resembled the ones I admire. As you might tell if you have visited them, sites like <a href="https://www.ashellinthepit.com" target="_blank" rel="noopener"> "A Shell In The Pit"</a> or <a href="https://www.igame.audio" target="_blank" rel="noopener"> "iGame.Audio"</a> were a huge inspiration for this project. You need one person to start something, someone else to follow the idea, a couple more believers, and boom… you’ve got a movement.</p>
             
-            <p>To prevent instruments from cutting in abruptly—which would completely break the illusion—I built custom <strong>interpolation</strong> logic hooked up to the gain control of each sub-mixer. When the game tells the MetaSound to <i>"trigger Layer 1"</i>, the audio smoothly fades in while staying perfectly in sync. Each sub-mixer feeds into a master mixer, giving me granular control over the entire system's balance.</p>
+            <p>I really wanted something that captured that idea of “push this button, and a sound comes out.” But honestly, I wanted to be very careful not to just copy someone else. <a href="https://austinkleon.com/steal/" target="_blank" rel="noopener"> This book</a> exposes this point to perfection.</p>
 
-            <h3>3. The Blueprint Logic: Bridging Physics and Audio</h3>
-            <p>For this prototype, I attached the music component directly to the main character's ball Blueprint. While a larger project would definitely warrant a dedicated <i>Music Manager</i> system, having it directly inside the character actor makes it incredibly efficient to grab physical velocity variables on the fly.</p>
+            <h3>Get Help!</h3>
+            <p>I consider myself a decent technical sound designer with growing skills in gameplay audio programming. Some of this knowledge has safely transferred over to web development. Someone once said: “This job has given me the unhealthy confidence of saying ‘YES’ to projects that I have no idea how to do.” That was exactly the case for this webpage.</p>
             
-            <p>Instead of tanking performance by hooking this up to the heavy <i>Event Tick</i> node, I used a <strong>Set Timer by Event</strong> node on <i>Begin Play</i>. This calls a custom <code>Play Music</code> event at a regulated interval, which keeps things well-optimized. The Pitch input is clamped to a range between <code>-2</code> and <code>2</code>, and the speed is clamped between <code>0</code> and <code>1</code> before feeding those parameters straight into the MetaSound.</p>
+            <p>I could kung-fu my way through the code using the tools available—a web development course I took a few years ago, analyzing how other people solved the problems I was facing, and yes… asking Gemini to code-review my stuff. However, the visual part… yikes, that’s another story. I have no idea how to draw. In fact, I’m colorblind (seriously, I am). So, the visual style I envisioned for this was completely out of my league.</p>
             
-            <figure class="post-figure">
-                <img src="../assets/img/blog/super-mario-galaxy/smg-set-timer.avif" alt="Unreal Engine Node Set Timer By Event">
-                <figcaption>Set timer by event</figcaption>
-            </figure> 
-
-            <h3>4. Solving the Playback Time Headache</h3>
-            <p>One of the trickiest parts of this process, was is dealing with pauses. I needed a way to store the current position in time of the music when the music stopped, so we could restart from there when it started again. If the music restarted from second zero every single time the ball stopped, it would drive players crazy within minutes. To solve this, I designed a mathematical function that calculates the passage of time using <strong>World Delta Seconds</strong> added to a custom timestamp variable, wrapped neatly with a modulo operator.</p>
-            <figure class="post-figure">
-                <img src="../assets/img/blog/super-mario-galaxy/smg-get-playback-time.avif" alt="Function to get the playback time">
-                <figcaption>Math function to retrieve the current playback time</figcaption>
-            </figure>      
+            <p>Thankfuly, I have really talented friends who could take on this challenge for me, so the guys from <a href="https://www.maleiwastudio.com" target="_blank" rel="noopener"> "Maleiwa Studio"</a> came to the rescue.</p>
             
-            <p>This ensures that whenever the timer exceeds the track duration, it cleanly wraps back around to zero and feeds back into itself. When the ball stops moving, the system safely stores that final timestamp, allowing the music to resume flawlessly on the next push.</p>
-                        <p>This ensures that whenever the timer exceeds the track duration, it cleanly wraps back around to zero and feeds back into itself. When the ball stops moving, the system safely stores that final timestamp, allowing the music to resume flawlessly on the next push.</p>
+            <p>Hiring an expert is sometimes the best thing you can do. It allows you to spend more time doing what you actually want—in my case, writing endless lines of code and slamming the keyboard trying to figure out how JS works.</p>
 
-            <p>Re-creating classic industry mechanics is one of the best ways to master the true potential of tools like MetaSounds. This prototype proves that with a handful of interpolation nodes, an optimized timer handle, and a tiny bit of looping math, you can craft incredibly immersive dynamic audio experiences.</p>
-        
-                    <p>Don't wanna read? I got you! Here's the video version of this blog!!</p>
-
-            <div class="video-wrapper">
-                <iframe 
-                    src="https://www.youtube.com/embed/JfzLjzTNImw?si=zM4r8b5VpRm12SxE" 
-                    title="YouTube video player" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    allowfullscreen>
-                </iframe>
-            </div>
+            <h3>Everything is a Chance to Learn</h3>
+            <p>Before working on this, I had NO IDEA how to connect a domain to a webpage, what a hosting service was, or even that you could mix different programming languages in a single script. This website is NOT perfect; there are bugs out here that you might have already noticed, which I will be tackling soon.</p>
+            
+            <p>But the idea behind all of this—besides having a place to store my portfolio and my thoughts—is rooted in my strong belief that we are all constant learners. And why not show the process in the meantime?</p>
+            
+            <p>If you gained some knowledge out of it, it was 100% worth it.</p>
         </section>
 
         <div class="post-tags">
+            <span class="tag">WebDev</span>
+            <span class="tag">JavaScript</span>
             <span class="tag">Game Audio</span>
-            <span class="tag">Unreal Engine</span>
-            <span class="tag">MetaSounds</span>
-            <span class="tag">Blueprints</span>
+            <span class="tag">Personal</span>
         </div>
 
         <div style="display: flex; justify-content: center; width: 100%; margin-top: 60px; margin-bottom: 20px;">
