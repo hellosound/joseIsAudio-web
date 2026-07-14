@@ -1,0 +1,12 @@
+# 1. Instructions for search engines (Google, Bing, Yahoo, etc.)
+User-agent: *
+
+# Allow robots to index
+Allow: /
+
+# Avoid indexing temp files
+Disallow: /drafts/
+Disallow: /temp/
+
+# 2. Let search engines know where the sitemap is
+Sitemap: https://joseisaudio.com/sitemap.xml
