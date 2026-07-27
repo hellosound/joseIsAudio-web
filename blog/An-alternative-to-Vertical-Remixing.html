@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An alternative to Vertical Remixing: There are many ways to do it! | Jose Angulo</title>
+
+    <meta name="description" content="How I approach vertical remixing in videogames.">
+
+    <meta property="og:title" content="An alternative to Vertical Remixing: There are many ways to do it! | Jose Angulo">
+    <meta property="og:description" content="How I approach vertical remixing in videogames..">
+    <meta property="og:image" content="https://joseisaudio.com/assets/img/web/img-embeed-miniature.png">
+    <meta property="og:url" content="https://joseisaudio.com/blog/Ten-years-later.html">
+
+     <link rel="icon" type="image/png" href="../assets/img/web/img-favicon.png">    
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="TAn alternative to Vertical Remixing: There are many ways to do it! | Jose Angulo">
+    <meta name="twitter:description" content="How I approach vertical remixing in videogames.">
+    <meta name="twitter:image" content="https://joseisaudio.com/assets/img/web/img-embeed-miniature.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+     <link rel="stylesheet" href="../style.css"> 
+
+     <style>
+        body {
+            color: #ffffff;
+            background-color: rgba(13, 17, 23, 0.4);
+            background-image: url('assets/img/hero/bg-pattern-dark.webp'); 
+            background-repeat: repeat;
+            background-size: 721px 440px; 
+            background-blend-mode: multiply;
+            font-family: var(--font-body);
+            margin: 0;
+        }
+
+        /* Estructura para centrar el artículo */
+        .post-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 40px auto 80px auto;
+            padding: 0 24px;
+            text-align: left;
+            box-sizing: border-box;
+            flex: 1; /* Empuja al footer hacia abajo si el artículo es corto */
+        }
+
+        /* Encabezado del Post */
+        .post-header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(222, 27, 82, 0.15);
+            padding-bottom: 30px;
+        }
+
+        .post-date {
+            font-family: var(--font-subtitle);
+            font-size: 0.85rem;
+            color: #626f8a;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .post-container h1 { 
+            font-family: var(--font-title); 
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: white; 
+            margin: 0;
+            letter-spacing: -0.5px;
+            line-height: 1.25; /* 🛠️ Aumentado de 1.1 para dar respiración a títulos multilínea */
+        }
+
+        /* Contenido del post */
+        .post-content p, 
+        .intro-text p {
+            font-size: 1.05rem;
+            line-height: 1.85; /* 🛠️ Aumentado de 1.75 para mayor separación entre líneas */
+            margin-bottom: 30px; /* 🛠️ Aumentado a 30px para mayor separación entre párrafos */
+        }
+
+        .article-section p {
+            font-size: 1.05rem;
+            line-height: 1.85; /* 🛠️ Transmisión de mejor espaciado al extracto */
+            margin-bottom: 30px;
+        }
+
+        .post-content h3 {
+            font-family: var(--font-title);
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: white;
+            margin: 40px 0 15px 0;
+            letter-spacing: -0.5px;
+            line-height: 1.3;
+        }
+
+        .article-section {
+            background-color: rgba(255, 255, 255, 0.03);
+            padding: 30px;
+            border-left: 4px solid #de1b52;
+            border-radius: 0 12px 12px 0;
+            margin: 40px 0;
+        }
+
+        .article-section h2 {
+            font-family: var(--font-title);
+            font-size: 1.6rem;
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 25px;
+            line-height: 1.3;
+        }
+
+        .divider {
+            border: 0;
+            height: 1px;
+            background: rgba(222, 27, 82, 0.2);
+            margin: 45px 0;
+        }
+
+        .callout-box {
+            background: linear-gradient(135deg, rgba(222, 27, 82, 0.15) 0%, rgba(11, 13, 20, 0.8) 100%);
+            border: 1px solid rgba(222, 27, 82, 0.3);
+            padding: 35px;
+            border-radius: 12px;
+            margin: 50px 0 30px 0;
+            text-align: center;
+        }
+
+        .callout-box h3 {
+            font-family: var(--font-title);
+            font-size: 1.6rem;
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 18px;
+            line-height: 1.3;
+        }
+
+        .callout-box p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #d1d5db;
+            margin-bottom: 25px;
+        }
+
+        .btn-cta {
+            display: inline-block;
+            background-color: #de1b52;
+            color: #ffffff;
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(222, 27, 82, 0.3);
+        }
+
+        .btn-cta:hover {
+            background-color: #ff3366;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(222, 27, 82, 0.5);
+        }
+
+        /* Bloques de código */
+        pre { 
+            background: #0b0d14; 
+            padding: 24px; 
+            border-radius: 12px; 
+            overflow-x: auto; 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 30px 0;
+        }
+
+        pre code {
+            font-family: var(--font-subtitle);
+            font-size: 0.9rem;
+            color: #00ffcc; 
+            line-height: 1.6;
+        }
+
+        .post-container img { 
+            width: 100%; 
+            border-radius: 12px; 
+            margin: 35px 0; 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Video de YouTube */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #0b0d14;
+            margin: 40px 0;
+            border: 1px solid rgba(222, 27, 82, 0.3);
+            border-radius: 12px;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .post-container .back-btn {
+            margin-top: 40px;
+            display: block;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        /* Estilos para los tags de este post */
+        .post-tags {
+            display: flex;
+            gap: 10px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            background: rgba(222, 27, 82, 0.1);
+            border: 1px solid rgba(222, 27, 82, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #ff3366;
+        }
+
+        .post-figure {
+            margin: 35px 0; 
+            padding: 0;
+            width: 100%;
+        }
+
+        .post-figure img {
+            width: 100%; 
+            border-radius: 12px; 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 0 0 10px 0;
+        }
+
+        .post-figure figcaption {
+            font-family: var(--font-subtitle);
+            font-size: 0.85rem;
+            color: #626f8a;
+            text-align: center;
+            line-height: 1.5;
+            font-style: italic;
+            padding: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header class="global-header">
+    <div class="header-left">
+        <button class="mute-btn" onclick="toggleGlobalMute(event)">
+            <span id="mute-icon">
+                <img src="../assets/img/buttons/btn-volume-on.svg" alt="Sound On">
+            </span>
+        </button>
+    </div>
+    
+    <div class="header-center">
+        <a href="../index.html?page=hero">
+            <img src="../assets/img/header/hdr-logo.svg" alt="joseIsAudio" class="mini-logo">
+        </a>
+    </div>
+    
+    <div class="header-right submenu-wrapper">
+        <button class="hamburger-menu" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <nav class="nav-sub-menu" id="mobileNavMenu">
+            <div class="menu-links-holder">
+                <a class="menu-overlay-link home-txt" href="../index.html?page=hero">HOME</a>
+                <a class="menu-overlay-link bio-txt" href="../index.html?page=bio">BIO</a>
+                <a class="menu-overlay-link blog-txt" href="../index.html?page=blog">BLOG</a>
+                <a class="menu-overlay-link port-txt" href="../index.html?page=portfolio">PROJECTS</a>
+                <a class="menu-overlay-link contact-txt" href="../index.html?page=contact">CONTACT</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+    <main class="post-container">
+        <header class="post-header">
+            <span class="post-date">July, 2026</span>
+            <h1>An alternative to Vertical Remixing</h1>
+        </header>
+        
+        <div class="intro-text">
+            <p>Writing a book is an achievement of a lifetime. As a lifelong part-time reader, I have always dreamed of writing something of my own. Recently, the great Gonzalo Varela released his book <em>Music Composition for Video Games: Aesthetics, Technique and Profession</em>: a deep dive into his vision of how to make a career in videogame music. This is a massive achievement, and very special for the Latin American region. I've always thought that we really need this type of literature made by creators from different regions and contexts, as we need to enrich the vision of "how to make a living from games," and different backgrounds offer different inputs that are so necessary right now.</p>
+
+            <p>Gonzalo honoured me with the invitation to write a small contribution to his book, and of course I said <strong>"¡NO SE DIGA MÁS!"</strong> (that's something like: <em>"I'M SO IN"</em>).</p>
+
+            <p>Now you can get this book yourself and read all the pages of insane knowledge from Gonzalo and all the rest of the amazing collaborators. He allowed us to share our contributions, so I'm sharing mine with the hope that you will get the full book ASAP! Hope that this also motivates you to pursue great things, like Gonzalo did.</p>
+        </div>
+
+            <figure class="post-figure">
+                <img src="../assets/img/blog/GonzaloCover.webp" alt="Music Composition for Video Games Book Cover - Gonzalo Varela">
+                <figcaption>Music Composition for Video Games: Aesthetics, Technique and Profession by Gonzalo Varela</figcaption>
+            </figure>
+
+        <!-- ARTICLE SECTION -->
+        <section class="article-section">
+            <h2>Excerpt from "Music Composition for Video Games"</h2>
+
+            <p>During the development of the video game based on <em>La Casa de Papel</em> (<em>Money Heist</em>)—a project that was cancelled just one month before launch—I worked as technical sound designer and audio director. One of our main goals was to implement a dynamic music system that responded to the states of the gameplay: alert, evasion, and caution. Each state modified enemy behavior, from greater aggressiveness to specific patrol routes, in a linear level design where the player advanced from A to B while completing secondary objectives. That structure allowed us to link music to the player's progression in a very precise way.</p>
+
+            <p>Each mission had its own track. For the levels we used vertical remixing, adding musical layers as the player completed objectives; and for combat we resorted to horizontal resequencing, alternating between sections of different intensity. After meticulous planning, we contacted the composer Camilo Forero, to whom we gave all the narrative, artistic, and technical context. The latter allowed him to contribute creatively and propose musical implementation ideas that took advantage of the interactive possibilities, generating an interesting dialogue, in which the musical systems were fed by the composer's vision.</p>
+
+            <p>One of the major contributions was the decision to abandon traditional vertical remixing (layers added to a base) and instead create three complete versions of the same track with different intensities. Rather than fading in layers, we would crossfade between low-, medium-, and high-intensity versions. This saved time, as in Unreal Engine 4 it was much easier to implement a crossfade, and it gave more control over the mix, avoiding the feeling of emptiness typical of vertical remixing. The base layer tends to be a challenge for the composer, because it requires reserving space for future elements; by working with complete versions, that problem disappeared.</p>
+
+            <p>Since then, I rarely use pure vertical remixing; I prefer this technique, which I call <em>fake vertical remixing</em> (a term without copyright, but which you read here first).</p>
+        </section>
+
+        <!-- CALL TO ACTION / OUTRO -->
+        <div class="callout-box">
+            <h3>Support Local Talent & Elevate Your Game Audio Craft!</h3>
+            <p>This snippet is only a tiny slice of the immense value packed into <em>Music Composition for Video Games: Aesthetics, Technique and Profession</em>. If you are passionate about interactive music, audio design, or navigating a sustainable career in game development, this book is an absolute must-read.</p>
+            <p>Don't miss out on Gonzalo's brilliant insights and the collective wisdom of seasoned audio professionals.</p>
+            <a href="https://www.amazon.com/-/es/Gonzalo-Varela/dp/9915444680/ref=sr_1_1?__mk_es_US=%C3%85M%C3%85%C5%BD%C3%95%C3%91&dib=eyJ2IjoiMSJ9.ogrBrSn7BKdtRLZLZIAq6F0GfA9eAUc5EmAM-w8S-plzAiq6MuhdF7hnV8Xx9l2__KZFMZDAItu_gy6M1l1nmRh8TtRFIlS5HoDtLFPePOkxfZKO_1OWg03E-9hYW5xKH3Lp5iTf7CEjCOAHuaRGH4q7xlmBTyDbrjh8OfaZOwJ4uBOqbEBveTGKVGJnyCE1blwm-hwNc6VlvYEptrFwCxoN0Zz9bXkDgaxJnlHfPOY.W6tq7ybs9V6wdvRSQy9wiPm_aZAYT39ae11AtCcUm44&dib_tag=se&keywords=gonzalo+varela+music&qid=1785191823&s=books&sr=1-1" class="btn-cta" target="_blank" rel="noopener">Get Your Copy Today!</a>
+        </div>
+
+</article>
+
+        <div class="post-tags">
+            <span class="tag">Book</span>
+            <span class="tag">Learning</span>
+            <span class="tag">Game Audio</span>
+            <span class="tag">Personal</span>
+            <span class="tag">Vertical Remixing</span>
+            <span class="tag">Author</span>
+
+        </div>
+
+        <div style="display: flex; justify-content: center; width: 100%; margin-top: 60px; margin-bottom: 20px;">
+            <a class="back-btn" href="../index.html?page=blog">BACK</a>
+        </div>
+    </main>
+
+    <footer class="global-footer">
+        <div class="footer-divider-line"></div>
+        
+        <div class="footer-socials">
+            <a href="https://www.linkedin.com/in/joseisaudio/" target="_blank" class="footer-btn">
+                <img src="../assets/img/footer/foot-link.svg" alt="LinkedIn">
+            </a>
+            <a href="https://youtube.com/@joseisaudio" target="_blank" class="footer-btn">
+                <img src="../assets/img/footer/foot-yt.svg" alt="YouTube">
+            </a>
+            <a href="https://github.com/hellosound" target="_blank" class="footer-btn">
+                <img src="../assets/img/footer/foot-git.svg" alt="GitHub">
+            </a>
+            <a href="mailto:heyhellosound@gmail.com" class="footer-btn">
+                <img src="../assets/img/footer/foot-mail.svg" alt="Email">
+            </a>
+        </div>
+
+        <p class="footer-credits">
+            © 2026 Jose Angulo • VIDEOGAME SOUND DESIGNER • GAME AUDIO PROGRAMMING
+        </p>
+    </footer>
+
+    <script src="../script.js"></script>
+    
+    <script>
+        // 🎯 INTERCEPTOR DEL BOTÓN BACK PARA EVITAR LA NAVEGACIÓN INSTANTÁNEA
+        document.addEventListener('DOMContentLoaded', () => {
+            const backBtn = document.querySelector('.post-container .back-btn');
+            if (backBtn) {
+                backBtn.addEventListener('click', (e) => {
+                    e.preventDefault(); 
+                    
+                    if (typeof AudioManager !== 'undefined') {
+                        AudioManager.play('BUTTON_BACK', 0.8, true);
+                    }
+                    
+                    setTimeout(() => {
+                        window.location.href = backBtn.getAttribute('href');
+                    }, 180);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

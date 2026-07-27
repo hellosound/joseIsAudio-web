@@ -16,5 +16,12 @@
     "date": "July 2026",
     "description": "A look into the audio engine of this web page.",
     "link": "blog/Creating-a-website-with-sounds.html"
+  }, 
+
+    {
+    "title": "An Alternative to Vertical Remixing",
+    "date": "July 2026",
+    "description": "A sneak peak of a book I contributed.",
+    "link": "blog/An-alternative-to-Vertical-Remixing.html"
   }
 ]
