@@ -50,19 +50,19 @@
         }
     </script>
 </head>
-
+<body>
 <header class="global-header">
 
     <div class="header-left">
-<button class="mute-btn" onclick="toggleGlobalMute(event)">
+<button type="button" class="mute-btn" data-action="toggle-mute" aria-label="Activar o desactivar sonido" aria-pressed="false">
         <span id="mute-icon">
-            <img src="../assets/img/buttons/btn-volume-on.svg" alt="Sound On">
+            <img src="assets/img/buttons/btn-volume-on.svg" alt="Sound on">
         </span>
     </button>
     </div>
     
     <div class="header-center">
-        <a href="#" onclick="showPage('hero')" style="display: flex; align-items: center;">
+        <a href="#hero" data-page="hero" class="logo-link">
             <img src="assets/img/header/hdr-logo.svg" alt="joseIsAudio" class="mini-logo">
         </a>
     </div>
@@ -70,15 +70,15 @@
     <div class="header-right submenu-wrapper">
         <nav class="nav-sub-menu" id="mobileNavMenu">
             <div class="menu-links-holder">
-                <a class="menu-overlay-link home-txt" onclick="showPage('hero')">HOME</a>
-                <a class="menu-overlay-link bio-txt" onclick="showPage('bio')">BIO</a>
-                <a class="menu-overlay-link blog-txt" onclick="showPage('blog')">BLOG</a>
-                <a class="menu-overlay-link port-txt" onclick="showPage('portfolio')">PROJECTS</a>
-                <a class="menu-overlay-link contact-txt" onclick="showPage('contact')">CONTACT</a>
+                <a href="#hero" data-page="hero" class="menu-overlay-link home-txt">HOME</a>
+                <a href="#bio" data-page="bio" class="menu-overlay-link bio-txt">BIO</a>
+                <a href="#blog" data-page="blog" class="menu-overlay-link blog-txt">BLOG</a>
+                <a href="#portfolio" data-page="portfolio" class="menu-overlay-link port-txt">PROJECTS</a>
+                <a href="#contact" data-page="contact" class="menu-overlay-link contact-txt">CONTACT</a>
             </div>
         </nav>
 
-        <button class="hamburger-menu" onclick="toggleMobileMenu()">
+        <button type="button" class="hamburger-menu" aria-label="Abrir menú" aria-controls="mobileNavMenu" aria-expanded="false">
             <span></span>
             <span></span>
             <span></span>
@@ -86,32 +86,29 @@
     </div>
 
 </header>
-<body>  
 
     <main id="app-container">
         <section id="hero" class="content-page active">
             <div class="brand-container">
-                <img src="assets/img/hero/img_hero.svg" alt="joseIsAudio" class="hero-logo" onerror="this.src='assets/img/hero/img_hero.svg'">
-                <p class="main-subtitle">SOUND DESIGN • GAME AUDIO PROGRAMMING</p>
+                <img src="assets/img/hero/img_hero.svg" alt="joseIsAudio" class="hero-logo">
+                <p class="main-subtitle">SOUND DESIGN � GAME AUDIO PROGRAMMING</p>
                 
                 <nav class="nav-menu">
-                    <button class="nav-btn bio-btn" onclick="showPage('bio')">BIO</button>
-                    <button class="nav-btn port-btn" onclick="showPage('portfolio')">PROJECTS</button>
-
-                    </button>
-                    <button class="nav-btn blog-btn" onclick="showPage('blog')">BLOG</button>  
-                    <button class="nav-btn contact-btn" onclick="showPage('contact')">CONTACT</button>
+                    <button type="button" class="nav-btn bio-btn" data-page="bio">BIO</button>
+                    <button type="button" class="nav-btn port-btn" data-page="portfolio">PROJECTS</button>
+                    <button type="button" class="nav-btn blog-btn" data-page="blog">BLOG</button>
+                    <button type="button" class="nav-btn contact-btn" data-page="contact">CONTACT</button>
                 </nav>
             </div>
 
             <div class="stickers-layer">
                 <div id="dynamic-stickers"></div>
                 
-                <div class="sticker more-games-btn" onclick="showPage('portfolio')" style="left: 10%; top: 45%;">
+                <button type="button" class="sticker more-games-btn" data-page="portfolio">
                     MORE<br>GAMES
-                </div>
+                </button>
 
-                <button class="hero-mute-btn" onclick="toggleGlobalMute(event)">
+                <button type="button" class="hero-mute-btn" data-action="toggle-mute" aria-label="Activar o desactivar sonido" aria-pressed="false">
                     <span class="mute-line-top">SOUND</span>
                     <span class="mute-line-bottom">ON</span>
                 </button>
@@ -134,7 +131,7 @@
 
                     <div class="bio-image-column">
                         <div class="profile-frame">
-                            <img src="assets/img/bio/headshot.avif" alt="José Angulo" class="profile-img">
+                            <img src="assets/img/bio/headshot.avif" alt="Jos� Angulo" class="profile-img">
                         </div>
                         
                         <div class="bio-footer-details">
@@ -181,7 +178,7 @@
                     <!-- Conferencia 1 -->
                     <div class="bio-section-divider">
                         <span class="section-label-line">SPEAKING</span>
-                        <a href="https://schedule.gdconf.com/session/debugging-audio-systems-tools-tactics-and-real-world-stories/914457" target="_blank" class="speaking-block talk-card">
+                        <a href="https://schedule.gdconf.com/session/debugging-audio-systems-tools-tactics-and-real-world-stories/914457" target="_blank" rel="noopener noreferrer" class="speaking-block talk-card">
                             <div class="talk-content">
                                 <div class="speaking-meta">
                                     <span class="speaking-year talk-tag">2026</span>
@@ -195,7 +192,7 @@
 
                     <!-- Conferencia 2 -->
                     <div class="bio-section-divider">
-                        <a href="https://www.youtube.com/watch?v=Xm83Qvu7I0I" target="_blank" class="speaking-block talk-card">
+                        <a href="https://www.youtube.com/watch?v=Xm83Qvu7I0I" target="_blank" rel="noopener noreferrer" class="speaking-block talk-card">
                             <div class="talk-content">
                                 <div class="speaking-meta">
                                     <span class="speaking-year talk-tag">2025</span>
@@ -208,7 +205,7 @@
                     </div>
                     <!-- Conferencia 3 -->
                     <div class="bio-section-divider">
-                        <a href="https://www.gainorway.com/gaco2023" target="_blank" class="speaking-block talk-card">
+                        <a href="https://www.gainorway.com/gaco2023" target="_blank" rel="noopener noreferrer" class="speaking-block talk-card">
                             <div class="talk-content">
                                 <div class="speaking-meta">
                                     <span class="speaking-year talk-tag">2023</span>
@@ -219,8 +216,8 @@
                             </div>
                        </a>
             </div>
-            <div style="display: flex; justify-content: center; width: 100%; margin-top: 40px;">
-                <button class="back-btn" onclick="goBack()">BACK</button>
+            <div class="back-button-row">
+                <button type="button" class="back-btn" data-action="back">BACK</button>
             </div>
 
         </section>
@@ -228,21 +225,22 @@
         <section id="blog" class="content-page">
             <h2 class="section-title">BLOG</h2>
             <div id="blog-list" class="blog-container"></div>
-            <button class="back-btn" onclick="goBack()">BACK</button>
+            <button type="button" class="back-btn" data-action="back">BACK</button>
         </section>
 
         <section id="portfolio" class="content-page">
             <h2 class="section-title">PROJECTS</h2>
             <div id="portfolio-grid" class="portfolio-works-grid"></div>
-            <button class="back-btn" onclick="goBack()">BACK</button>
+            <button type="button" class="back-btn" data-action="back">BACK</button>
         </section>
 
         <section id="talks" class="content-page">
             <h2 class="section-title">TALKS</h2>
-            <button class="back-btn" onclick="goBack()">BACK</button>
+            <button type="button" class="back-btn" data-action="back">BACK</button>
         </section>
 
-        <div id="game-overlay"> <div class="modal-content"> <h2 id="game-title"></h2>
+        <div id="game-overlay" role="dialog" aria-modal="true" aria-labelledby="game-title" aria-hidden="true"> <div class="modal-content">
+                <h2 id="game-title" tabindex="-1"></h2>
                 <p id="game-studio"></p> <p id="game-role"></p>   
                 <div class="video-container">
                     <div id="media-container"></div>
@@ -250,7 +248,7 @@
                 <p id="game-description"></p>         
                 <p><strong>Tech:</strong> <span id="game-tech"></span></p>
                 <p><strong>Platforms:</strong> <span id="game-platforms"></span></p> 
-                <button class="back-btn" onclick="closeGameDetails()">Back</button>
+                <button type="button" class="back-btn" data-action="close-modal">Back</button>
             </div>
         </div>
 
@@ -278,8 +276,8 @@
                     <button type="submit" class="submit-btn">SEND_MESSAGE()</button>
                 </form>
             </div>
-            <div style="display: flex; justify-content: center; width: 100%; margin-top: 40px;">
-                <button class="back-btn" onclick="goBack()">BACK</button>
+            <div class="back-button-row">
+                <button type="button" class="back-btn" data-action="back">BACK</button>
             </div>
         </section>
     </main>
@@ -288,14 +286,14 @@
         <div class="footer-divider-line"></div>
         
         <div class="footer-socials">
-            <a href="https://www.linkedin.com/in/joseisaudio/" target="_blank" class="footer-btn">
+            <a href="https://www.linkedin.com/in/joseisaudio/" target="_blank" rel="noopener noreferrer" class="footer-btn">
                 <img src="assets/img/footer/foot-link.svg" alt="LinkedIn">
             </a>
-            <a href="https://youtube.com/@joseisaudio" target="_blank" class="footer-btn">
+            <a href="https://youtube.com/@joseisaudio" target="_blank" rel="noopener noreferrer" class="footer-btn">
                 <img src="assets/img/footer/foot-yt.svg" alt="YouTube">
             </a>
            
-            <a href="https://github.com/hellosound" target="_blank" class="footer-btn">
+            <a href="https://github.com/hellosound" target="_blank" rel="noopener noreferrer" class="footer-btn">
                 <img src="assets/img/footer/foot-git.svg" alt="GitHub">
             </a>
             <a href="mailto:heyhellosound@gmail.com" class="footer-btn">
@@ -304,7 +302,7 @@
         </div>
 
         <p class="footer-credits">
-            © 2026 Jose Angulo • VIDEOGAME SOUND DESIGNER • GAME AUDIO PROGRAMMING
+            � 2026 Jose Angulo � VIDEOGAME SOUND DESIGNER � GAME AUDIO PROGRAMMING
         </p>
     </footer>
 

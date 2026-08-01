@@ -43,8 +43,19 @@ body::before {
 }
 
 body.no-scroll {
-    overflow: hidden !important;
-    height: 100vh !important;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 3px solid var(--btn-bio);
+    outline-offset: 4px;
 }
 
 .text-highlight-1{
@@ -108,22 +119,22 @@ body.no-scroll {
 
 .mute-btn {
     background: none;
-    border: none;               /* ❌ Quitamos el relieve o borde gris por defecto */
+    border: none;               /* ? Quitamos el relieve o borde gris por defecto */
     outline: none;
     padding: 0;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;                /* 📐 Área de clic cómoda pero compacta */
+    width: 32px;                /* ?? �rea de clic c�moda pero compacta */
     height: 32px;
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .mute-btn:hover {
-    background: transparent;    /* ❌ Eliminamos el fondo #00b4eb */
-    box-shadow: none;           /* ❌ Eliminamos el brillo azul */
-    transform: scale(1.1);      /* 🚀 Un feedback responsivo muy sutil */
+    background: transparent;    /* ? Eliminamos el fondo #00b4eb */
+    box-shadow: none;           /* ? Eliminamos el brillo azul */
+    transform: scale(1.1);      /* ?? Un feedback responsivo muy sutil */
     opacity: 0.8;
 }
 
@@ -131,7 +142,7 @@ body.no-scroll {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;                /* Ajustado al tamaño nativo de tus SVGs */
+    width: 24px;                /* Ajustado al tama�o nativo de tus SVGs */
     height: 24px;
 }
 
@@ -208,7 +219,7 @@ body.no-scroll {
         text-shadow: 0 0 8px rgba(255, 42, 109, 0.4);
     }
 
-    /* Hover cuando está en silencio */
+    /* Hover cuando est� en silencio */
     .hero-mute-btn.muted:hover {
         background: #ff2a6d;
         color: #ffffff;
@@ -324,10 +335,17 @@ body.no-scroll {
         text-transform: uppercase !important;
         padding: 4px 8px !important;
         display: inline-block !important;
-        background: none !important;
+        background: transparent !important;
         border: none !important;
+        text-decoration: none;
         transition: color 0.2s ease, transform 0.2s ease !important;
     }
+
+    .global-header .home-txt { color: #ffffff !important; }
+    .global-header .bio-txt { color: var(--btn-bio) !important; }
+    .global-header .blog-txt { color: var(--btn-blog) !important; }
+    .global-header .port-txt { color: var(--btn-works) !important; }
+    .global-header .contact-txt { color: var(--btn-contact) !important; }
 
     .global-header .menu-overlay-link:hover {
         color: var(--accent-color) !important;
@@ -444,46 +462,6 @@ body.no-scroll {
         padding: 0 15px;
     }
 }
-
-@media (min-width: 769px) {
-    .nav-sub-menu {
-        display: flex !important;
-        position: static !important;
-        background: transparent !important;
-        flex-direction: row !important;
-        gap: 20px !important;
-        padding: 0 !important;
-        transform: none !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        height: auto !important;
-        width: auto !important;
-    }
-
-    .nav-sub-menu .menu-overlay-link {
-        font-family: var(--font-title);
-        font-size: 0.8rem;
-        font-weight: bold;
-        padding: 6px 18px;
-        width: fit-content;
-        border-radius: 20px;
-        background: transparent;
-        cursor: pointer;
-        transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-    .home-txt    { color: #ffffff; border: 2px solid #ffffff; text-decoration: none;}
-    .bio-txt     { color: var(--btn-bio);border: 2px solid var(--btn-bio); text-decoration: none;} 
-    .blog-txt    { color: var(--btn-blog);border: 2px solid var(--btn-blog); text-decoration: none;} 
-    .port-txt    { color: var(--btn-works);border: 2px solid var(--btn-works);text-decoration: none;}
-    .contact-txt { color: var(--btn-contact); border: 2px solid var(--btn-contact);text-decoration: none; }
-    }
-
-    .nav-sub-menu .menu-overlay-link:hover {
-        opacity: 0.8;
-        transform: none !important; 
-    }
-
 
 .content-page {
     display: none !important;
@@ -680,6 +658,13 @@ width: clamp(200px, 25vw, 340px);
     transform: rotate(8deg); 
 }
 
+.back-button-row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 40px;
+}
+
 @media (max-width: 768px) {
     .more-games-btn {
         display: flex !important;
@@ -705,6 +690,7 @@ width: clamp(200px, 25vw, 340px);
     background: transparent !important; 
     overflow: visible !important;
     cursor: pointer;
+    pointer-events: auto;
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), z-index 0s ease;
 }
 .sticker-thumb {
@@ -1148,7 +1134,7 @@ background: var(--bg-color);
 }
 
 .tech-card ul li::before {
-    content: "•";
+    content: "�";
     position: absolute;
     left: 0;
     color: #4c5773;
@@ -1368,6 +1354,10 @@ background: var(--bg-color);
     border: 1px solid rgba(0, 180, 235, 0.15); 
     transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    color: inherit;
+    font: inherit;
+    padding: 0;
+    text-align: inherit;
 }
 
 .work-card img {
