@@ -173,6 +173,7 @@ function renderPortfolio() {
         card.type = 'button';
         card.className = 'work-card';
         card.dataset.gameId = game.id;
+        card.dataset.sound = 'BUTTON_CLICK';
         card.setAttribute('aria-label', `Ver detalles de ${game.title}`);
         if (game.image) card.append(makeImage(game.image, game.title, 'work-image'));
         else card.append(Object.assign(document.createElement('div'), { className: 'no-image-placeholder' }));
@@ -193,6 +194,7 @@ function renderBlog(posts) {
     posts.forEach(post => {
         const card = Object.assign(document.createElement('article'), { className: 'blog-card' });
         const link = Object.assign(document.createElement('a'), { className: 'blog-link', href: post.link });
+        link.dataset.sound = 'BUTTON_CLICK';
         const date = Object.assign(document.createElement('span'), { className: 'blog-date', textContent: post.date });
         const title = document.createElement('h3'); title.textContent = post.title;
         const description = document.createElement('p'); description.textContent = post.description;
