@@ -22,6 +22,8 @@ const AUDIO_ASSETS = [
     ['BUTTON_TOGGLE', 'assets/snd/s_toggle.opus']
 ];
 
+const MASTER_VOLUME = 0.6;
+
 const AudioManager = {
     audioCtx: null,
     masterGain: null,
@@ -61,7 +63,7 @@ const AudioManager = {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         this.audioCtx = new AudioContext();
         this.masterGain = this.audioCtx.createGain();
-        this.masterGain.gain.value = this.isMuted ? 0 : 1;
+        this.masterGain.gain.value = this.isMuted ? 0 : MASTER_VOLUME;
         this.masterGain.connect(this.audioCtx.destination);
 
         await Promise.all([...this.sounds.entries()].map(async ([key, sound]) => {
@@ -83,7 +85,7 @@ const AudioManager = {
 
     toggleMute() {
         this.isMuted = !this.isMuted;
-        if (this.masterGain) this.masterGain.gain.value = this.isMuted ? 0 : 1;
+        if (this.masterGain) this.masterGain.gain.value = this.isMuted ? 0 : MASTER_VOLUME;
         return this.isMuted;
     }
 };
@@ -138,6 +140,20 @@ function renderStickers() {
     const layer = document.getElementById('dynamic-stickers');
     if (!layer) return;
     const mobile = window.matchMedia('(max-width: 768px)').matches;
+    const stickersLayer = layer.closest('.stickers-layer');
+    const hero = layer.closest('#hero');
+
+    // The desktop artwork is laid out on a 1440px-wide canvas. Scale that
+    // canvas continuously with the viewport so the stickers keep their
+    // spacing instead of crowding together before the mobile breakpoint.
+    if (stickersLayer) {
+        const desktopScale = 0.85 * Math.min(window.innerWidth / 1440, 1);
+        stickersLayer.style.setProperty('--stickers-scale', desktopScale.toFixed(4));
+    }
+    if (hero) {
+        const desktopUiScale = Math.max(0.72, Math.min(window.innerWidth / 1440, 1));
+        hero.style.setProperty('--hero-ui-scale', desktopUiScale.toFixed(4));
+    }
     const labelColors = { TMNT: '#f1b83a', 'KILLER KLOWNS': '#00b4eb', 'AL-UMBRA': '#00b4eb', INNER: '#f1b83a' };
     const fragment = document.createDocumentFragment();
 
@@ -273,7 +289,8 @@ async function handleSound(target) {
     if (mute) {
         updateMuteVisuals(AudioManager.toggleMute());
         AudioManager.play('BUTTON_TOGGLE', 1, true);
-    } else if (interactive.dataset.sound) AudioManager.play(interactive.dataset.sound, 0.8, true);
+    } else if (interactive.matches('.sticker[data-sound]')) AudioManager.play(interactive.dataset.sound, 0.5, true);
+    else if (interactive.dataset.sound) AudioManager.play(interactive.dataset.sound, 0.8, true);
     else if (interactive.matches('[data-action="back"]')) AudioManager.play('BUTTON_BACK', 0.9, true);
     else if (interactive.matches('[data-page]')) AudioManager.play('BUTTON_CLICK', 0.9, true);
 }
