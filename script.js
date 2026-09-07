@@ -139,7 +139,7 @@ function makeImage(src, alt, className) {
 function renderStickers() {
     const layer = document.getElementById('dynamic-stickers');
     if (!layer) return;
-    const mobile = window.matchMedia('(max-width: 768px)').matches;
+    const mobile = window.matchMedia('(max-width: 1024px)').matches;
     const stickersLayer = layer.closest('.stickers-layer');
     const hero = layer.closest('#hero');
 
@@ -164,8 +164,8 @@ function renderStickers() {
         sticker.dataset.gameId = game.id;
         sticker.dataset.sound = game.id;
         sticker.setAttribute('aria-label', `Abrir proyecto: ${game.title}`);
-        sticker.style.width = mobile ? '80px' : (game.stickerWidth || '140px');
-        sticker.style.height = mobile ? '80px' : (game.stickerHeight || '140px');
+        sticker.style.width = mobile ? 'var(--compact-sticker-size, 80px)' : (game.stickerWidth || '140px');
+        sticker.style.height = mobile ? 'var(--compact-sticker-size, 80px)' : (game.stickerHeight || '140px');
         sticker.style.left = mobile ? (game.stickerLeftMobile || `${15 + index * 20}%`) : (game.stickerLeft || '50%');
         sticker.style.top = mobile ? (game.stickerTopMobile || `${65 + index * 4}%`) : (game.stickerTop || '50%');
         sticker.style.transform = mobile ? 'translate(-50%, -50%)' : `rotate(${game.stickerRotate || 0}deg)`;
@@ -260,7 +260,7 @@ function closeGameDetails() {
 }
 
 function toggleMobileMenu() {
-    if (!window.matchMedia('(max-width: 768px)').matches) return;
+    if (!window.matchMedia('(max-width: 1024px)').matches) return;
     state.menuOpen ? closeMobileMenu() : openMobileMenu();
 }
 
@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.addEventListener('resize', () => {
         cancelAnimationFrame(resizeFrame);
         resizeFrame = requestAnimationFrame(renderStickers);
-        if (!window.matchMedia('(max-width: 768px)').matches) closeMobileMenu(false);
+        if (!window.matchMedia('(max-width: 1024px)').matches) closeMobileMenu(false);
     });
 
     document.addEventListener('click', async event => {

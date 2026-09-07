@@ -153,7 +153,7 @@ a:focus-visible {
     height: 100%;
 }
 
-@media (min-width: 769px) {
+@media (min-width: 1025px) {
     .hero-mute-btn {
         display: flex !important;
         flex-direction: column;
@@ -248,7 +248,7 @@ a:focus-visible {
     align-items: center;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     body:has(#hero.active) .mini-logo, .hero-mute-btn, .hero-mute-btn.muted {
         display: none !important;
     }
@@ -266,7 +266,7 @@ a:focus-visible {
     }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 1025px) {
     body:has(#hero.active) .global-header {
         display: none;
     }
@@ -362,7 +362,7 @@ a:focus-visible {
     display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .hamburger-menu {
         display: flex !important;
         flex-direction: column;
@@ -493,7 +493,7 @@ a:focus-visible {
 #contact h2 {color: var(--btn-contact);}
 #bio h2 {color: var(--btn-bio);}
 
-@media (max-width: 768px){
+@media (max-width: 1024px){
 #contact h2 {font-size: 3.5rem;}
 #portfolio h2{ font-size: 3.5rem;}
 }
@@ -609,7 +609,7 @@ width: clamp(200px, 25vw, 340px);
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.25), box-shadow 0.3s ease;
 }
 
-@media (min-width: 769px) {
+@media (min-width: 1025px) {
     .main-subtitle {
         font-size: calc(0.85rem * var(--hero-ui-scale, 1));
         letter-spacing: calc(2px * var(--hero-ui-scale, 1));
@@ -684,7 +684,7 @@ width: clamp(200px, 25vw, 340px);
     margin-top: 40px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .more-games-btn {
         display: flex !important;
         left: 80% !important;
@@ -766,7 +766,7 @@ width: clamp(200px, 25vw, 340px);
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .stickers-layer {
         position: relative;
         left: 0;
@@ -790,6 +790,51 @@ width: clamp(200px, 25vw, 340px);
     .sticker-btn:hover,
     .more-games-btn:hover {
         transform: translate(-50%, -50%) rotate(-3deg) scale(1) !important;
+    }
+}
+
+/* Scale the tablet hero and stickers while retaining the mobile arrangement. */
+@media (min-width: 768px) and (max-width: 1024px) {
+    #hero .brand-container {
+        width: 100%;
+        max-width: 640px;
+    }
+
+    #hero .hero-logo {
+        width: clamp(360px, 48vw, 480px);
+        max-width: 100%;
+        margin-bottom: 12px;
+    }
+
+    #hero .main-subtitle {
+        font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+        line-height: 1.5;
+        margin: 12px 0 20px;
+    }
+
+    #hero .nav-menu {
+        max-width: 560px;
+        gap: 20px !important;
+        padding: 0 !important;
+        margin-top: 24px;
+    }
+
+    #hero .nav-menu .nav-btn {
+        font-size: clamp(1.25rem, 2.4vw, 1.5rem) !important;
+        padding: 18px 24px !important;
+        min-height: 64px;
+    }
+
+    .stickers-layer {
+        --compact-sticker-size: clamp(160px, 20vw, 200px);
+        height: clamp(700px, 90vw, 920px);
+        margin-top: 50px;
+        margin-bottom: 120px !important;
+    }
+
+    .sticker-label {
+        font-size: 0.95rem;
+        bottom: -26px;
     }
 }
 
@@ -1214,7 +1259,7 @@ background: var(--bg-color);
     color: #8fa0c4;
     margin: 0;
 }
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .bio-main-row {
         grid-template-columns: 1fr;
     }
@@ -1352,7 +1397,7 @@ background: var(--bg-color);
     box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .portfolio-works-grid {
         grid-template-columns: 1fr; 
         gap: 20px;
@@ -1420,7 +1465,7 @@ background: var(--bg-color);
     color: white;
     letter-spacing: -0.5px;
 }
-@media (max-width:768px){
+@media (max-width: 1024px){
     .work-info-overlay h3{
         font-size: 1.4rem;
     }
@@ -1432,7 +1477,7 @@ background: var(--bg-color);
     color: #cbd5e1; 
     margin: 0 0 15px 0;
 }
-@media (max-width:768px){
+@media (max-width: 1024px){
     .work-info-overlay p{
         font-size: 1.1rem;
     }
@@ -1502,7 +1547,7 @@ background: var(--bg-color);
     margin: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .portfolio-works-grid {
         grid-template-columns: 1fr;
     }
@@ -1592,7 +1637,7 @@ background: var(--bg-color);
     box-shadow: 0 5px 15px rgba(241, 184, 58, 0.3);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .contact-form {
         padding: 20px;
     }
@@ -1649,7 +1694,7 @@ background: var(--bg-color);
     letter-spacing: 0.5px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .global-footer {
         flex-direction: column;
         gap: 15px;
@@ -1725,7 +1770,7 @@ background: var(--bg-color);
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
 
     .nav-menu {
         display: grid !important;
