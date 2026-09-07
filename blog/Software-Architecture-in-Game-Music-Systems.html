@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Architecture in Game Music Systems: How Separating Responsibilities Can Be a Lifesaver | joseIsAudio</title>
+
+    <meta name="description" content="How separating gameplay, data, and playback responsibilities makes a Unity and Wwise game music system easier to maintain and evolve.">
+
+    <meta property="og:title" content="Software Architecture in Game Music Systems: How Separating Responsibilities Can Be a Lifesaver | joseIsAudio">
+    <meta property="og:description" content="How separating gameplay, data, and playback responsibilities makes a Unity and Wwise game music system easier to maintain and evolve.">
+    <meta property="og:image" content="https://joseisaudio.com/assets/img/web/img-embeed-miniature.png">
+    <meta property="og:url" content="https://joseisaudio.com/blog/Software-Architecture-in-Game-Music-Systems.html">
+
+    <link rel="icon" type="image/png" href="../assets/img/web/img-favicon.png">    
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Software Architecture in Game Music Systems: How Separating Responsibilities Can Be a Lifesaver | joseIsAudio">
+    <meta name="twitter:description" content="How separating gameplay, data, and playback responsibilities makes a Unity and Wwise game music system easier to maintain and evolve.">
+    <meta name="twitter:image" content="https://joseisaudio.com/assets/img/web/img-embeed-miniature.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../style.css"> 
+
+    <style>
+        body {
+            color: #ffffff;
+            background-color: rgba(13, 17, 23, 0.4);
+            background-image: url('../assets/img/hero/bg-pattern-dark.webp'); 
+            background-repeat: repeat;
+            background-size: 721px 440px; 
+            background-blend-mode: multiply;
+            font-family: var(--font-body);
+            margin: 0;
+        }
+
+        .post-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 40px auto 80px auto;
+            padding: 0 24px;
+            text-align: left;
+            box-sizing: border-box;
+            flex: 1;
+        }
+
+        .post-header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(222, 27, 82, 0.15);
+            padding-bottom: 30px;
+        }
+
+        .post-date {
+            font-family: var(--font-subtitle);
+            font-size: 0.85rem;
+            color: #626f8a;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .post-container h1 { 
+            font-family: var(--font-title); 
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: white; 
+            margin: 0;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        .post-content p {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            margin-bottom: 25px;
+        }
+
+        .post-content h2 {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: white;
+            margin: 40px 0 15px 0;
+            letter-spacing: -0.5px;
+        }
+
+        pre { 
+            background: #0b0d14; 
+            padding: 24px; 
+            border-radius: 12px; 
+            overflow-x: auto; 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 25px 0;
+        }
+
+        pre code {
+            font-family: var(--font-subtitle);
+            font-size: 0.9rem;
+            color: #00ffcc; 
+            line-height: 1.5;
+        }
+
+        .post-container .back-btn {
+            margin-top: 40px;
+            display: block;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .post-tags {
+            display: flex;
+            gap: 10px;
+            margin-top: 40px;
+        }
+        
+        .tag {
+            background: rgba(222, 27, 82, 0.1);
+            border: 1px solid rgba(222, 27, 82, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #ff3366;
+        }
+
+        .post-container h1 { font-size: clamp(1.9rem, 5vw, 2.8rem); line-height: 1.25; overflow-wrap: anywhere; }
+        .post-content h3 { font-family: var(--font-title); font-size: 1.5rem; line-height: 1.35; margin: 40px 0 15px; }
+        .post-content li { font-size: 1.05rem; line-height: 1.85; margin-bottom: 12px; }
+        .post-content a { color: #ff6089; text-underline-offset: 3px; overflow-wrap: anywhere; }
+        .post-content :not(pre) > code { color: #00ffcc; overflow-wrap: anywhere; }
+        .post-content figure { margin: 35px 0; }
+        .post-content figure img { display: block; max-width: 100%; height: auto; border-radius: 12px; margin: 0 auto; }
+        .post-content figcaption { text-align: center; font-size: .9rem; line-height: 1.6; color: #a8b2c6; margin: 12px 0 25px; }
+    </style>
+    <link rel="canonical" href="https://joseisaudio.com/blog/Software-Architecture-in-Game-Music-Systems.html">
+</head>
+<body>
+
+<header class="global-header">
+    <div class="header-left">
+        <button class="mute-btn" onclick="toggleGlobalMute(event)">
+            <span id="mute-icon">
+                <img src="../assets/img/buttons/btn-volume-on.svg" alt="Sound On">
+            </span>
+        </button>
+    </div>
+    
+    <div class="header-center">
+        <a href="../index.html?page=hero">
+            <img src="../assets/img/header/hdr-logo.svg" alt="joseIsAudio" class="mini-logo">
+        </a>
+    </div>
+    
+    <div class="header-right submenu-wrapper">
+        <button class="hamburger-menu" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <nav class="nav-sub-menu" id="mobileNavMenu">
+            <div class="menu-links-holder">
+                <a class="menu-overlay-link home-txt" href="../index.html?page=hero">HOME</a>
+                <a class="menu-overlay-link bio-txt" href="../index.html?page=bio">BIO</a>
+                <a class="menu-overlay-link blog-txt" href="../index.html?page=blog">BLOG</a>
+                <a class="menu-overlay-link port-txt" href="../index.html?page=portfolio">PROJECTS</a>
+                <a class="menu-overlay-link contact-txt" href="../index.html?page=contact">CONTACT</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+    <main class="post-container">
+<header class="post-header">
+<time class="post-date" datetime="2026-09-07">September, 2026</time>
+<h1>Software Architecture in Game Music Systems: How Separating Responsibilities Can Be a Lifesaver</h1>
+</header>
+<article class="post-content">
+<p>Whenever I hear the words “Software Architecture,” I usually think that it is something for highly senior software developers, something that only a select number of masterminds in the world are capable of doing.</p>
+
+<p>But… over time, I’ve come to realize that architecture is relevant at every stage of learning, and we should be thinking about it from day one.</p>
+
+<p>Software architecture is a core part of how we build software. It is many things, but if I had to oversimplify it, I would describe it as: how a piece of software is built from the ground up, how its systems interact with each other, which tools will be needed to build something scalable, and how we make it survive all the twists and turns of the development process.</p>
+
+<p>And those same principles apply to video game development.</p>
+
+<p>There are many principles around this topic. I don’t consider myself an expert on it, but I’m definitely passionate about keeping my stuff organized, and one of the concepts that has been very present in my day-to-day work is the <strong>Single Responsibility Principle (SRP)</strong>.</p>
+
+<p>Basically, when we talk about single responsibility, we are talking about every piece of our code having a clearly defined responsibility and addressing a single concern.</p>
+
+<p>That doesn’t necessarily mean that every function or class should literally do one tiny thing. I like to think of it as keeping together the things that change for the same reason and separating the things that change for different reasons. It’s “Divide and Conquer” for game devs.</p>
+
+<p>If I have a function that tries to do everything, it is very easy to break everything with the change of a single line; Think of a function that triggers a gunshot sound… You know that it doesn’t JUST trigger the sound. Most of the time, you have to make validations, check the location, set parameters, and do a plethora of things before even thinking about making the speakers go: “shhPOW!”</p>
+
+<p>But there are ways to avoid this. Foor example, check out this function. It started with one innocent purpose: playing a gunshot.</p>
+
+<p>Now it handles ammo, animation, recoil, audio, damage, surface impacts, VFX, UI, controller vibration, and networking.</p>
+
+<figure><img src="../assets/img/blog/software-architecture/gunshot-responsibilities.png" alt="A gunshot function handling ammo, animation, recoil, audio, damage, effects, UI, vibration, and networking." width="780" height="539" loading="lazy"><figcaption>I want this code with extra bolognaise and parmesan. </figcaption></figure>
+
+<p>However, if we separate this code into chunks and keep each concern separate:</p>
+
+<ul>
+
+<li>Code becomes more reusable.</li>
+
+<li>Way more maintainable.</li>
+
+<li>More readable.</li>
+
+<li>Big changes are easier to tolerate.</li>
+
+</ul>
+
+<p>Let’s see how this applies to a real-life scenario.</p>
+
+<h2>The  METROIDpolitan Orchestra.</h2>
+
+<figure><img src="../assets/img/blog/software-architecture/metroid-orchestra.png" alt="Diagram: Global Music Manager reads the Area_02 Cave Switch from Music Data, asks Music Player to apply it, and Music Player calls Wwise SetSwitch." width="650" height="474" loading="lazy"></figure>
+
+<p>I created a music system for a metroidvania game that I’m working on using Wwise and Unity. Because each area might have different transition rules and logic, I decided to keep the area data separate and let a global music system decide what should happen.</p>
+
+<p>For this example, I like to think of the music system as three layers of logic, and I often compare them to an orchestra.</p>
+
+<ol>
+
+<li><strong>Gameplay layer:</strong> How is the music interacting with the rest of the game? What is making the music change? What events in the game are triggering changes in volume or in that LPF/HPF? This is the conductor of the orchestra.</li>
+
+<li><strong>Data layer:</strong> What information is my video game using to set the different parameters? This is the librarian of the orchestra; this is the person putting the right music sheet on the player’s stand.</li>
+
+<li><strong>Playback layer:</strong> How is my game communicating with my middleware? This is the musician, the one playing, stopping, and making changes to the music… it is the game engine communicating with the instrument: Wwise, FMOD, etc.</li>
+
+</ol>
+
+<p>I could try to have one gigantic script that tries to do it all… but just like you rarely see a soloist conducting and playing at the same time without spectacularly failing (unless your name is <a href="https://youtu.be/gOZ_ioHKEK0?si=KISmnWYk5Lt6RtSz&amp;t=162">Daniel Barenboim</a>), there are many things that can go south very quickly.</p>
+
+<figure>
+    <img src="../assets/img/blog/software-architecture/barenboin.gif" alt="Daniel Barenboim playing piano while conducting." width="320" height="180" loading="lazy">
+    <figcaption>How is this even possible?.</figcaption>
+</figure>
+
+<h2>The Conductor of the Orchestra (The Gameplay Layer)</h2>
+
+<p>The big question an orchestra conductor must ask is:</p>
+
+<p><strong>“How should this music sound?”</strong></p>
+
+<p>And this often comes with a plethora of smaller questions like:</p>
+
+<p>“How fast or slow should we play?”</p>
+
+<p>“How do we balance the volume between the different sections of the orchestra?”</p>
+
+<p>“Are the woodwind players’ eardrums really safe if we make the brass play that <em>‘fff’</em> note?”</p>
+
+<p>Something similar happens with the music of a game. Because of the interactive nature of game audio, music can be constantly changing and evolving.</p>
+
+<p>Some questions we could ask ourselves are:</p>
+
+<p>Should we raise or lower the volume?</p>
+
+<p>How do we know when to add another layer?</p>
+
+<p>How do we know when we should switch to another track?</p>
+
+<p>The <code>GlobalMusicManager</code> is our gameplay layer, and it is making all of these decisions.</p>
+
+<p>When we hit pause, the music volume is lowered and a low-pass filter is applied. When we change to a new area, the script reads the new information and performs the corresponding actions to switch the music. When any global state that might affect the music changes…This class is in charge of that.</p>
+
+<p>For example:</p>
+
+<p>We have a helper function to change the music state based on different variables and conditions. This function is called many times in this class, and it tells the Music Player when to change states—like a conductor telling a musician when to play louder or softer.</p>
+
+<pre><code class="language-csharp">private void RefreshMusicState()
+{
+    var context = ResolveMusicContext();
+
+    if (hasAppliedContext &amp;&amp; currentContext == context)
+        return;
+
+    var state = GetStateForContext(context);
+
+    if (state == null)
+    {
+        Debug.LogWarning(
+            $&quot;[GlobalMusicManager] The MusicContext state for &#x27;{context}&#x27; is not assigned.&quot;,
+            this);
+        return;
+    }
+
+    musicPlayer.SetState(state);
+    currentContext = context;
+    hasAppliedContext = true;
+}</code></pre>
+
+<p>Or there’s another function that tells the game that we are in a boss fight, so the music should become more frantic. It grabs a Switch and tells the Music Player what should happen next.</p>
+
+<pre><code class="language-csharp">public void BeginBossFight(AK.Wwise.Switch bossSwitch)
+{
+    if (bossSwitch == null)
+    {
+        Debug.LogWarning(
+            &quot;[GlobalMusicManager] BeginBossFight requires a MusicBoss switch.&quot;,
+            this);
+        return;
+    }
+
+    bossFightActive = true;
+    musicPlayer.SetSwitch(bossSwitch);
+    RefreshMusicState();
+}</code></pre>
+
+<p>Just like we only have one conductor acting as a single source of truth, in this implementation we only want one instance of the <code>GlobalMusicManager</code>, persistent throughout the whole runtime session.</p>
+
+<p>Sounds familiar?</p>
+
+<p>Yes… this starts to look like a <a href="https://gameprogrammingpatterns.com/singleton.html">Singleton</a>-style pattern.</p>
+
+<pre><code class="language-csharp">private void Awake()
+{
+    if (Instance != null &amp;&amp; Instance != this)
+    {
+        Destroy(gameObject);
+        return;
+    }
+
+    Instance = this;
+    DontDestroyOnLoad(gameObject);
+}</code></pre>
+
+<h2>The Librarian of the Orchestra (The Data Layer)</h2>
+
+<p>An orchestra without music sheets is just a group of musicians playing whatever they want, all at the same time, without any rules or direction… and yes, I know that what I just described actually sounds very cool. But for a system like this, we need to know what we are supposed to be playing.</p>
+
+<p>Data-driven approaches in audio have been a hot topic over the last few years. It makes sense, since they can have great benefits for scalability, organization, collaboration, and much more.</p>
+
+<p>I’m still getting the hang of it, but I really find it fascinating!</p>
+
+<p>Tomas Neumann has a great chapter called <strong>“Dynamic Game Data”</strong> in the first volume of <em><a href="https://www.amazon.com/dp/0367658348?lv=shuf&amp;language=es&amp;channelId=500&amp;plpRedirect=mhFallback">Game Audio Programming: Principles and Practices</a></em>. I really recommend it if you want to see what this is about.</p>
+
+<p>Because our Music Manager needs to know what it should be playing, we have a class that contains the information it needs.</p>
+
+<p>It is a small script that contains information such as:</p>
+
+<ul>
+
+<li>Which area are we in?</li>
+
+<li>Which Wwise Switch corresponds to this area?</li>
+
+</ul>
+
+<pre><code class="language-csharp">using UnityEngine;
+
+namespace Alumbra
+{
+    [CreateAssetMenu(
+        fileName = &quot;NewMusicConfiguration&quot;,
+        menuName = &quot;Scriptable Objects/Audio/Music Configuration&quot;)]
+    public class MusicData : ScriptableObject
+    {
+        [Header(&quot;Interactive Music&quot;)]
+        [Tooltip(&quot;Area content selected in the global music event.&quot;)]
+        [SerializeField] private string areaId;
+        [SerializeField] private AK.Wwise.Switch areaSwitch;
+
+        public string AreaId =&gt; areaId;
+        public AK.Wwise.Switch AreaSwitch =&gt; areaSwitch;
+    }
+}</code></pre>
+
+<p>This is created as a <code>ScriptableObject</code>, so we create a Data Asset for each area that can be consulted by the Global Music Manager whenever we enter a new area or need to update the music configuration.</p>
+
+<p>This script can grow as new functionalities are added and the game becomes bigger.</p>
+
+<p>One of the cool things about working with these data-driven assets is that they can make collaboration with other developers easier.</p>
+
+<p>As Dan Reynolds mentioned in his conference <a href="https://youtu.be/5RFoz_YVt7s?si=dRvdq2cAXGFTZD7h">“Data-Driven Sound Design”</a>, having a data-driven mindset can also be great when using source control, since it becomes easier for everyone to stay in their lane.</p>
+
+<h2>The Musician (The Playback Layer)</h2>
+
+<p>There is no orchestra if there are no musicians to play in it.</p>
+
+<p>And one of the beautiful things about a game engine is that it allows us to have “musicians” that play anything we throw at them.</p>
+
+<p>I don’t know if you’ve noticed yet, but so far I’ve only mentioned that we are using Wwise as our middleware. I haven’t actually shown any scripts that make direct calls to it.</p>
+
+<p>This is because communication with Wwise is supposed to be concentrated in this layer.</p>
+
+<p>And this brings us to another advantage of separating responsibilities.</p>
+
+<p>Imagine that in the future we decide to make another metroidvania, but this time we decide to switch to FMOD.</p>
+
+<p>The goal is for most middleware-specific changes to happen in this layer instead of having Wwise-specific logic scattered throughout the entire music system.</p>
+
+<p>Refactoring becomes much simpler when everything isn’t mixed together.</p>
+
+<p>The Music Player is a simple Wwise wrapper that contains methods like <code>InitializeMusic()</code>, <code>StopMusic()</code>, or <code>SetRTPC()</code>.</p>
+
+<p>These functions take the information sent by the Global Music Manager (what to do and how to do it) and this class is the one actually communicating with Wwise.</p>
+
+<pre><code class="language-csharp">public void InitializeMusic()
+{
+    if (isMusicInitialized)
+        return;
+
+    if (levelMusicEvent == null || !levelMusicEvent.IsValid())
+    {
+        Debug.LogWarning(
+            &quot;[MusicPlayer] The global level music event is not assigned or is invalid.&quot;,
+            this);
+        return;
+    }
+
+    var playingId = levelMusicEvent.Post(gameObject);
+
+    if (playingId == AkSoundEngine.AK_INVALID_PLAYING_ID)
+    {
+        Debug.LogWarning(
+            $&quot;[MusicPlayer] Wwise could not post &#x27;{levelMusicEvent.Name}&#x27;. Verify that its SoundBank is loaded and regenerated.&quot;,
+            this);
+        return;
+    }
+
+    isMusicInitialized = true;
+}
+
+/// &lt;summary&gt;
+/// Stops the global music event when leaving its ownership scope.
+/// &lt;/summary&gt;
+public void StopMusic()
+{
+    if (!isMusicInitialized)
+        return;
+
+    if (levelMusicEvent == null || !levelMusicEvent.IsValid())
+    {
+        Debug.LogWarning(
+            &quot;[MusicPlayer] The global level music event is not assigned or is invalid.&quot;,
+            this);
+        return;
+    }
+
+    levelMusicEvent.Stop(gameObject);
+    isMusicInitialized = false;
+}
+
+// All functions related to Wwise—or any middleware—go here!</code></pre>
+
+<h3>Wait a Minute… Is Wwise Really Only in the Playback Layer?</h3>
+
+<p>Well…</p>
+
+<p>Almost.</p>
+
+<p>If you’ve been paying attention, you might have noticed that <code>GlobalMusicManager</code> and <code>MusicData</code> still know about Wwise-specific types.</p>
+
+<p>For example, both of them have references to <code>AK.Wwise.Switch</code>.</p>
+
+<p>So yes: Wwise has escaped its cage.</p>
+
+<p>The goal is to keep refining this system and separating those responsibilities even further.</p>
+
+<p>Instead of something like:</p>
+
+<pre><code class="language-csharp">AK.Wwise.Switch bossSwitch;</code></pre>
+
+<p>our gameplay code could work with something that belongs to our own domain:</p>
+
+<pre><code class="language-csharp">MusicBossId boss;</code></pre>
+
+<p>Then, somewhere closer to the Music Player, we could have the corresponding Wwise Switches and States hooked up through a mapping that matches each ID with its middleware counterpart.</p>
+
+<p>That way, the rest of the game only needs to know something like:</p>
+
+<pre><code>Boss = SpiderQueen</code></pre>
+
+<p>while the Music Player (or another middleware-specific configuration layer) knows that <code>SpiderQueen</code> corresponds to a particular Wwise Switch. But for our current purpose, it is fine as it is for now.</p>
+
+<p>Architecture is rarely something you magically get perfect on the first try. Sometimes the interesting part is noticing where those boundaries are leaking… and deciding whether fixing them is actually worth it for your project.</p>
+
+<p>Just like an orchestra gets better as it rehearses, adjusts things, and tries new ideas, the same happens with our systems. Good architecture is not about having zero dependencies. It is about choosing where those dependencies are allowed to live.</p>
+
+<p>This is one of the beauties of game development: there’s always an opportunity to get things tighter, and the process of getting there can be just as rewarding as seeing the result.</p>
+
+<p>And since apparently I can’t stop using music analogies, it’s a little like going from:</p>
+
+<p>“That guitar sounds like a cat being strangled.”</p>
+
+<p>to:</p>
+
+<p>“Man… I didn’t know you could play <em><a href="https://youtu.be/FuoBoWCym0k?si=nDRQVpWQVJrQhErz&amp;t=107">Crushing Day</a></em><a href="https://youtu.be/FuoBoWCym0k?si=nDRQVpWQVJrQhErz&amp;t=107">’s solo</a> while standing!”</p>
+
+<h2>Conclusion</h2>
+
+<p>To summarize, the <code>GlobalMusicManager</code> reads the data provided by <code>MusicData</code> and tells the <code>MusicPlayer</code> what the music should do.</p>
+
+<p>Dividing a big system into smaller pieces and thinking in terms of composition and modules has helped me understand bigger systems without getting overwhelmed by everything a game needs.</p>
+
+<p>It doesn’t mean that every dependency has to disappear or that every system needs five layers of abstraction. Sometimes separating responsibilities just enough to understand who owns what can already make a huge difference.</p>
+
+<p>Hope this helps you with your own creations and systems!</p>
+</article>
+        <div class="post-tags"><span class="tag">Software Architecture</span><span class="tag">Game Audio</span><span class="tag">Unity</span><span class="tag">Wwise</span><span class="tag">Interactive Music</span></div>
+
+        <div style="display: flex; justify-content: center; width: 100%; margin-top: 60px; margin-bottom: 20px;">
+            <a class="back-btn" href="../index.html?page=blog">BACK</a>
+        </div>
+    </main>
+
+    <footer class="global-footer">
+        <div class="footer-divider-line"></div>
+        
+        <div class="footer-socials">
+            <a href="https://www.linkedin.com/in/joseisaudio/" target="_blank" class="footer-btn">
+                <img src="../assets/img/footer/foot-link.svg" alt="LinkedIn">
+            </a>
+            <a href="https://youtube.com/@joseisaudio" target="_blank" class="footer-btn">
+                <img src="../assets/img/footer/foot-yt.svg" alt="YouTube">
+            </a>
+            <a href="https://github.com/hellosound" target="_blank" class="footer-btn">
+                <img src="../assets/img/footer/foot-git.svg" alt="GitHub">
+            </a>
+            <a href="mailto:heyhellosound@gmail.com" class="footer-btn">
+                <img src="../assets/img/footer/foot-mail.svg" alt="Email">
+            </a>
+        </div>
+
+        <p class="footer-credits">
+            © 2026 Jose Angulo • VIDEOGAME SOUND DESIGNER • GAME AUDIO PROGRAMMING
+        </p>
+    </footer>
+
+
+    <script src="../script.js"></script>
+    
+    <script>
+        // 🎯 INTERCEPTOR DEL BOTÓN BACK PARA EVITAR LA NAVEGACIÓN INSTANTÁNEA
+        document.addEventListener('DOMContentLoaded', () => {
+            const backBtn = document.querySelector('.post-container .back-btn');
+            if (backBtn) {
+                backBtn.addEventListener('click', (e) => {
+                    e.preventDefault(); 
+                    
+                    if (typeof AudioManager !== 'undefined') {
+                        AudioManager.play('BUTTON_BACK', 0.8, true);
+                    }
+                    
+                    setTimeout(() => {
+                        window.location.href = backBtn.getAttribute('href');
+                    }, 180);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -25,4 +25,11 @@
     <priority>0.8</priority>
     </url>
 
+  <url>
+    <loc>https://joseisaudio.com/blog/Software-Architecture-in-Game-Music-Systems.html</loc>
+    <lastmod>2026-09-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>
