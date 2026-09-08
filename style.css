@@ -23,6 +23,13 @@ body {
     margin: 0;
 }
 
+@media (max-width: 1024px) {
+    html,
+    body {
+        overflow-x: clip;
+    }
+}
+
 body::before {
     content: "";
     position: fixed;
@@ -393,7 +400,8 @@ a:focus-visible {
         position: fixed !important;        
         top: 0 !important;
         left: 0 !important;
-        width: 100vw !important;           
+        width: 100% !important;
+        box-sizing: border-box;
         height: 100vh !important;          
         background-color: rgba(11, 13, 20, 0.98) !important; 
         
@@ -401,7 +409,7 @@ a:focus-visible {
         padding-bottom: 0 !important;
         padding-left: 0 !important;
         
-        padding-right: 100px !important;    
+        padding-right: clamp(20px, 4vw, 40px) !important;
         gap: 30px !important;              
         
         transform: translateY(-100%) !important;
@@ -416,7 +424,7 @@ a:focus-visible {
         flex-direction: column !important;
         gap: 25px !important;
         align-items: flex-end;
-        margin-right: 20px !important; 
+        margin-right: 0 !important;
         width: 100% !important;
     }
     
@@ -1357,6 +1365,23 @@ background: var(--bg-color);
     text-transform: uppercase;
     text-align: center;
 }
+/* Keep long article content inside the page, with scrolling local to code. */
+.post-container {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.post-container .post-tags {
+    flex-wrap: wrap;
+}
+
+.post-container pre {
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+}
+
 #blog.content-page {
     display: none; 
     width: 100%; 
