@@ -549,6 +549,8 @@ width: clamp(200px, 25vw, 340px);
 }
 
 .nav-btn {
+    text-align: center;
+    text-decoration: none;
     font-family: var(--font-title);
     font-weight: 900;
     font-size: 1.1rem;
@@ -671,6 +673,7 @@ width: clamp(200px, 25vw, 340px);
 }
 
 .more-games-btn {
+    text-decoration: none;
     display: none !important;
     background-color: #0b0d14 !important; 
     color: #fff2e2 !important; 

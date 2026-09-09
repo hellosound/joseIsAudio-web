@@ -1,6 +1,5 @@
 const state = {
     allGames: [],
-    navigationHistory: [],
     currentPage: 'hero',
     menuOpen: false,
     modalOpen: false,
@@ -107,21 +106,56 @@ function activatePage(sectionId) {
     return true;
 }
 
-function showPage(sectionId) {
-    if (!getPage(sectionId) || sectionId === state.currentPage) return;
+function getPageFromUrl() {
+    const url = new URL(window.location.href);
+    const sectionId = url.searchParams.get('page') || url.hash.slice(1);
+    return sectionId && getPage(sectionId) ? sectionId : 'hero';
+}
+
+function getPageUrl(sectionId) {
+    const url = new URL(window.location.href);
+    if (sectionId === 'hero') url.searchParams.delete('page');
+    else url.searchParams.set('page', sectionId);
+    url.hash = '';
+    return url;
+}
+
+function restorePageFromUrl() {
     closeGameDetails();
-    state.navigationHistory.push(state.currentPage);
-    state.currentPage = sectionId;
-    activatePage(sectionId);
     closeMobileMenu(false);
+    state.currentPage = getPageFromUrl();
+    activatePage(state.currentPage);
+}
+
+function initializeNavigation() {
+    // Articles share this script but keep their own document URLs.
+    if (!getPage('hero')) return;
+    const sectionId = getPageFromUrl();
+    window.history.replaceState({
+        ...window.history.state,
+        sectionIndex: window.history.state?.sectionIndex ?? 0
+    }, '', getPageUrl(sectionId));
+    restorePageFromUrl();
+    window.addEventListener('popstate', restorePageFromUrl);
+}
+
+function showPage(sectionId) {
+    if (!getPage(sectionId)) return;
+    closeMobileMenu(false);
+    if (sectionId === state.currentPage) return;
+    window.history.pushState({
+        ...window.history.state,
+        sectionIndex: (window.history.state?.sectionIndex ?? 0) + 1
+    }, '', getPageUrl(sectionId));
+    restorePageFromUrl();
 }
 
 function goBack() {
     closeGameDetails();
-    const previousPage = state.navigationHistory.pop() || 'hero';
-    state.currentPage = previousPage;
-    activatePage(previousPage);
     closeMobileMenu(false);
+    // A direct section link has no earlier section in this document.
+    if (window.history.state?.sectionIndex > 0) window.history.back();
+    else showPage('hero');
 }
 
 function makeImage(src, alt, className) {
@@ -309,10 +343,8 @@ function updateMuteVisuals(isMuted) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const targetPage = new URLSearchParams(window.location.search).get('page');
-    if (targetPage && getPage(targetPage)) { state.currentPage = targetPage; activatePage(targetPage); }
+    initializeNavigation();
     AudioManager.startLoadingAssets();
-    try { await loadInitialData(); } catch (error) { console.error(error); }
 
     let resizeFrame;
     window.addEventListener('resize', () => {
@@ -321,13 +353,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!window.matchMedia('(max-width: 1024px)').matches) closeMobileMenu(false);
     });
 
-    document.addEventListener('click', async event => {
+    document.addEventListener('click', event => {
         const target = event.target;
         const pageControl = target.closest('[data-page]');
         const gameControl = target.closest('[data-game-id]');
         const action = target.closest('[data-action]');
-        await handleSound(target);
-        if (pageControl) { event.preventDefault(); showPage(pageControl.dataset.page); }
+        if (pageControl?.matches('a')) {
+            if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey ||
+                pageControl.hasAttribute('download') || (pageControl.target && pageControl.target !== '_self')) return;
+        }
+        // Cancel native navigation during the click, before any audio awaits.
+        if (pageControl) event.preventDefault();
+        handleSound(target).catch(error => console.warn('No se pudo reproducir el sonido.', error));
+        if (pageControl) showPage(pageControl.dataset.page);
         else if (gameControl) openGameDetails(gameControl.dataset.gameId);
         else if (action?.dataset.action === 'back') goBack();
         else if (action?.dataset.action === 'close-modal') closeGameDetails();
@@ -350,4 +388,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (state.modalOpen) closeGameDetails();
         else if (state.menuOpen) closeMobileMenu();
     });
+
+    // Navigation must work even while portfolio and blog data are loading.
+    if (getPage('hero')) {
+        try { await loadInitialData(); } catch (error) { console.error(error); }
+    }
 });
