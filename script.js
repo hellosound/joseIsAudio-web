@@ -3,8 +3,11 @@ const state = {
     currentPage: 'hero',
     menuOpen: false,
     modalOpen: false,
-    lastFocusedElement: null
+    lastFocusedElement: null,
+    soundNavigationId: 0
 };
+
+const SITE_BASE_URL = new URL('.', document.currentScript.src);
 
 const AUDIO_ASSETS = [
     ['ORCS MUST DIE', 'assets/snd/s_omd_click.opus'],
@@ -22,13 +25,18 @@ const AUDIO_ASSETS = [
 ];
 
 const MASTER_VOLUME = 0.6;
+const NAVIGATION_SOUND_MS = 180;
+const MAX_NAVIGATION_SOUND_WAIT_MS = 500;
 
 const AudioManager = {
     audioCtx: null,
     masterGain: null,
     isMuted: false,
     sounds: new Map(),
+    bufferPromises: new Map(),
+    decodePromises: new Map(),
     preloadPromise: null,
+    muteVersion: 0,
 
     startLoadingAssets() {
         if (!this.preloadPromise) {
@@ -37,54 +45,90 @@ const AudioManager = {
         return this.preloadPromise;
     },
 
-    async preloadBuffer(key, url) {
-        try {
-            const response = await fetch(url);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const buffer = await response.arrayBuffer();
-            this.sounds.set(key, this.audioCtx ? await this.decode(buffer) : buffer);
-        } catch (error) {
-            console.warn(`No se pudo cargar el audio ${url}.`, error);
+    preloadBuffer(key, url) {
+        if (!this.bufferPromises.has(key)) {
+            const promise = fetch(new URL(url, SITE_BASE_URL))
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    return response.arrayBuffer();
+                })
+                .catch(error => {
+                    this.bufferPromises.delete(key);
+                    console.warn(`No se pudo cargar el audio ${url}.`, error);
+                    return null;
+                });
+            this.bufferPromises.set(key, promise);
         }
+        return this.bufferPromises.get(key);
     },
 
-    async decode(buffer) {
-        try {
-            return await this.audioCtx.decodeAudioData(buffer.slice(0));
-        } catch (error) {
-            console.warn('No se pudo decodificar un audio.', error);
-            return null;
+    loadSound(key) {
+        if (this.sounds.has(key)) return Promise.resolve(this.sounds.get(key));
+        const asset = AUDIO_ASSETS.find(([name]) => name === key);
+        if (!asset || !this.audioCtx) return Promise.resolve(null);
+        if (!this.decodePromises.has(key)) {
+            const promise = this.preloadBuffer(...asset)
+                .then(buffer => buffer ? this.audioCtx.decodeAudioData(buffer.slice(0)) : null)
+                .then(sound => {
+                    if (sound) this.sounds.set(key, sound);
+                    return sound;
+                })
+                .catch(error => {
+                    console.warn(`No se pudo decodificar el audio ${key}.`, error);
+                    return null;
+                })
+                .finally(() => this.decodePromises.delete(key));
+            this.decodePromises.set(key, promise);
         }
+        return this.decodePromises.get(key);
     },
 
     async init() {
-        if (this.audioCtx) return;
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        this.audioCtx = new AudioContext();
-        this.masterGain = this.audioCtx.createGain();
-        this.masterGain.gain.value = this.isMuted ? 0 : MASTER_VOLUME;
-        this.masterGain.connect(this.audioCtx.destination);
-
-        await Promise.all([...this.sounds.entries()].map(async ([key, sound]) => {
-            if (sound instanceof ArrayBuffer) this.sounds.set(key, await this.decode(sound));
-        }));
+        if (!this.audioCtx) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+            this.audioCtx = new AudioContext();
+            this.masterGain = this.audioCtx.createGain();
+            this.masterGain.gain.value = this.isMuted ? 0 : MASTER_VOLUME;
+            this.masterGain.connect(this.audioCtx.destination);
+        }
+        // Resume inside the user gesture, before waiting for downloads or decoding.
+        if (this.audioCtx.state !== 'running') await this.audioCtx.resume();
+        AUDIO_ASSETS.forEach(([key]) => this.loadSound(key));
     },
 
-    play(key, volume = 1, randomPitch = false) {
-        const sound = this.sounds.get(key);
-        if (!this.audioCtx || !sound || sound instanceof ArrayBuffer) return;
-        const source = this.audioCtx.createBufferSource();
-        const gain = this.audioCtx.createGain();
-        source.buffer = sound;
-        gain.gain.value = volume ** 2;
-        if (randomPitch) source.playbackRate.value = 0.9 + Math.random() * 0.2;
-        source.connect(gain).connect(this.masterGain);
-        source.start();
+    async play(key, volume = 1, randomPitch = false) {
+        if (this.isMuted) return 0;
+        const muteVersion = this.muteVersion;
+        try {
+            await this.init();
+            const sound = await this.loadSound(key);
+            if (!sound || this.isMuted || muteVersion !== this.muteVersion || this.audioCtx.state !== 'running') return 0;
+            const source = this.audioCtx.createBufferSource();
+            const gain = this.audioCtx.createGain();
+            source.buffer = sound;
+            gain.gain.value = volume ** 2;
+            if (randomPitch) source.playbackRate.value = 0.9 + Math.random() * 0.2;
+            source.connect(gain).connect(this.masterGain);
+            source.onended = () => { source.disconnect(); gain.disconnect(); };
+            source.start();
+            return sound.duration / source.playbackRate.value;
+        } catch (error) {
+            console.warn(`No se pudo reproducir el audio ${key}.`, error);
+            return 0;
+        }
+    },
+
+    restoreMute() {
+        try { this.isMuted = sessionStorage.getItem('sound-muted') === 'true'; } catch {}
+        if (this.masterGain) this.masterGain.gain.value = this.isMuted ? 0 : MASTER_VOLUME;
     },
 
     toggleMute() {
         this.isMuted = !this.isMuted;
+        this.muteVersion++;
         if (this.masterGain) this.masterGain.gain.value = this.isMuted ? 0 : MASTER_VOLUME;
+        try { sessionStorage.setItem('sound-muted', String(this.isMuted)); } catch {}
         return this.isMuted;
     }
 };
@@ -121,6 +165,7 @@ function getPageUrl(sectionId) {
 }
 
 function restorePageFromUrl() {
+    state.soundNavigationId++;
     closeGameDetails();
     closeMobileMenu(false);
     state.currentPage = getPageFromUrl();
@@ -317,16 +362,33 @@ function closeMobileMenu(playSound = true) {
 async function handleSound(target) {
     const mute = target.closest('[data-action="toggle-mute"]');
     const interactive = target.closest('[data-sound], [data-page], [data-action], .hamburger-menu');
-    if (!interactive) return;
-    await AudioManager.init();
-    if (AudioManager.audioCtx.state === 'suspended') await AudioManager.audioCtx.resume();
+    if (!interactive) return 0;
     if (mute) {
         updateMuteVisuals(AudioManager.toggleMute());
-        AudioManager.play('BUTTON_TOGGLE', 1, true);
-    } else if (interactive.matches('.sticker[data-sound]')) AudioManager.play(interactive.dataset.sound, 0.5, true);
-    else if (interactive.dataset.sound) AudioManager.play(interactive.dataset.sound, 0.8, true);
-    else if (interactive.matches('[data-action="back"]')) AudioManager.play('BUTTON_BACK', 0.9, true);
-    else if (interactive.matches('[data-page]')) AudioManager.play('BUTTON_CLICK', 0.9, true);
+        return AudioManager.play('BUTTON_TOGGLE', 1, true);
+    }
+    if (interactive.matches('.sticker[data-sound]')) return AudioManager.play(interactive.dataset.sound, 0.5, true);
+    if (interactive.dataset.sound) return AudioManager.play(interactive.dataset.sound, 0.8, true);
+    if (interactive.matches('[data-action="back"]')) return AudioManager.play('BUTTON_BACK', 0.9, true);
+    if (interactive.matches('[data-page]')) return AudioManager.play('BUTTON_CLICK', 0.9, true);
+    return 0;
+}
+
+function afterNavigationSound(sound, navigate) {
+    const navigationId = ++state.soundNavigationId;
+    let finished = false;
+    const finish = () => {
+        if (finished) return;
+        finished = true;
+        clearTimeout(timeout);
+        if (navigationId === state.soundNavigationId) navigate();
+    };
+    // A failed or slow audio request must never prevent leaving the page.
+    const timeout = setTimeout(finish, MAX_NAVIGATION_SOUND_WAIT_MS);
+    sound.then(duration => {
+        if (duration > 0) setTimeout(finish, Math.min(duration * 1000, NAVIGATION_SOUND_MS));
+        else finish();
+    }, finish);
 }
 
 function updateMuteVisuals(isMuted) {
@@ -337,14 +399,22 @@ function updateMuteVisuals(isMuted) {
     document.querySelectorAll('.mute-line-bottom').forEach(text => { text.textContent = isMuted ? 'OFF' : 'ON'; });
     const icon = document.querySelector('#mute-icon img');
     if (icon) {
-        icon.src = isMuted ? 'assets/img/buttons/btn-volume-off.svg' : 'assets/img/buttons/btn-volume-on.svg';
+        icon.src = new URL(isMuted ? 'assets/img/buttons/btn-volume-off.svg' : 'assets/img/buttons/btn-volume-on.svg', SITE_BASE_URL).href;
         icon.alt = isMuted ? 'Sound off' : 'Sound on';
     }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
     initializeNavigation();
+    AudioManager.restoreMute();
+    updateMuteVisuals(AudioManager.isMuted);
     AudioManager.startLoadingAssets();
+
+    window.addEventListener('pagehide', () => { state.soundNavigationId++; });
+    window.addEventListener('pageshow', () => {
+        AudioManager.restoreMute();
+        updateMuteVisuals(AudioManager.isMuted);
+    });
 
     let resizeFrame;
     window.addEventListener('resize', () => {
@@ -354,17 +424,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     document.addEventListener('click', event => {
+        if (event.defaultPrevented) return;
         const target = event.target;
         const pageControl = target.closest('[data-page]');
         const gameControl = target.closest('[data-game-id]');
         const action = target.closest('[data-action]');
-        if (pageControl?.matches('a')) {
-            if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey ||
-                pageControl.hasAttribute('download') || (pageControl.target && pageControl.target !== '_self')) return;
+        const link = target.closest('a[href]');
+        const followsHere = link && event.button === 0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey &&
+            !link.hasAttribute('download') && (!link.target || link.target === '_self');
+        if (pageControl && link && !followsHere) return;
+        state.soundNavigationId++;
+        // Valid form submissions play once in the submit handler, including Enter.
+        const submitControl = target.closest('.contact-form [type="submit"]');
+        if (submitControl) {
+            if (submitControl.form.matches(':invalid')) handleSound(target);
+            return;
         }
+        const leavesPage = followsHere && !pageControl && link.dataset.sound && !AudioManager.isMuted &&
+            /^https?:$/.test(link.protocol) &&
+            (link.origin !== location.origin || link.pathname !== location.pathname || link.search !== location.search);
         // Cancel native navigation during the click, before any audio awaits.
-        if (pageControl) event.preventDefault();
-        handleSound(target).catch(error => console.warn('No se pudo reproducir el sonido.', error));
+        if (pageControl || leavesPage) event.preventDefault();
+        const sound = handleSound(target);
+        if (leavesPage) {
+            const destination = link.href;
+            afterNavigationSound(sound, () => window.location.assign(destination));
+        }
         if (pageControl) showPage(pageControl.dataset.page);
         else if (gameControl) openGameDetails(gameControl.dataset.gameId);
         else if (action?.dataset.action === 'back') goBack();
@@ -372,6 +457,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         else if (target.closest('.hamburger-menu')) toggleMobileMenu();
         else if (state.menuOpen && !target.closest('#mobileNavMenu')) closeMobileMenu();
         else if (state.modalOpen && target === document.getElementById('game-overlay')) closeGameDetails();
+    });
+
+    let submittingForm = null;
+    document.addEventListener('submit', event => {
+        const form = event.target;
+        if (!form.matches('.contact-form') || event.defaultPrevented || submittingForm === form) return;
+        event.preventDefault();
+        const submitter = event.submitter;
+        afterNavigationSound(AudioManager.play('BUTTON_CLICK', 0.8, true), () => {
+            submittingForm = form;
+            try { form.requestSubmit(submitter); } finally { submittingForm = null; }
+        });
     });
 
     document.addEventListener('keydown', event => {

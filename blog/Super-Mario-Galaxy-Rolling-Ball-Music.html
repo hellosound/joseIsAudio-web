@@ -188,7 +188,7 @@
 
 <header class="global-header">
     <div class="header-left">
-        <button class="mute-btn" onclick="toggleGlobalMute(event)">
+        <button type="button" class="mute-btn" data-action="toggle-mute" aria-label="Activar o desactivar sonido" aria-pressed="false">
             <span id="mute-icon">
                 <img src="../assets/img/buttons/btn-volume-on.svg" alt="Sound On">
             </span>
@@ -196,13 +196,13 @@
     </div>
     
     <div class="header-center">
-        <a href="../index.html?page=hero">
+        <a href="../index.html?page=hero" data-sound="BUTTON_CLICK">
             <img src="../assets/img/header/hdr-logo.svg" alt="joseIsAudio" class="mini-logo">
         </a>
     </div>
     
     <div class="header-right submenu-wrapper">
-        <button class="hamburger-menu" onclick="toggleMobileMenu()">
+        <button type="button" class="hamburger-menu" aria-label="Abrir menú" aria-controls="mobileNavMenu" aria-expanded="false">
             <span></span>
             <span></span>
             <span></span>
@@ -210,11 +210,11 @@
         
         <nav class="nav-sub-menu" id="mobileNavMenu">
             <div class="menu-links-holder">
-                <a class="menu-overlay-link home-txt" href="../index.html?page=hero">HOME</a>
-                <a class="menu-overlay-link bio-txt" href="../index.html?page=bio">BIO</a>
-                <a class="menu-overlay-link blog-txt" href="../index.html?page=blog">BLOG</a>
-                <a class="menu-overlay-link port-txt" href="../index.html?page=portfolio">PROJECTS</a>
-                <a class="menu-overlay-link contact-txt" href="../index.html?page=contact">CONTACT</a>
+                <a class="menu-overlay-link home-txt" data-sound="BUTTON_CLICK" href="../index.html?page=hero">HOME</a>
+                <a class="menu-overlay-link bio-txt" data-sound="BUTTON_CLICK" href="../index.html?page=bio">BIO</a>
+                <a class="menu-overlay-link blog-txt" data-sound="BUTTON_CLICK" href="../index.html?page=blog">BLOG</a>
+                <a class="menu-overlay-link port-txt" data-sound="BUTTON_CLICK" href="../index.html?page=portfolio">PROJECTS</a>
+                <a class="menu-overlay-link contact-txt" data-sound="BUTTON_CLICK" href="../index.html?page=contact">CONTACT</a>
             </div>
         </nav>
     </div>
@@ -292,7 +292,7 @@
         </div>
 
         <div style="display: flex; justify-content: center; width: 100%; margin-top: 60px; margin-bottom: 20px;">
-            <a class="back-btn" href="../index.html?page=blog">BACK</a>
+            <a class="back-btn" data-sound="BUTTON_BACK" href="../index.html?page=blog">BACK</a>
         </div>
     </main>
 
@@ -300,16 +300,16 @@
         <div class="footer-divider-line"></div>
         
         <div class="footer-socials">
-            <a href="https://www.linkedin.com/in/joseisaudio/" target="_blank" class="footer-btn">
+            <a href="https://www.linkedin.com/in/joseisaudio/" target="_blank" class="footer-btn" data-sound="BUTTON_CLICK">
                 <img src="../assets/img/footer/foot-link.svg" alt="LinkedIn">
             </a>
-            <a href="https://youtube.com/@joseisaudio" target="_blank" class="footer-btn">
+            <a href="https://youtube.com/@joseisaudio" target="_blank" class="footer-btn" data-sound="BUTTON_CLICK">
                 <img src="../assets/img/footer/foot-yt.svg" alt="YouTube">
             </a>
-            <a href="https://github.com/hellosound" target="_blank" class="footer-btn">
+            <a href="https://github.com/hellosound" target="_blank" class="footer-btn" data-sound="BUTTON_CLICK">
                 <img src="../assets/img/footer/foot-git.svg" alt="GitHub">
             </a>
-            <a href="mailto:heyhellosound@gmail.com" class="footer-btn">
+            <a href="mailto:heyhellosound@gmail.com" class="footer-btn" data-sound="BUTTON_CLICK">
                 <img src="../assets/img/footer/foot-mail.svg" alt="Email">
             </a>
         </div>
@@ -320,25 +320,5 @@
     </footer>
 
     <script src="../script.js"></script>
-    
-    <script>
-        // 🎯 INTERCEPTOR DEL BOTÓN BACK PARA EVITAR LA NAVEGACIÓN INSTANTÁNEA
-        document.addEventListener('DOMContentLoaded', () => {
-            const backBtn = document.querySelector('.post-container .back-btn');
-            if (backBtn) {
-                backBtn.addEventListener('click', (e) => {
-                    e.preventDefault(); 
-                    
-                    if (typeof AudioManager !== 'undefined') {
-                        AudioManager.play('BUTTON_BACK', 0.8, true);
-                    }
-                    
-                    setTimeout(() => {
-                        window.location.href = backBtn.getAttribute('href');
-                    }, 180);
-                });
-            }
-        });
-    </script>
 </body>
 </html>
