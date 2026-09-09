@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build && npm test"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[build.processing.html]
+  pretty_urls = true

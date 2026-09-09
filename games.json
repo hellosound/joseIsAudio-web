@@ -1,6 +1,7 @@
 [
   {
     "id": "REEL",
+    "slug": "general-audio-reel",
     "title": "General Audio Reel",
     "studio": "Multiple studios",
     "role": "Gameplay Audio Programmer, Technical Sound Designer, Composer",
@@ -24,6 +25,7 @@
   },
   {
     "id": "ORCS MUST DIE",
+    "slug": "orcs-must-die-by-the-blade",
     "title": "Orcs Must Die! By The Blade",
     "studio": "Teravision Games",
     "role": "Technical Sound Designer, Gameplay Audio Programmer",
@@ -47,6 +49,7 @@
   },
       {
     "id": "TMNT",
+    "slug": "teenage-mutant-ninja-turtles-rooftop-mayhem",
     "title": "Teenage Mutant Ninja Turtles: Rooftop Mayhem",
     "studio": "TicToc Games / Teravision Games",
     "role": "Sound Designer",
@@ -69,6 +72,7 @@
   },
   {
     "id": "KILLER KLOWNS",
+    "slug": "killer-klowns-from-outer-space",
     "title": "Killer Klowns From Outer Space",
     "studio": "IllFonic / Teravision Games",
     "role": "Technical Sound Designer",
@@ -92,6 +96,7 @@
   },
   {
     "id": "AL-UMBRA",
+    "slug": "al-umbra",
     "title": "Al-Umbra",
     "studio": "Maleiwa Studio",
     "role": "Technical Sound Designer, Composer",
@@ -115,6 +120,7 @@
   },
   {
     "id": "NEKOME",
+    "slug": "nekome",
     "title": "NEKOME",
     "studio": "Probably Monsters",
     "role": "Technical Sound Designer",
@@ -139,6 +145,7 @@
 
   {
     "id": "THE SHADOW SYNDICATE",
+    "slug": "the-shadow-syndicate",
     "title": "The Shadow Syndicate",
     "studio": "Killasoft",
     "role": "Technical Sound Designer",
@@ -162,6 +169,7 @@
   },
   {
     "id": "BTH",
+    "slug": "beat-the-heat",
     "title": "Beat the Heat!",
     "studio": "Blazing Soft",
     "role": "Audio Director, Sound Designer, Composer",
@@ -175,6 +183,7 @@
   },
   {
     "id": "MFTP",
+    "slug": "my-friend-the-painter",
     "title": "My Friend The Painter",
     "studio": "Orla Games",
     "role": "Sound Designer, Composer",
@@ -189,6 +198,7 @@
   },
   {
     "id": "LCDP",
+    "slug": "la-casa-de-papel",
     "title": "La Casa de Papel",
     "studio": "Netflix / Killasoft",
     "role": "Audio Director",
@@ -202,6 +212,7 @@
   },
   {
     "id": "ROMPE",
+    "slug": "rompe",
     "title": "Rompe!",
     "studio": "Orla Games",
     "role": "Composer",
@@ -215,6 +226,7 @@
   },
   {
     "id": "HDB",
+    "slug": "heroes-del-bicentenario",
     "title": "Heroes del Bicentenario",
     "studio": "Critertec",
     "role": "Composer",
@@ -228,8 +240,9 @@
   },
   {
     "id": "VOCES",
+    "slug": "voces",
     "title": "VOCES",
-    "studio": "Jimmy Garc�a",
+    "studio": "Jimmy García",
     "role": "Sound Designer",
     "description": "For VOCES, I created both the sound design and original music, focusing on building an emotional atmosphere that supported the narrative. Every sound was carefully crafted to strengthen the player's connection with the story.",
     "tech": "Reaper, Cubase, Construct",
@@ -241,6 +254,7 @@
   },
   {
     "id": "GARAK",
+    "slug": "garak-and-bam",
     "title": "Garak & Bam",
     "studio": "Maleiwa Studio",
     "role": "Technical Sound Designer",
@@ -255,6 +269,7 @@
 
   {
     "id": "GRAPH",
+    "slug": "graphite",
     "title": "Graphite",
     "studio": "RipRed",
     "role": "Sound Designer",

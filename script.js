@@ -8,6 +8,8 @@ const state = {
 };
 
 const SITE_BASE_URL = new URL('.', document.currentScript.src);
+const SITE_DATA = JSON.parse(document.getElementById('site-data')?.textContent || 'null');
+if (SITE_DATA) state.allGames = SITE_DATA.games;
 
 const AUDIO_ASSETS = [
     ['ORCS MUST DIE', 'assets/snd/s_omd_click.opus'],
@@ -153,12 +155,17 @@ function activatePage(sectionId) {
 function getPageFromUrl() {
     const url = new URL(window.location.href);
     const sectionId = url.searchParams.get('page') || url.hash.slice(1);
-    return sectionId && getPage(sectionId) ? sectionId : 'hero';
+    if (sectionId && getPage(sectionId)) return sectionId;
+    const route = SITE_DATA?.routes[url.pathname];
+    return route?.gameId ? (window.history.state?.projectPage || 'portfolio') : route?.section || 'hero';
 }
 
 function getPageUrl(sectionId) {
     const url = new URL(window.location.href);
-    if (sectionId === 'hero') url.searchParams.delete('page');
+    if (SITE_DATA) {
+        url.pathname = SITE_DATA.sections[sectionId].path;
+        url.searchParams.delete('page');
+    } else if (sectionId === 'hero') url.searchParams.delete('page');
     else url.searchParams.set('page', sectionId);
     url.hash = '';
     return url;
@@ -166,20 +173,53 @@ function getPageUrl(sectionId) {
 
 function restorePageFromUrl() {
     state.soundNavigationId++;
-    closeGameDetails();
+    closeGameDetails(false);
     closeMobileMenu(false);
     state.currentPage = getPageFromUrl();
     activatePage(state.currentPage);
+    const route = SITE_DATA?.routes[window.location.pathname];
+    if (route?.gameId) openGameDetails(route.gameId, false);
+    updateRouteMetadata();
+}
+
+function updateRouteMetadata() {
+    const route = SITE_DATA?.routes[window.location.pathname];
+    if (!route) return;
+    document.title = route.title;
+    const canonical = 'https://joseisaudio.com' + window.location.pathname;
+    document.querySelector('link[rel="canonical"]').href = canonical;
+    for (const [selector, content] of Object.entries({
+        'meta[name="description"]': route.description,
+        'meta[property="og:title"]': route.title,
+        'meta[property="og:description"]': route.description,
+        'meta[property="og:url"]': canonical,
+        'meta[name="twitter:title"]': route.title,
+        'meta[name="twitter:description"]': route.description
+    })) document.querySelector(selector)?.setAttribute('content', content);
+    document.getElementById('page-schema').textContent = JSON.stringify({ '@context': 'https://schema.org', '@graph': [...SITE_DATA.entities, ...route.schema] });
+    const primary = state.modalOpen ? document.getElementById('game-title') : document.querySelector(`#${state.currentPage} h1, #${state.currentPage} h2`);
+    document.querySelectorAll('h1, #game-title').forEach(heading => {
+        if (heading !== primary && heading.tagName === 'H1') replaceHeading(heading, 'h2');
+    });
+    if (primary && primary.tagName !== 'H1') replaceHeading(primary, 'h1');
+}
+
+function replaceHeading(heading, tag) {
+    const replacement = document.createElement(tag);
+    for (const attribute of heading.attributes) replacement.setAttribute(attribute.name, attribute.value);
+    replacement.append(...heading.childNodes);
+    heading.replaceWith(replacement);
 }
 
 function initializeNavigation() {
     // Articles share this script but keep their own document URLs.
     if (!getPage('hero')) return;
     const sectionId = getPageFromUrl();
+    const projectRoute = SITE_DATA?.routes[window.location.pathname]?.gameId;
     window.history.replaceState({
         ...window.history.state,
         sectionIndex: window.history.state?.sectionIndex ?? 0
-    }, '', getPageUrl(sectionId));
+    }, '', projectRoute ? window.location.href : getPageUrl(sectionId));
     restorePageFromUrl();
     window.addEventListener('popstate', restorePageFromUrl);
 }
@@ -187,7 +227,7 @@ function initializeNavigation() {
 function showPage(sectionId) {
     if (!getPage(sectionId)) return;
     closeMobileMenu(false);
-    if (sectionId === state.currentPage) return;
+    if (sectionId === state.currentPage && !state.modalOpen) return;
     window.history.pushState({
         ...window.history.state,
         sectionIndex: (window.history.state?.sectionIndex ?? 0) + 1
@@ -196,7 +236,7 @@ function showPage(sectionId) {
 }
 
 function goBack() {
-    closeGameDetails();
+    closeGameDetails(false);
     closeMobileMenu(false);
     // A direct section link has no earlier section in this document.
     if (window.history.state?.sectionIndex > 0) window.history.back();
@@ -233,12 +273,13 @@ function renderStickers() {
         const desktopUiScale = Math.max(0.72, Math.min(window.innerWidth / 1440, 1));
         hero.style.setProperty('--hero-ui-scale', desktopUiScale.toFixed(4));
     }
+    if (layer.hasAttribute('data-static')) return;
     const labelColors = { TMNT: '#f1b83a', 'KILLER KLOWNS': '#00b4eb', 'AL-UMBRA': '#00b4eb', INNER: '#f1b83a' };
     const fragment = document.createDocumentFragment();
 
     state.allGames.filter(game => game.isSticker).forEach((game, index) => {
-        const sticker = document.createElement('button');
-        sticker.type = 'button';
+        const sticker = document.createElement('a');
+        sticker.href = game.path || '#';
         sticker.className = `sticker game-${index + 1}`;
         sticker.dataset.gameId = game.id;
         sticker.dataset.sound = game.id;
@@ -248,7 +289,9 @@ function renderStickers() {
         sticker.style.left = mobile ? (game.stickerLeftMobile || `${15 + index * 20}%`) : (game.stickerLeft || '50%');
         sticker.style.top = mobile ? (game.stickerTopMobile || `${65 + index * 4}%`) : (game.stickerTop || '50%');
         sticker.style.transform = mobile ? 'translate(-50%, -50%)' : `rotate(${game.stickerRotate || 0}deg)`;
-        sticker.append(makeImage(game.stickerImage || game.image || 'assets/img/portfolio/placeholder.avif', '', 'sticker-thumb'));
+        const thumbnail = makeImage(new URL(game.stickerImage || game.image || 'assets/img/portfolio/placeholder.avif', SITE_BASE_URL).href, '', 'sticker-thumb');
+        thumbnail.loading = 'eager';
+        sticker.append(thumbnail);
         const label = document.createElement('span');
         label.className = 'sticker-label';
         label.textContent = game.id;
@@ -299,17 +342,25 @@ function renderBlog(posts) {
 }
 
 async function loadInitialData() {
-    const [gamesResponse, postsResponse] = await Promise.all([fetch('games.json'), fetch('posts.json')]);
+    if (SITE_DATA) { renderStickers(); return; }
+    const [gamesResponse, postsResponse] = await Promise.all([fetch(new URL('games.json', SITE_BASE_URL)), fetch(new URL('posts.json', SITE_BASE_URL))]);
     if (!gamesResponse.ok || !postsResponse.ok) throw new Error('No se pudieron cargar los datos del sitio.');
     state.allGames = await gamesResponse.json();
     renderStickers(); renderPortfolio(); renderBlog(await postsResponse.json());
 }
 
-function openGameDetails(gameId) {
+function openGameDetails(gameId, updateHistory = true) {
     const game = state.allGames.find(item => item.id === gameId);
     const overlay = document.getElementById('game-overlay');
     if (!game || !overlay) return;
+    if (SITE_DATA && updateHistory) {
+        const url = new URL(game.path, window.location.href);
+        window.history.pushState({ ...window.history.state, sectionIndex: (window.history.state?.sectionIndex ?? 0) + 1, projectPage: state.currentPage, projectOrigin: window.location.href }, '', url);
+    }
     state.lastFocusedElement = document.activeElement;
+    if (!updateHistory && overlay.classList.contains('active') && document.getElementById('game-title').textContent === game.title) {
+        state.modalOpen = true; updateScrollLock(); return;
+    }
     document.getElementById('game-title').textContent = game.title;
     document.getElementById('game-studio').textContent = game.studio;
     document.getElementById('game-role').textContent = game.role;
@@ -323,15 +374,21 @@ function openGameDetails(gameId) {
         frame.src = game.video; frame.title = `Video de ${game.title}`; frame.allowFullscreen = true;
         frame.loading = 'lazy'; frame.style.cssText = 'width:100%; aspect-ratio:16/9; border:0;';
         media.append(frame);
-    } else media.append(makeImage(game.image || 'assets/img/portfolio/placeholder.avif', game.title, 'game-media-image'));
+    } else media.append(makeImage(new URL(game.image || 'assets/img/portfolio/placeholder.avif', SITE_BASE_URL).href, game.title, 'game-media-image'));
     overlay.classList.add('active'); overlay.setAttribute('aria-hidden', 'false');
     state.modalOpen = true; updateScrollLock();
     overlay.querySelector('[data-action="close-modal"]').focus();
+    updateRouteMetadata();
 }
 
-function closeGameDetails() {
+function closeGameDetails(navigate = true) {
     const overlay = document.getElementById('game-overlay');
     if (!overlay || !state.modalOpen) return;
+    if (navigate && SITE_DATA?.routes[window.location.pathname]?.gameId) {
+        if (window.history.state?.projectOrigin && window.history.state?.sectionIndex > 0) window.history.back();
+        else showPage('portfolio');
+        return;
+    }
     overlay.classList.remove('active'); overlay.setAttribute('aria-hidden', 'true');
     document.getElementById('media-container').replaceChildren();
     state.modalOpen = false; updateScrollLock();
@@ -432,7 +489,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const link = target.closest('a[href]');
         const followsHere = link && event.button === 0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey &&
             !link.hasAttribute('download') && (!link.target || link.target === '_self');
-        if (pageControl && link && !followsHere) return;
+        if ((pageControl || gameControl) && link && !followsHere) return;
         state.soundNavigationId++;
         // Valid form submissions play once in the submit handler, including Enter.
         const submitControl = target.closest('.contact-form [type="submit"]');
@@ -440,11 +497,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (submitControl.form.matches(':invalid')) handleSound(target);
             return;
         }
-        const leavesPage = followsHere && !pageControl && link.dataset.sound && !AudioManager.isMuted &&
+        const leavesPage = followsHere && !pageControl && !gameControl && !action && link.dataset.sound && !AudioManager.isMuted &&
             /^https?:$/.test(link.protocol) &&
             (link.origin !== location.origin || link.pathname !== location.pathname || link.search !== location.search);
         // Cancel native navigation during the click, before any audio awaits.
-        if (pageControl || leavesPage) event.preventDefault();
+        if (pageControl || gameControl || (action && link) || leavesPage) event.preventDefault();
         const sound = handleSound(target);
         if (leavesPage) {
             const destination = link.href;

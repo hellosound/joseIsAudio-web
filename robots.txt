@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /drafts/
+Disallow: /temp/
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Search discovery is allowed. No separate AI-training preference is changed.
+Sitemap: https://joseisaudio.com/sitemap.xml
