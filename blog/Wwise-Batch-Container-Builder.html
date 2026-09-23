@@ -35,10 +35,16 @@
         .post-content figure { margin: 32px 0; }
         .post-content figure img { display: block; width: 100%; height: auto; border: 1px solid rgba(255,255,255,.12); }
         .post-content figcaption { color: #8d99b0; font-size: .85rem; margin-top: 9px; text-align: center; }
+        .project-cta { margin: 48px 0 12px; padding: 14px; border: 1px solid rgba(255,79,136,.45); border-radius: 10px; background: linear-gradient(135deg, rgba(255,79,136,.12), rgba(0,180,235,.08)); }
+        .project-cta img { display: block; width: 100%; height: auto; border-radius: 6px; border: 1px solid rgba(255,255,255,.14); }
+        .project-cta-copy { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 6px 4px; }
+        .project-cta-copy p { margin: 0; color: #dce6f7; font-size: 1rem; line-height: 1.5; }
+        .project-cta-button { flex: 0 0 auto; display: inline-block; padding: 11px 18px; border-radius: 999px; background: #ff4f88; color: #0b0d14 !important; font-family: var(--font-title); font-weight: 900; text-decoration: none; white-space: nowrap; transition: transform .2s ease, background-color .2s ease; }
+        .project-cta-button:hover { background: #ff739f; transform: translateY(-2px); }
         .post-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 40px; }
         .tag { border: 1px solid rgba(255,79,136,.45); border-radius: 999px; color: #ff9fbb; font-size: .8rem; padding: 5px 10px; }
         .back-wrap { display: flex; justify-content: center; width: 100%; margin: 60px 0 20px; }
-        @media (max-width: 600px) { .post-container h1 { font-size: 2.15rem; } }
+        @media (max-width: 600px) { .post-container h1 { font-size: 2.15rem; } .project-cta-copy { align-items: stretch; flex-direction: column; gap: 14px; } .project-cta-button { text-align: center; } }
     </style>
 </head>
 <body>
@@ -83,8 +89,8 @@
         </header>
 
         <article class="post-content">
-            <figure>
-                <img src="../assets/img/blog/wwise-tool/wwise-header.gif" alt="Wwise Batch Container Builder showing grouped sounds and planned container types" width="800" height="450">
+            <figure>              
+                <img src="..\assets\img\blog\wwise-tool\wwise-header.png" alt="Wwise Batch Container Builder showing grouped sounds and planned container types" width="800" height="450">
                 <figcaption>The tool previews the groups, parents, container types, and actions before changing the Wwise project.</figcaption>
             </figure>
 
@@ -174,11 +180,18 @@ imports = [{
 
             <h2>Open source and future ideas</h2>
 
-            <p>This project is done by a one-man band plus the help of a Codex agent, which brings me to the next thing: I’m releasing it under an open-source license, which means you can use it, modify it, and make it your own. Feel free to add any functionality you think might improve the tool—I’ve listed some ideas in the README.md or report any bugs you find. And I promise I’ll take a look at them.</p>
+            <p>This project is done by a one-man band plus the help of a Codex agent, which brings me to the next thing: I’m releasing it under an open-source license, which means you can use it, modify it, and make it your own. Feel free to add any functionality you think might improve the tool (I’ve listed some ideas in the <code>README.md</code>) or report any bugs you find. And I promise I’ll take a look at them.</p>
 
-            <p>There are plenty of directions it could take: more naming rules, recursive folder support, additional Wwise object types, richer conflict handling, and workflow-specific presets. The repository includes more ideas in its <code>README.md</code>, and bug reports or improvements are welcome.</p>
 
-            <p>You can find the project on <a href="https://github.com/hellosound/Wwise-Batch-Container-Builder" target="_blank" rel="noopener">GitHub</a>.</p>
+            <div class="project-cta">
+                <a href="https://github.com/hellosound/Wwise-Batch-Container-Builder" target="_blank" rel="noopener">
+                    <img src="../assets/img/blog/wwise-tool/wwise-header.gif" alt="Preview of the Wwise Batch Container Builder interface" width="800" height="450" loading="lazy">
+                </a>
+                <div class="project-cta-copy">
+                    <p>Explore the source code, workflow details, and future ideas for the tool.</p>
+                    <a class="project-cta-button" href="https://github.com/hellosound/Wwise-Batch-Container-Builder" target="_blank" rel="noopener">VIEW ON GITHUB</a>
+                </div>
+            </div>
         </article>
 
         <div class="post-tags"><span class="tag">Wwise</span><span class="tag">WAAPI</span><span class="tag">Python</span><span class="tag">Game Audio</span><span class="tag">Tools</span></div>
