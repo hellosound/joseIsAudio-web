@@ -224,7 +224,17 @@
 
         <section id="blog" class="content-page">
             <h2 class="section-title">BLOG</h2>
+            <form class="blog-search" id="blog-search" role="search">
+                <label class="visually-hidden" for="blog-search-input">Search blog posts</label>
+                <div class="blog-search-field">
+                    <span class="blog-search-icon" aria-hidden="true">⌕</span>
+                    <input id="blog-search-input" type="search" name="q" placeholder="Search by topic, tool, or keyword…" autocomplete="off" spellcheck="false">
+                    <button id="blog-search-clear" class="blog-search-clear" type="button" aria-label="Clear blog search" hidden>×</button>
+                </div>
+                <p id="blog-search-status" class="blog-search-status" aria-live="polite"></p>
+            </form>
             <div id="blog-list" class="blog-container"></div>
+            <p id="blog-no-results" class="blog-no-results" role="status" hidden>No posts match that search. Try a different keyword.</p>
             <button type="button" class="back-btn" data-action="back">BACK</button>
         </section>
 

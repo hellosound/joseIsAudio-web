@@ -3,36 +3,48 @@
     "title": "Super Mario Galaxy Rolling Ball Music",
     "date": "June 2026",
     "description": "A technical breakdown on how to recreate the iconic interactive rolling ball music system from Super Mario Galaxy using Unreal Engine.",
+    "tags": ["Unreal Engine", "Interactive Music", "Game Audio", "Technical Design"],
+    "keywords": ["Sound Design", "Audio Design", "Audio Implementation", "Dynamic Music", "Music Implementation", "MetaSounds", "Blueprints", "Audio Programming", "Game Development", "Prototyping", "Pitch Modulation", "Interactive Audio"],
     "link": "blog/Super-Mario-Galaxy-Rolling-Ball-Music.html"
   },
   {
     "title": "Ten Years Later",
     "date": "July 2026",
     "description": "What I learned stepping out of my comfort zone to build an interactive space that represents me as an artist and programmer.",
+    "tags": ["Web Development", "Programming", "Personal", "Game Audio"],
+    "keywords": ["Sound Design", "Audio Design", "Audio Programming", "Portfolio", "Personal Branding", "Creative Coding", "JavaScript", "Freelancing", "Career Development", "Web Audio", "User Experience"],
     "link": "blog/Ten-years-later.html"
   },
   {
     "title": "Creating a website with sounds",
     "date": "July 2026",
     "description": "A look into the audio engine of this web page.",
+    "tags": ["Web Development", "JavaScript", "Audio Programming"],
+    "keywords": ["Sound Design", "Audio Design", "Game Audio", "Web Audio API", "Browser Audio", "Audio Engine", "Audio Implementation", "Async Programming", "Autoplay Policy", "Interactive Web", "JavaScript Audio", "Web Development"],
     "link": "blog/Creating-a-website-with-sounds.html"
   },
   {
     "title": "An Alternative to Vertical Remixing",
     "date": "July 2026",
     "description": "A sneak peak of a book I contributed.",
+    "tags": ["Music", "Remixing", "Book", "Writing"],
+    "keywords": ["Sound Design", "Audio Design", "Game Audio", "Audio Implementation", "Interactive Music", "Dynamic Music", "Vertical Remixing", "Horizontal Resequencing", "Crossfading", "Unreal Engine", "Audio Direction", "Game Development", "Music Composition"],
     "link": "blog/An-alternative-to-Vertical-Remixing.html"
   },
   {
     "title": "Software Architecture in Game Music Systems: How Separating Responsibilities Can Be a Lifesaver",
-    "date": "September 2026",
+    "date": "August 2026",
     "description": "How separating gameplay, data, and playback responsibilities makes a Unity and Wwise game music system easier to maintain and evolve.",
+    "tags": ["Unity", "Wwise", "Game Music", "Software Architecture"],
+    "keywords": ["Sound Design", "Audio Design", "Audio Implementation", "Game Audio", "Interactive Music", "Music Systems", "FMOD", "Gameplay Programming", "Data-Driven Design", "Design Patterns", "Single Responsibility Principle", "Middleware", "Playback Systems", "Refactoring"],
     "link": "blog/Software-Architecture-in-Game-Music-Systems.html"
   },
   {
     "title": "Wwise Batch Container Builder: Turning Sound Organization into a Workflow",
     "date": "September 2026",
     "description": "A Python and WAAPI tool for grouping sounds, previewing container plans, and batch-creating organized Wwise hierarchies.",
+    "tags": ["Wwise", "WAAPI", "Python", "Tools", "Game Audio"],
+    "keywords": ["Sound Design", "Audio Design", "Audio Implementation", "Wwise Workflow", "Workflow Automation", "Sound Organization", "Batch Processing", "Python Tooling", "WAAPI Automation", "Random Containers", "Sequence Containers", "Blend Containers", "Actor-Mixers", "Audio Tools", "Game Development"],
     "link": "blog/Wwise-Batch-Container-Builder.html"
   }
 ]

@@ -331,6 +331,7 @@ function renderBlog(posts) {
     const fragment = document.createDocumentFragment();
     posts.forEach(post => {
         const card = Object.assign(document.createElement('article'), { className: 'blog-card' });
+        card.dataset.search = [post.title, post.description, ...(post.tags || []), ...(post.keywords || [])].join(' ');
         const link = Object.assign(document.createElement('a'), { className: 'blog-link', href: post.link });
         link.dataset.sound = 'BUTTON_CLICK';
         const date = Object.assign(document.createElement('span'), { className: 'blog-date', textContent: post.date });
@@ -339,6 +340,60 @@ function renderBlog(posts) {
         link.append(date, title, description); card.append(link); fragment.append(card);
     });
     blogList.replaceChildren(fragment);
+    applyBlogFilter();
+}
+
+function normalizeSearchText(value) {
+    return String(value || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLocaleLowerCase()
+        .trim();
+}
+
+function applyBlogFilter() {
+    const input = document.getElementById('blog-search-input');
+    const status = document.getElementById('blog-search-status');
+    const clear = document.getElementById('blog-search-clear');
+    const noResults = document.getElementById('blog-no-results');
+    const cards = [...document.querySelectorAll('#blog-list .blog-card')];
+    if (!input || !status || !clear || !noResults) return;
+
+    const query = normalizeSearchText(input.value);
+    const terms = query.split(/\s+/).filter(Boolean);
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+        const searchableText = normalizeSearchText(card.dataset.search || card.textContent);
+        const matches = terms.length === 0 || terms.every(term => searchableText.includes(term));
+        card.hidden = !matches;
+        if (matches) visibleCount++;
+    });
+
+    clear.hidden = !query;
+    noResults.hidden = visibleCount !== 0 || cards.length === 0;
+    status.textContent = query
+        ? `${visibleCount} ${visibleCount === 1 ? 'post' : 'posts'} found`
+        : `${cards.length} ${cards.length === 1 ? 'post' : 'posts'}`;
+}
+
+function initializeBlogSearch() {
+    const form = document.getElementById('blog-search');
+    const input = document.getElementById('blog-search-input');
+    const clear = document.getElementById('blog-search-clear');
+    if (!form || !input || !clear) return;
+
+    form.addEventListener('submit', event => {
+        event.preventDefault();
+        input.focus();
+    });
+    input.addEventListener('input', applyBlogFilter);
+    clear.addEventListener('click', () => {
+        input.value = '';
+        applyBlogFilter();
+        input.focus();
+    });
+    applyBlogFilter();
 }
 
 async function loadInitialData() {
@@ -463,6 +518,7 @@ function updateMuteVisuals(isMuted) {
 
 document.addEventListener('DOMContentLoaded', async () => {
     initializeNavigation();
+    initializeBlogSearch();
     AudioManager.restoreMute();
     updateMuteVisuals(AudioManager.isMuted);
     AudioManager.startLoadingAssets();
