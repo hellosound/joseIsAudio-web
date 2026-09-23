@@ -37,7 +37,8 @@ const articleMetadata = {
     'Ten-years-later': { title: 'Ten Years Later: Building My Audio Portfolio | Jose Angulo', description: 'Jose Angulo reflects on a decade in game audio and the process of building a personal portfolio with interactive sound.', publishedMonth: '2026-07' },
     'Creating-a-website-with-sounds': { title: 'Building a Website with Web Audio API Sounds | Jose Angulo', description: 'Jose Angulo explains his portfolio’s Web Audio API engine: asynchronous sound loading, audio context initialization and interactive button sounds.', publishedMonth: '2026-07' },
     'An-alternative-to-Vertical-Remixing': { title: 'An Alternative to Vertical Remixing | Jose Angulo', description: 'Jose Angulo describes an interactive music approach from La Casa de Papel: crossfading complete music variations instead of adding separate layers.', publishedMonth: '2026-07' },
-    'Software-Architecture-in-Game-Music-Systems': { title: 'Game Music Architecture with Unity & Wwise | Jose Angulo', description: 'Jose Angulo separates gameplay, data and playback in a Unity and Wwise music system, making interactive audio easier to debug and maintain.', publishedMonth: '2026-09' }
+    'Software-Architecture-in-Game-Music-Systems': { title: 'Game Music Architecture with Unity & Wwise | Jose Angulo', description: 'Jose Angulo separates gameplay, data and playback in a Unity and Wwise music system, making interactive audio easier to debug and maintain.', publishedMonth: '2026-09' },
+    'Wwise-Batch-Container-Builder': { title: 'Wwise Batch Container Builder | Jose Angulo', description: 'Jose Angulo introduces a Python and WAAPI tool for grouping sounds, previewing container plans, and batch-creating organized Wwise hierarchies.', publishedMonth: '2026-09' }
 };
 export const posts = JSON.parse(read('posts.json')).map(post => {
     const stem = path.basename(post.link, '.html');

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wwise Batch Container Builder: Turning Sound Organization into a Workflow | joseIsAudio</title>
+    <meta name="description" content="A Python and WAAPI tool for grouping sounds, previewing container plans, and batch-creating organized Wwise hierarchies.">
+    <meta property="og:title" content="Wwise Batch Container Builder: Turning Sound Organization into a Workflow | joseIsAudio">
+    <meta property="og:description" content="A Python and WAAPI tool for grouping sounds, previewing container plans, and batch-creating organized Wwise hierarchies.">
+    <meta property="og:image" content="https://joseisaudio.com/assets/img/blog/wwise-tool/wwise-header.gif">
+    <meta property="og:url" content="https://joseisaudio.com/blog/Wwise-Batch-Container-Builder.html">
+    <link rel="icon" type="image/png" href="../assets/img/web/img-favicon.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Wwise Batch Container Builder: Turning Sound Organization into a Workflow | joseIsAudio">
+    <meta name="twitter:description" content="A Python and WAAPI tool for grouping sounds, previewing container plans, and batch-creating organized Wwise hierarchies.">
+    <meta name="twitter:image" content="https://joseisaudio.com/assets/img/blog/wwise-tool/wwise-header.gif">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        body { color: #fff; background: rgba(13,17,23,.4) url('../assets/img/hero/bg-pattern-dark.webp') repeat; background-size: 721px 440px; background-blend-mode: multiply; font-family: var(--font-body); margin: 0; }
+        .post-container { max-width: 800px; width: 100%; margin: 40px auto 80px; padding: 0 24px; box-sizing: border-box; }
+        .post-header { margin-bottom: 40px; border-bottom: 1px solid rgba(222,27,82,.15); padding-bottom: 30px; }
+        .post-date { font-family: var(--font-subtitle); font-size: .85rem; color: #626f8a; letter-spacing: 1.5px; text-transform: uppercase; display: block; margin-bottom: 10px; }
+        .post-container h1 { font-family: var(--font-title); font-size: 2.8rem; font-weight: 900; color: #fff; margin: 0; letter-spacing: -1px; line-height: 1.1; }
+        .post-content p { font-size: 1.05rem; line-height: 1.75; margin-bottom: 25px; }
+        .post-content h2 { font-family: var(--font-title); color: #fff; font-size: 1.8rem; margin: 48px 0 18px; }
+        .post-content h3 { font-family: var(--font-title); color: #fff; font-size: 1.3rem; margin: 34px 0 14px; }
+        .post-content strong { color: #ff4f88; }
+        .post-content a { color: #ff739f; }
+        .post-content ul, .post-content ol { line-height: 1.75; margin-bottom: 25px; padding-left: 28px; }
+        .post-content li { margin-bottom: 8px; }
+        .post-content code { font-family: var(--font-subtitle); color: #ffd1df; background: rgba(255,255,255,.07); padding: 2px 5px; border-radius: 3px; }
+        .post-content pre { overflow-x: auto; background: rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.08); border-radius: 5px; padding: 18px; margin: 24px 0; }
+        .post-content pre code { background: transparent; padding: 0; color: #dce6f7; }
+        .post-content figure { margin: 32px 0; }
+        .post-content figure img { display: block; width: 100%; height: auto; border: 1px solid rgba(255,255,255,.12); }
+        .post-content figcaption { color: #8d99b0; font-size: .85rem; margin-top: 9px; text-align: center; }
+        .post-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 40px; }
+        .tag { border: 1px solid rgba(255,79,136,.45); border-radius: 999px; color: #ff9fbb; font-size: .8rem; padding: 5px 10px; }
+        .back-wrap { display: flex; justify-content: center; width: 100%; margin: 60px 0 20px; }
+        @media (max-width: 600px) { .post-container h1 { font-size: 2.15rem; } }
+    </style>
+</head>
+<body>
+<header class="global-header">
+    <div class="header-left">
+        <button type="button" class="mute-btn" data-action="toggle-mute" aria-label="Activar o desactivar sonido" aria-pressed="false">
+            <span id="mute-icon">
+                <img src="../assets/img/buttons/btn-volume-on.svg" alt="Sound On">
+            </span>
+        </button>
+    </div>
+    
+    <div class="header-center">
+        <a href="../index.html?page=hero" data-sound="BUTTON_CLICK">
+            <img src="../assets/img/header/hdr-logo.svg" alt="joseIsAudio" class="mini-logo">
+        </a>
+    </div>
+    
+    <div class="header-right submenu-wrapper">
+        <button type="button" class="hamburger-menu" aria-label="Abrir menÃº" aria-controls="mobileNavMenu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <nav class="nav-sub-menu" id="mobileNavMenu">
+            <div class="menu-links-holder">
+                <a class="menu-overlay-link home-txt" data-sound="BUTTON_CLICK" href="../index.html?page=hero">HOME</a>
+                <a class="menu-overlay-link bio-txt" data-sound="BUTTON_CLICK" href="../index.html?page=bio">BIO</a>
+                <a class="menu-overlay-link blog-txt" data-sound="BUTTON_CLICK" href="../index.html?page=blog">BLOG</a>
+                <a class="menu-overlay-link port-txt" data-sound="BUTTON_CLICK" href="../index.html?page=portfolio">PROJECTS</a>
+                <a class="menu-overlay-link contact-txt" data-sound="BUTTON_CLICK" href="../index.html?page=contact">CONTACT</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+    <main class="post-container">
+        <header class="post-header">
+            <span class="post-date">September 2026</span>
+            <h1>Wwise Batch Container Builder: Turning Sound Organization into a Workflow</h1>
+        </header>
+
+        <article class="post-content">
+            <figure>
+                <img src="../assets/img/blog/wwise-tool/wwise-header.gif" alt="Wwise Batch Container Builder showing grouped sounds and planned container types" width="800" height="450">
+                <figcaption>The tool previews the groups, parents, container types, and actions before changing the Wwise project.</figcaption>
+            </figure>
+
+            <p>One of the most painful, time-consuming parts of working in Wwise is creating containers. This is especially true when the creative work and the implementation work are handled in separate chunks.</p>
+
+            <p>If I am creating sounds and implementing them in the same project, I might spend three days creating sounds and two days implementing them. Depending on the milestone, that can become a 3–2, 4–1, or even a 5–0 split. The numbers change, but the repetitive work remains: importing files, naming objects, creating parents, choosing container types, and moving everything into the right place.</p>
+
+            <p>I had always wanted to create a Wwise plug-in, but building a full plug-in is a large project. What I needed was a focused tool for my own workflow, so I built the Wwise Batch Container Builder using Python and WAAPI.</p>
+
+            <h2>What the tool does</h2>
+
+            <p>The tool takes either a selection of objects already inside Wwise or a folder of local WAV files. It detects naming patterns, groups related sounds, and creates the corresponding parent objects. The supported container types are <strong>Random Containers, Sequence Containers, Blend Containers, and Actor-Mixers</strong>.</p>
+
+            <p>For example, a set of sounds such as:</p>
+
+            <pre><code>sfx_aerodark_attack_01
+sfx_aerodark_attack_02
+sfx_aerodark_attack_03</code></pre>
+
+            <p>becomes:</p>
+
+            <pre><code>Actor-Mixer Hierarchy
+
+└── sfx_aerodark_attack        (Random Container)
+    ├── sfx_aerodark_attack_01
+    ├── sfx_aerodark_attack_02
+    └── sfx_aerodark_attack_03</code></pre>
+
+            <p>The trailing <code>_&lt;number&gt;</code> suffix is removed for grouping purposes, while the original sound names remain intact. The same process can organize another group, such as <code>sfx_aerodark_wingFlap_01</code> through <code>_03</code>, under its own parent.</p>
+
+            <h2>Workflow 1: Wwise objects</h2>
+
+            <p>Before using this mode, Wwise must be open and WAAPI must be enabled.</p>
+
+            <ol>
+                <li>The UI calls <code>get_selected_objects()</code> to read the current Wwise selection.</li>
+                <li>Objects that are not Sounds are ignored, and the UI reports how many objects were skipped.</li>
+                <li>The selected Sounds are grouped by name using the naming engine.</li>
+                <li>The table displays each group, its sound count, parent, container type, and planned action.</li>
+                <li>The user can change the container-type combo box for each group.</li>
+                <li>Pressing <strong>Create</strong> confirms the operation and sends the plan to the executor.</li>
+                <li>The executor creates or reuses the containers and moves the Sounds by GUID.</li>
+            </ol>
+
+            <p>This separation between reading, planning, previewing, and executing is important. It lets the user see what is about to happen before the project hierarchy is changed.</p>
+
+            <h2>Workflow 2: WAV files</h2>
+
+            <p><strong>Important:</strong> before pressing <strong>Open</strong>, select exactly one Wwise object to use as the destination parent. The filesystem folder alone does not determine where the files will be imported.</p>
+
+            <ol>
+                <li>Change the input mode to <strong>Import WAV Files</strong>.</li>
+                <li>Select a single Wwise parent object.</li>
+                <li>Press <strong>Open</strong> and choose a folder.</li>
+                <li>The tool loads the <code>.wav</code> files directly inside that folder. Version 1 does not scan subfolders.</li>
+                <li>The files are grouped with the exact same naming engine used for Wwise objects.</li>
+                <li>The tool validates that the files exist and that there are no duplicate paths.</li>
+                <li>It calculates the container path and the future Sound SFX path.</li>
+                <li>It checks for naming conflicts under an existing container.</li>
+                <li>The executor creates or reuses the container and calls <code>ak.wwise.core.audio.import</code>.</li>
+            </ol>
+
+            <p>A planned import looks like this:</p>
+
+            <pre><code>objectPath = "\\Actor-Mixer Hierarchy\\Default Work Unit\\sfx_attack\\&lt;Sound SFX&gt;sfx_attack_01"
+imports = [{
+    "audioFile": "C:/Audio/sfx_attack_01.wav",
+    "objectPath": objectPath,
+}]</code></pre>
+
+            <p>The import response contains information about the objects that were created. The program verifies that the response is valid and adds context to any errors by identifying both the group and the source file.</p>
+
+            <h2>Preview first, execute second</h2>
+
+            <p>The general flow is intentionally conservative:</p>
+
+            <ol>
+                <li>Read the selected Wwise objects or local audio files.</li>
+                <li>Analyze the names and compare the strings.</li>
+                <li>Group files or objects that belong together.</li>
+                <li>Build a plan describing the parents, sounds, container types, and actions.</li>
+                <li>Show that plan to the user.</li>
+                <li>Execute the operation only after confirmation.</li>
+            </ol>
+
+            <p>That preview is the part that makes the tool useful in a real project. Batch operations are powerful, but they are much safer when the intended result is visible before anything is created or moved.</p>
+
+            <h2>Open source and future ideas</h2>
+
+            <p>This project is done by a one-man band plus the help of a Codex agent, which brings me to the next thing: I’m releasing it under an open-source license, which means you can use it, modify it, and make it your own. Feel free to add any functionality you think might improve the tool—I’ve listed some ideas in the README.md or report any bugs you find. And I promise I’ll take a look at them.</p>
+
+            <p>There are plenty of directions it could take: more naming rules, recursive folder support, additional Wwise object types, richer conflict handling, and workflow-specific presets. The repository includes more ideas in its <code>README.md</code>, and bug reports or improvements are welcome.</p>
+
+            <p>You can find the project on <a href="https://github.com/hellosound/Wwise-Batch-Container-Builder" target="_blank" rel="noopener">GitHub</a>.</p>
+        </article>
+
+        <div class="post-tags"><span class="tag">Wwise</span><span class="tag">WAAPI</span><span class="tag">Python</span><span class="tag">Game Audio</span><span class="tag">Tools</span></div>
+        <div class="back-wrap"><a class="back-btn" data-sound="BUTTON_BACK" href="../index.html?page=blog">BACK</a></div>
+    </main>
+    <footer class="global-footer">
+        <div class="footer-divider-line"></div>
+        <div class="footer-socials">
+            <a href="https://www.linkedin.com/in/joseisaudio/" target="_blank" class="footer-btn" data-sound="BUTTON_CLICK"><img src="../assets/img/footer/foot-link.svg" alt="LinkedIn"></a>
+            <a href="https://youtube.com/@joseisaudio" target="_blank" class="footer-btn" data-sound="BUTTON_CLICK"><img src="../assets/img/footer/foot-yt.svg" alt="YouTube"></a>
+            <a href="https://github.com/hellosound" target="_blank" class="footer-btn" data-sound="BUTTON_CLICK"><img src="../assets/img/footer/foot-git.svg" alt="GitHub"></a>
+            <a href="mailto:heyhellosound@gmail.com" class="footer-btn" data-sound="BUTTON_CLICK"><img src="../assets/img/footer/foot-mail.svg" alt="Email"></a>
+        </div>
+        <p class="footer-credits">© 2026 Jose Angulo • VIDEOGAME SOUND DESIGNER • GAME AUDIO PROGRAMMING</p>
+    </footer>
+    <script src="../script.js"></script>
+</body>
+</html>

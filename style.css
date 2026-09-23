@@ -644,6 +644,11 @@ a.sticker[data-game-id] { box-sizing: border-box; padding: 2px 6px; text-decorat
 }
 
 @media (min-width: 1025px) {
+    /* Keep the reel sticker below the navigation on large hero layouts. */
+    #dynamic-stickers .sticker[data-game-id="REEL"] {
+        top: 720px !important;
+    }
+
     .main-subtitle {
         font-size: calc(0.85rem * var(--hero-ui-scale, 1));
         letter-spacing: calc(2px * var(--hero-ui-scale, 1));
@@ -659,6 +664,21 @@ a.sticker[data-game-id] { box-sizing: border-box; padding: 2px 6px; text-decorat
     .nav-menu .nav-btn {
         font-size: calc(1rem * var(--hero-ui-scale, 1));
         padding: calc(10px * var(--hero-ui-scale, 1)) calc(30px * var(--hero-ui-scale, 1));
+    }
+}
+
+/* Give the sticker less vertical travel on smaller desktop viewports so it
+   does not run into the bottom of the hero/footer area. */
+@media (min-width: 1025px) and (max-width: 1200px) {
+    #dynamic-stickers .sticker[data-game-id="REEL"] {
+        top: 620px !important;
+    }
+}
+
+/* Keep the Reel clear of the footer on short desktop viewports. */
+@media (min-width: 1201px) and (max-height: 720px) {
+    #dynamic-stickers .sticker[data-game-id="REEL"] {
+        top: 620px !important;
     }
 }
 
@@ -849,15 +869,15 @@ a.sticker[data-game-id] { box-sizing: border-box; padding: 2px 6px; text-decorat
 
     #hero .nav-menu {
         max-width: 560px;
-        gap: 20px !important;
+        gap: 14px !important;
         padding: 0 !important;
         margin-top: 24px;
     }
 
     #hero .nav-menu .nav-btn {
-        font-size: clamp(1.25rem, 2.4vw, 1.5rem) !important;
-        padding: 18px 24px !important;
-        min-height: 64px;
+        font-size: clamp(0.9rem, 1.5vw, 1.15rem) !important;
+        padding: 12px 20px !important;
+        min-height: 0;
     }
 
     .stickers-layer {
