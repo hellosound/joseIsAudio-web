@@ -16,7 +16,6 @@ const AUDIO_ASSETS = [
     ['TMNT', 'assets/snd/s_tmnt_click.opus'],
     ['KILLER KLOWNS', 'assets/snd/s_kkfos_click.opus'],
     ['AL-UMBRA', 'assets/snd/s_alumbra_click.opus'],
-    ['NEKOME', 'assets/snd/s_nekome_click.opus'],
     ['THE SHADOW SYNDICATE', 'assets/snd/s_shadow_click.opus'],
     ['REEL', 'assets/snd/s_reel_click.opus'],
     ['MENU_IN', 'assets/snd/s_toggle_menu_in.opus'],

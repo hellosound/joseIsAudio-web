@@ -68,7 +68,8 @@ template = template.replace(/<span class="section-label-line">([^<]+)<\/span>/g,
     .replace('<h2 class="section-label-line">SPEAKING</h2>', '<h2 class="section-label-line" id="speaking">SPEAKING</h2>');
 template = template.replace('<script src="/script.js"></script>', `<script type="application/json" id="site-data">${json({ games, sections, routes, entities: shared })}</script>\n    <script src="/script.js"></script>`);
 template = template.replace(/<button type="button" class="back-btn" data-action="(back|close-modal)"([^>]*)>([^<]+)<\/button>/g, (_, action, attributes, text) => `<a href="${action === 'close-modal' ? '/projects/' : '/'}" class="back-btn" data-action="${action}"${attributes}>${text}</a>`);
-for (const [label, id] of [['Nekome', 'NEKOME'], ['Orcs Must Die! By the Blade', 'ORCS MUST DIE'], ['Killer Klowns From Outer Space', 'KILLER KLOWNS']]) {
+// NEKOME remains unpublished until launch; INNER occupies its portfolio slot for now.
+for (const [label, id] of [['INNER', 'INNER'], ['Orcs Must Die! By the Blade', 'ORCS MUST DIE'], ['Killer Klowns From Outer Space', 'KILLER KLOWNS']]) {
     const game = games.find(game => game.id === id);
     const biography = template.indexOf('<div class="bio-text-box">');
     const end = template.indexOf('</div>', biography);

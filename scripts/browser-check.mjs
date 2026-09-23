@@ -88,7 +88,7 @@ try {
         assert.equal(await evaluate('document.querySelector(".content-page.active").id'), 'hero');
         await click('[data-action="close-modal"]'); await expectRoute('/');
         await click('.nav-menu [data-page="bio"]'); await expectRoute('/bio/');
-        await click('.bio-text-box [data-game-id]'); await expectRoute(games.find(game => game.id === 'NEKOME').path);
+        await click('.bio-text-box [data-game-id]'); await expectRoute(games.find(game => game.id === 'INNER').path);
         await click('[data-action="close-modal"]'); await expectRoute('/bio/');
         await click('.hamburger-menu');
         assert.equal(await evaluate('state.menuOpen'), true);

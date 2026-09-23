@@ -661,7 +661,7 @@ a.sticker[data-game-id] { box-sizing: border-box; padding: 2px 6px; text-decorat
 
     .stickers-layer .sticker[data-game-id="ORCS MUST DIE"] .sticker-label,
     .stickers-layer .sticker[data-game-id="KILLER KLOWNS"] .sticker-label,
-    .stickers-layer .sticker[data-game-id="NEKOME"] .sticker-label {
+    .stickers-layer .sticker[data-game-id="INNER"] .sticker-label {
         right: calc(100% + 8px);
         left: auto;
         transform: translateY(-50%) rotate(5deg);
