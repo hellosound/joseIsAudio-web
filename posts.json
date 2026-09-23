@@ -4,7 +4,7 @@
     "date": "June 2026",
     "description": "A technical breakdown on how to recreate the iconic interactive rolling ball music system from Super Mario Galaxy using Unreal Engine.",
     "tags": ["Unreal Engine", "Interactive Music", "Game Audio", "Technical Design"],
-    "keywords": ["Sound Design", "Audio Design", "Audio Implementation", "Dynamic Music", "Music Implementation", "MetaSounds", "Blueprints", "Audio Programming", "Game Development", "Prototyping", "Pitch Modulation", "Interactive Audio"],
+    "keywords": ["Audio Implementation", "Dynamic Music", "Music Implementation", "MetaSounds", "Blueprints", "Audio Programming", "Game Development", "Prototyping", "Pitch Modulation", "Interactive Audio"],
     "link": "blog/Super-Mario-Galaxy-Rolling-Ball-Music.html"
   },
   {
@@ -12,7 +12,7 @@
     "date": "July 2026",
     "description": "What I learned stepping out of my comfort zone to build an interactive space that represents me as an artist and programmer.",
     "tags": ["Web Development", "Programming", "Personal", "Game Audio"],
-    "keywords": ["Sound Design", "Audio Design", "Audio Programming", "Portfolio", "Personal Branding", "Creative Coding", "JavaScript", "Freelancing", "Career Development", "Web Audio", "User Experience"],
+    "keywords": ["Audio Programming", "Portfolio", "Personal Branding", "Creative Coding", "JavaScript", "Freelancing", "Career Development", "Web Audio", "User Experience"],
     "link": "blog/Ten-years-later.html"
   },
   {
@@ -28,7 +28,7 @@
     "date": "July 2026",
     "description": "A sneak peak of a book I contributed.",
     "tags": ["Music", "Remixing", "Book", "Writing"],
-    "keywords": ["Sound Design", "Audio Design", "Game Audio", "Audio Implementation", "Interactive Music", "Dynamic Music", "Vertical Remixing", "Horizontal Resequencing", "Crossfading", "Unreal Engine", "Audio Direction", "Game Development", "Music Composition"],
+    "keywords": ["Game Audio", "Audio Implementation", "Interactive Music", "Dynamic Music", "Vertical Remixing", "Horizontal Resequencing", "Crossfading", "Unreal Engine", "Audio Direction", "Game Development", "Music Composition"],
     "link": "blog/An-alternative-to-Vertical-Remixing.html"
   },
   {
