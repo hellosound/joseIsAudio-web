@@ -644,6 +644,29 @@ a.sticker[data-game-id] { box-sizing: border-box; padding: 2px 6px; text-decorat
 }
 
 @media (min-width: 1025px) {
+    /* Keep desktop sticker labels beside their artwork; Reel keeps its
+       original label placement below the sticker. */
+    .stickers-layer .sticker:not([data-game-id="REEL"]) .sticker-label {
+        top: 50%;
+        right: auto;
+        bottom: auto;
+        left: calc(100% + 8px);
+        font-size: 1.2rem;
+        transform: translateY(-50%) rotate(-5deg);
+    }
+
+    .stickers-layer .sticker[data-game-id="REEL"] .sticker-label {
+        font-size: 1.7rem;
+    }
+
+    .stickers-layer .sticker[data-game-id="ORCS MUST DIE"] .sticker-label,
+    .stickers-layer .sticker[data-game-id="KILLER KLOWNS"] .sticker-label,
+    .stickers-layer .sticker[data-game-id="NEKOME"] .sticker-label {
+        right: calc(100% + 8px);
+        left: auto;
+        transform: translateY(-50%) rotate(5deg);
+    }
+
     /* Keep the reel sticker below the navigation on large hero layouts. */
     #dynamic-stickers .sticker[data-game-id="REEL"] {
         top: 720px !important;
