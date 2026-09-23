@@ -1378,6 +1378,23 @@ background: var(--bg-color);
     box-sizing: border-box;
     }
 
+/* Tablet navigation: keep each pill close to its label instead of stretching
+   across the full grid column. */
+@media (min-width: 600px) and (max-width: 1024px) {
+    .nav-menu {
+        grid-template-columns: repeat(2, 170px) !important;
+        justify-content: center !important;
+    }
+
+    .nav-menu .nav-btn {
+        width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box;
+        padding-inline: 12px !important;
+        justify-self: center;
+    }
+}
+
 .visually-hidden {
     position: absolute;
     width: 1px;
@@ -1968,7 +1985,8 @@ background: var(--bg-color);
     .nav-menu {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr) !important; 
-        gap: 12px !important;
+        column-gap: 24px !important;
+        row-gap: 20px !important;
         width: 100% !important;
         padding: 0 20px !important;
         box-sizing: border-box !important;
@@ -2007,3 +2025,81 @@ background: var(--bg-color);
         font-size: 0.6rem !important; 
     }
     }
+
+/* The 12.9-inch iPad Pro reports a 1032px CSS viewport. Keep it in the
+   tablet layout instead of switching to the desktop sticker composition. */
+@media (min-width: 1025px) and (max-width: 1100px) {
+    body:has(#hero.active) .global-header,
+    body:has(#hero.active) .hero-mute-btn,
+    body:has(#hero.active) .hero-mute-btn.muted {
+        display: none !important;
+    }
+
+    #hero .brand-container {
+        width: 100%;
+        max-width: 640px;
+    }
+
+    #hero .hero-logo {
+        width: clamp(360px, 48vw, 480px);
+        max-width: 100%;
+        margin-bottom: 12px;
+    }
+
+    #hero .main-subtitle {
+        font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+        line-height: 1.5;
+        margin: 12px 0 20px;
+    }
+
+    #hero .nav-menu {
+        grid-template-columns: repeat(2, 170px) !important;
+        justify-content: center !important;
+        gap: 20px 24px !important;
+        max-width: 560px;
+        margin-top: 24px;
+    }
+
+    #hero .nav-menu .nav-btn {
+        width: 100% !important;
+        box-sizing: border-box;
+        font-size: 0.9rem !important;
+        padding: 8px 12px !important;
+        transform: none !important;
+    }
+
+    .stickers-layer {
+        position: relative;
+        left: 0;
+        transform: none;
+        width: 100%;
+        height: clamp(700px, 90vw, 920px);
+        margin-top: 50px;
+        margin-bottom: 120px !important;
+    }
+
+    #dynamic-stickers[data-static] .sticker {
+        --sticker-size: clamp(160px, 20vw, 200px);
+        --sticker-x: var(--sticker-left-mobile);
+        --sticker-y: var(--sticker-top-mobile);
+        --sticker-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%) rotate(0deg) !important;
+    }
+
+    .stickers-layer .sticker:not([data-game-id="REEL"]) .sticker-label {
+        top: auto;
+        right: auto;
+        bottom: -26px;
+        left: 50%;
+        font-size: 0.95rem;
+        transform: translateX(-50%) rotate(-5deg);
+    }
+
+    .more-games-btn {
+        display: flex !important;
+        left: 80% !important;
+        top: 105% !important;
+        font-size: 1.5rem;
+        transform: translate(-50%, -50%) rotate(4deg) !important;
+    }
+}

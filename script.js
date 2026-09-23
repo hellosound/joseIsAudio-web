@@ -257,7 +257,7 @@ function makeImage(src, alt, className) {
 function renderStickers() {
     const layer = document.getElementById('dynamic-stickers');
     if (!layer) return;
-    const mobile = window.matchMedia('(max-width: 1024px)').matches;
+    const mobile = window.matchMedia('(max-width: 1100px)').matches;
     const stickersLayer = layer.closest('.stickers-layer');
     const hero = layer.closest('#hero');
 
@@ -450,7 +450,7 @@ function closeGameDetails(navigate = true) {
 }
 
 function toggleMobileMenu() {
-    if (!window.matchMedia('(max-width: 1024px)').matches) return;
+    if (!window.matchMedia('(max-width: 1100px)').matches) return;
     state.menuOpen ? closeMobileMenu() : openMobileMenu();
 }
 
@@ -532,7 +532,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.addEventListener('resize', () => {
         cancelAnimationFrame(resizeFrame);
         resizeFrame = requestAnimationFrame(renderStickers);
-        if (!window.matchMedia('(max-width: 1024px)').matches) closeMobileMenu(false);
+        if (!window.matchMedia('(max-width: 1100px)').matches) closeMobileMenu(false);
     });
 
     document.addEventListener('click', event => {
